@@ -24,10 +24,12 @@ subredditInput = input("What subreddit do you want to search? ")  # asks input f
 
 sys.stdout = open("redditScraping.txt", "w")    # starts process of exporting the output to a textfile
 
-hot_posts = reddit.subreddit(subredditInput).hot(limit=5)         # variable assignment that has top 5 posts from the
-for post in hot_posts:                                            # subreddit input
+hot_posts = reddit.subreddit(subredditInput).new(limit=100)
+postIndex = 0                      # variable assignment that has top 5 posts from the
+for post in hot_posts:
+    postIndex += 1                      # subreddit input
     print("*" * 75)           # loops through each post from the 5 posts grabbed
-    print(post.title)         # posts the title
+    print(postIndex, "-", post.title.encode('cp1252', errors='ignore'))
     submission = reddit.submission(post)
     # submission.comments.replace_more(limit=0)
 

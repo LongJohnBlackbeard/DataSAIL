@@ -1,0 +1,6 @@
+dataframe
+
+include timestamp - too correllate things, specifically day
+
+csv
+orange - does orange have finance
