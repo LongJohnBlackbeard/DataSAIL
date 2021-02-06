@@ -31,15 +31,15 @@ subredditInput = input("What subreddit do you want to search? ")  # asks input f
 
 # sys.stdout = open("redditScraping.txt", "w")        # starts process of exporting the output to a textfile
 
-hot_posts = reddit.subreddit(subredditInput).hot(limit=5)
+hot_posts = reddit.subreddit(subredditInput).new(limit=100)
 postIndex = 0
 
 for post in hot_posts:
     postIndex += 1
     string = post.title.encode('cp1252', errors='ignore')
     postList.append(string)
-    dateTimeObj = datetime.now()
-    timeStampList.append(dateTimeObj)
+    date = datetime.utcfromtimestamp(post.created_utc)
+    timeStampList.append("%s/%s/%s - %s:%s" % (date.month, date.day, date.year, date.hour, date.minute))
 
     # print(postIndex, "-", post.title.encode('cp1252', errors='ignore'))
     # submission = reddit.submission(post)
