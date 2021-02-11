@@ -8,6 +8,7 @@ import praw
 import sys
 import pandas as pd
 from pandas import DataFrame
+import csv
 
 from sensitive import reddit_password  # credentials and stuff from another file #
 from sensitive import reddit_username
@@ -26,34 +27,22 @@ reddit = praw.Reddit(client_id=client_id,  # this stuff here is what connects to
 postList = []
 timeStampList = []
 
-subredditInput = input("What subreddit do you want to search? ")  # asks input for what subreddit to search
-# you can search all of reddit by typing "all"
+condition = False
+reddit_input_list = []
+while not condition:  # Added ability to enter multiple subreddits
+    reddit_input = input("What subreddit do you want to search? Press Enter to finish")
+    if reddit_input == "":
+        break
+    else:
+        reddit_input_list.append(reddit_input)
 
-# sys.stdout = open("redditScraping.txt", "w")        # starts process of exporting the output to a textfile
+for subreddit in reddit_input_list:                                   # Iterates through every subreddit entered
+    hot_posts = reddit.subreddit(subreddit).new(limit=None)
+    for post in hot_posts:                                            # iterates through every post grabbed in subreddit
+        string = post.title.encode('cp1252', errors='ignore')         # appends post and timestamp into perspective list
+        postList.append(string)
+        date = datetime.utcfromtimestamp(post.created_utc)
+        timeStampList.append("%s/%s/%s - %s:%s" % (date.month, date.day, date.year, date.hour, date.minute))
 
-hot_posts = reddit.subreddit(subredditInput).new(limit=100)
-postIndex = 0
-
-for post in hot_posts:
-    postIndex += 1
-    string = post.title.encode('cp1252', errors='ignore')
-    postList.append(string)
-    date = datetime.utcfromtimestamp(post.created_utc)
-    timeStampList.append("%s/%s/%s - %s:%s" % (date.month, date.day, date.year, date.hour, date.minute))
-
-    # print(postIndex, "-", post.title.encode('cp1252', errors='ignore'))
-    # submission = reddit.submission(post)
-    # submission.comments.replace_more(limit=0)
-
-    index = 0  # start of a counter to limit post comments
-    # for top_level_comment in submission.comments:    # this loop is inside the previous loop
-    #     index += 1                                   # this loop grab the top comment in the post
-    #     if index == 6:                               # with the counter, it grabs 5 comments
-    #         break
-    # print("-" * 75)
-    # print(index, "-", top_level_comment.body.encode('cp1252', errors='ignore'))
-
-# sys.stdout.close()
-df = pd.DataFrame({'timestamp': timeStampList, 'post title': postList})
-print(df)
-df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\new.csv', index=False)
+df = pd.DataFrame({'timestamp': timeStampList, 'post title': postList})         # adds timestamp list and post list to
+df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\new.csv', index=False)             # a dataframe and exports
