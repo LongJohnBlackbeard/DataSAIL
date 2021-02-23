@@ -30,19 +30,21 @@ timeStampList = []
 condition = False
 reddit_input_list = []
 while not condition:  # Added ability to enter multiple subreddits
-    reddit_input = input("What subreddit do you want to search? Press Enter to finish")
+    reddit_input = input("What subreddit do you want to search? Press Enter to finish. ")
     if reddit_input == "":
         break
     else:
         reddit_input_list.append(reddit_input)
 
+
 for subreddit in reddit_input_list:                                   # Iterates through every subreddit entered
     hot_posts = reddit.subreddit(subreddit).new(limit=None)
     for post in hot_posts:                                            # iterates through every post grabbed in subreddit
-        string = post.title.encode('cp1252', errors='ignore')         # appends post and timestamp into perspective list
-        postList.append(string)
-        date = datetime.utcfromtimestamp(post.created_utc)
-        timeStampList.append("%s/%s/%s - %s:%s" % (date.month, date.day, date.year, date.hour, date.minute))
+        string = post.title.encode(encoding='UTF-8', errors='ignore')
+        stringTwo = string.decode('utf-8')  # appends post and timestamp into perspective list
+        postList.append(stringTwo)
+        dateTest = post.created
+        timeStampList.append(datetime.fromtimestamp(dateTest))
 
 df = pd.DataFrame({'timestamp': timeStampList, 'post title': postList})         # adds timestamp list and post list to
 df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\new.csv', index=False)             # a dataframe and exports
