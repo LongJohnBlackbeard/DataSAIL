@@ -27,8 +27,13 @@ for i in ticker_list:
     print(company)
     ticker_name.append(company)
 
-df = pd.DataFrame({'Ticker': ticker_list, '$Ticker': ticker_list_with_sign, 'Company Name': ticker_name})
-df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\tickertable.csv', index=False)
+f = open("tickertext", "a")
+f.write(ticker_list)
+f.write(ticker_list_with_sign)
+f.close()
+
+# df = pd.DataFrame({'Ticker': ticker_list, '$Ticker': ticker_list_with_sign, 'Company Name': ticker_name})
+# df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\tickertable.csv', index=False)
 
 
 
