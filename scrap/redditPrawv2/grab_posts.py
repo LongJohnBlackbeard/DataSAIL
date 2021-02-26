@@ -30,10 +30,27 @@ def posts_and_timestamps(reddit, subreddit_list):
     for subreddit in subreddit_list:
         new_posts = reddit.subreddit(subreddit).new(limit=None)
 
+        post_number = 0
         for post in new_posts:
-            string = post.title.encode(encoding='UTF-8', errors='ignore')
-            stringTwo = string.decode('utf-8')
-            post_list.append(stringTwo)
+            post_number += 1
+            print(post_number)
+
+            title = post.title.encode(encoding='UTF-8', errors='ignore')
+            titleTwo = title.decode('UTF-8')
+
+            post.comments.replace_more(limit=0)
+            comments = ""
+            for comment in post.comments.list():
+                comments = comments + " " + comment.body
+
+            title_and_comments = titleTwo + " " + comments
+
+            body = post.selftext.encode(encoding='UTF-8', errors='ignore')
+            bodyTwo = body.decode('UTF-8')
+            body_and_title = title_and_comments + " " + bodyTwo
+            " ".join(body_and_title.split())
+            post_list.append(body_and_title)
+
             dateTest = post.created
             time_stamp_list.append(datetime.fromtimestamp(dateTest))
     df = pd.DataFrame({'timestamp': time_stamp_list, 'post title': post_list})
