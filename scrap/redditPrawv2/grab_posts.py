@@ -12,6 +12,7 @@ data = pd.read_csv('/home/dtujo/myoptane/Trawler/Dataframes/%s' % csv_file_name)
 old_posts_list = data['post title'].tolist()
 
 
+
 def subreddits():
     reddit_input_list = []
     condition = False
@@ -55,7 +56,10 @@ def posts_and_timestamps(reddit, subreddit_list):
 
             for comment in post.comments.list():
                 if comment not in old_posts_list:
-                    post_list.append(comment)
+                    post_number += 1
+                    print(post_number)
+                    print(comment.body)
+                    post_list.append(comment.body)
                     dateComment = comment.created_utc
                     time_stamp_list.append(datetime.fromtimestamp(dateComment))
 
