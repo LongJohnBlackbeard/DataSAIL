@@ -54,7 +54,7 @@ def posts_and_timestamps(reddit, subreddit_list):
                 post.comments.replace_more(limit=0)
 
             for comment in post.comments.list():
-                if comment not in old_posts_list():
+                if comment not in old_posts_list:
                     post_list.append(comment)
                     dateComment = post.comments.created
                     time_stamp_list.append(datetime.fromtimestamp(dateComment))
