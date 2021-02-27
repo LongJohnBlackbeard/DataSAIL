@@ -56,7 +56,7 @@ def posts_and_timestamps(reddit, subreddit_list):
             for comment in post.comments.list():
                 if comment not in old_posts_list:
                     post_list.append(comment)
-                    dateComment = post.comment.created_utc
+                    dateComment = comment.created_utc
                     time_stamp_list.append(datetime.fromtimestamp(dateComment))
 
     df = pd.DataFrame({'timestamp': time_stamp_list, 'post title': post_list})
