@@ -5,9 +5,12 @@ from create_instance import initiate_instance
 import datetime
 from datetime import datetime
 import pandas as pd
-
+from import_old import old_post_list
 
 # Asks user for what subreddits to search
+old_data_post_list = old_post_list()
+
+
 def subreddits():
     reddit_input_list = []
     condition = False
@@ -32,26 +35,28 @@ def posts_and_timestamps(reddit, subreddit_list):
 
         post_number = 0
         for post in new_posts:
-            post_number += 1
-            print(post_number)
+            if post not in old_post_list():
+                post_number += 1
+                print(post_number)
 
-            title = post.title.encode(encoding='UTF-8', errors='ignore')
-            titleTwo = title.decode('UTF-8')
+                title = post.title.encode(encoding='UTF-8', errors='ignore')
+                titleTwo = title.decode('UTF-8')
+                dateTest = post.created
+                time_stamp_list.append(datetime.fromtimestamp(dateTest))
 
-            post.comments.replace_more(limit=0)
-            comments = ""
+                body = post.selftext.encode(encoding='UTF-8', errors='ignore')
+                bodyTwo = body.decode('UTF-8')
+                body_and_title = titleTwo + " " + bodyTwo
+                " ".join(body_and_title.split())
+                post_list.append(body_and_title)
+
+                post.comments.replace_more(limit=0)
+
             for comment in post.comments.list():
-                comments = comments + " " + comment.body
+                if comment not in old_post_list():
+                    post_list.append(comment)
+                    dateComment = post.comments.created
+                    time_stamp_list.append(datetime.fromtimestamp(dateComment))
 
-            title_and_comments = titleTwo + " " + comments
-
-            body = post.selftext.encode(encoding='UTF-8', errors='ignore')
-            bodyTwo = body.decode('UTF-8')
-            body_and_title = title_and_comments + " " + bodyTwo
-            " ".join(body_and_title.split())
-            post_list.append(body_and_title)
-
-            dateTest = post.created
-            time_stamp_list.append(datetime.fromtimestamp(dateTest))
     df = pd.DataFrame({'timestamp': time_stamp_list, 'post title': post_list})
     return df
