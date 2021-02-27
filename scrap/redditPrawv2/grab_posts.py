@@ -36,7 +36,7 @@ def posts_and_timestamps(reddit, subreddit_list):
 
         post_number = 0
         for post in new_posts:
-            if post not in old_post_list():
+            if post not in old_data_post_list():
                 post_number += 1
                 print(post_number)
 
