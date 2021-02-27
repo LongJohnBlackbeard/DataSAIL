@@ -3,8 +3,7 @@
 import pandas as pd
 
 
-def old_post_list():
-    csv_file_name = input("What is the exact name of the csv file?")
-    data = pd.read_csv('/home/dtujo/myoptane/Trawler/Dataframes/%s' % csv_file_name)
+def old_post_list(csv_file):
+    data = pd.read_csv('/home/dtujo/myoptane/Trawler/Dataframes/%s' % csv_file)
     posts_list = data['post title'].tolist()
     return posts_list

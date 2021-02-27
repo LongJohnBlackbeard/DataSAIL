@@ -8,7 +8,8 @@ import pandas as pd
 from import_old import old_post_list
 
 # Asks user for what subreddits to search
-old_data_post_list = old_post_list()
+csv_file_name = input("What is the exact name of the csv file?")
+old_data_post_list = old_post_list(csv_file_name)
 
 
 def subreddits():
