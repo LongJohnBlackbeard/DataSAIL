@@ -5,11 +5,11 @@ from create_instance import initiate_instance
 import datetime
 from datetime import datetime
 import pandas as pd
-from import_old import old_post_list
 
 # Asks user for what subreddits to search
 csv_file_name = input("What is the exact name of the csv file?")
-old_data_post_list = old_post_list(csv_file_name)
+data = pd.read_csv('/home/dtujo/myoptane/Trawler/Dataframes/%s' % csv_file_name)
+old_posts_list = data['post title'].tolist()
 
 
 def subreddits():
@@ -36,7 +36,7 @@ def posts_and_timestamps(reddit, subreddit_list):
 
         post_number = 0
         for post in new_posts:
-            if post not in old_data_post_list():
+            if post not in old_posts_list():
                 post_number += 1
                 print(post_number)
 
@@ -54,7 +54,7 @@ def posts_and_timestamps(reddit, subreddit_list):
                 post.comments.replace_more(limit=0)
 
             for comment in post.comments.list():
-                if comment not in old_post_list():
+                if comment not in old_posts_list():
                     post_list.append(comment)
                     dateComment = post.comments.created
                     time_stamp_list.append(datetime.fromtimestamp(dateComment))
