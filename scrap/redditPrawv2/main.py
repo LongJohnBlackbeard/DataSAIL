@@ -10,11 +10,10 @@ from datetime import datetime
 
 startTime = datetime.now()
 
-
 auth = initiate_instance()
 reddit_input_list = grab_posts.subreddits()
 current_day_data_frame = grab_posts.posts_and_timestamps(auth, reddit_input_list)
 
-current_day_data_frame.to_csv(r'myoptane/Trawler/DataFrames/daily_data2.csv', index=False)
+current_day_data_frame.to_csv(r'myoptane/Trawler/Dataframes/daily_data%s2.csv' % datetime.now(), index=False)
 
 print(datetime.now() - startTime)
