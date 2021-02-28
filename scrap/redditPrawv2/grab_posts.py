@@ -12,7 +12,6 @@ data = pd.read_csv('/home/dtujo/myoptane/Trawler/Dataframes/%s' % csv_file_name)
 old_posts_list = data['post title'].tolist()
 
 
-
 def subreddits():
     reddit_input_list = []
     condition = False
