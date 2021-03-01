@@ -5,6 +5,7 @@ from create_instance import initiate_instance
 import datetime
 from datetime import datetime
 import pandas as pd
+from create_instance import initiate_instance
 
 # Asks user for what subreddits to search
 # csv_file_name = input("What is the exact name of the csv file?")
@@ -14,6 +15,8 @@ import pandas as pd
 # old_posts_list = data['post title'].tolist()
 # print(old_posts_list)
 last_unix_timestamp = int(input("What was the last unix timestamp of that last post/comment? "))
+
+auth = initiate_instance()
 
 
 def subreddits():
@@ -42,9 +45,14 @@ def posts_and_timestamps(reddit, subreddit_list):
         for post in new_posts:
             post_number += 1
             print(post_number)
+            rate_limit = auth.auth.limits
+            print(rate_limit)
+
             if post.created > last_unix_timestamp:
                 post_number += 1
                 print(post_number)
+                rate_limit = auth.auth.limits
+                print(rate_limit)
 
                 title = post.title.encode(encoding='UTF-8', errors='ignore')
                 titleTwo = title.decode('UTF-8')
@@ -52,22 +60,23 @@ def posts_and_timestamps(reddit, subreddit_list):
                 body = post.selftext.encode(encoding='UTF-8', errors='ignore')
                 bodyTwo = body.decode('UTF-8')
 
-                post_list.append(titleTwo)
-                dateTest = post.created
-                time_stamp_list.append(datetime.fromtimestamp(dateTest))
+                body_title = titleTwo + " " + bodyTwo
 
-                post_list.append(bodyTwo)
+                post_list.append(body_title)
                 dateTest = post.created
                 time_stamp_list.append(datetime.fromtimestamp(dateTest))
 
             post.comments.replace_more(limit=None)
             for comment in post.comments.list():
+                rate_limit = auth.auth.limits
+                print(rate_limit)
                 post_number += 1
                 print(post_number)
                 if comment.created_utc > last_unix_timestamp:
+                    rate_limit = auth.auth.limits
+                    print(rate_limit)
                     post_number += 1
                     print(post_number)
-                    print(comment.body)
                     post_list.append(comment.body)
                     dateComment = comment.created_utc
                     time_stamp_list.append(datetime.fromtimestamp(dateComment))
