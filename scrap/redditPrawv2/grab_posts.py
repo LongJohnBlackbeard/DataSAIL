@@ -6,6 +6,7 @@ import datetime
 from datetime import datetime
 import pandas as pd
 from create_instance import initiate_instance
+import time
 
 # Asks user for what subreddits to search
 # csv_file_name = input("What is the exact name of the csv file?")
@@ -17,6 +18,7 @@ from create_instance import initiate_instance
 last_unix_timestamp = int(input("What was the last unix timestamp of that last post/comment? "))
 
 auth = initiate_instance()
+rate_limit = auth.auth.limits
 
 
 def subreddits():
@@ -44,14 +46,13 @@ def posts_and_timestamps(reddit, subreddit_list):
         post_number = 0
         for post in new_posts:
             post_number += 1
-            print(post_number)
-            rate_limit = auth.auth.limits
+            print("post" + str(post_number))
             print(rate_limit)
 
             if post.created > last_unix_timestamp:
                 post_number += 1
-                print(post_number)
-                rate_limit = auth.auth.limits
+                print("grabbed post " + str(post_number))
+                print(post.title)
                 print(rate_limit)
 
                 title = post.title.encode(encoding='UTF-8', errors='ignore')
@@ -65,21 +66,30 @@ def posts_and_timestamps(reddit, subreddit_list):
                 post_list.append(body_title)
                 dateTest = post.created
                 time_stamp_list.append(datetime.fromtimestamp(dateTest))
+            else:
+                print("skipped")
+                print(post.title)
 
-            post.comments.replace_more(limit=None)
+            while True:
+                try:
+                    post.comments.replace_more(limit=50)
+                    break
+                except Exception:
+                    time.sleep(1)
+
             for comment in post.comments.list():
-                rate_limit = auth.auth.limits
-                print(rate_limit)
-                post_number += 1
-                print(post_number)
                 if comment.created_utc > last_unix_timestamp:
-                    rate_limit = auth.auth.limits
+
                     print(rate_limit)
                     post_number += 1
-                    print(post_number)
+                    print("grabbed comment " + str(post_number))
+                    print(comment)
                     post_list.append(comment.body)
                     dateComment = comment.created_utc
                     time_stamp_list.append(datetime.fromtimestamp(dateComment))
+                else:
+                    print("skipped")
+                    print(comment.body)
 
     df = pd.DataFrame({'timestamp': time_stamp_list, 'post title': post_list})
     return df

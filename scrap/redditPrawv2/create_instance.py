@@ -10,9 +10,8 @@ from datetime import datetime
 
 
 def initiate_instance():
-    reddit = praw.Reddit(client_id=client_id,  # this stuff here is what connects to #
-                         client_secret=client_secret,  # reddit api using OAUTH credentials  #
-                         password=reddit_password,  # I have another file containing the  #
-                         user_agent=user_agent,  # info here because this file is on   #
-                         username=reddit_username)
+    reddit = praw.Reddit(client_id=client_id,
+                         client_secret=client_secret,
+                         user_agent=user_agent)
+
     return reddit
