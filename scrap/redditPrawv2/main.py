@@ -16,8 +16,8 @@ current_day_data_frame = grab_posts.posts_and_timestamps(auth, reddit_input_list
 
 currentDate = datetime.now()
 date = currentDate.date()
-# current_day_data_frame.to_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/daily_data_%s.csv' % date, index=False)
-current_day_data_frame.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\daily_data_%s.csv' % date, index=False)
+current_day_data_frame.to_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/daily_data_%s.csv' % date, index=False)
+# current_day_data_frame.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\daily_data_%s.csv' % date, index=False)
 
 print(datetime.now() - startTime)
 
