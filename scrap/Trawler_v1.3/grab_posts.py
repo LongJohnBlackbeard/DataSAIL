@@ -54,12 +54,13 @@ def post_and_timestamps(reddit, subreddit_list):
             post_date = datetime.utcfromtimestamp(post.created).strftime('%m/%d/%Y')
             print(post_date)
             print(date)
-            print('----------------')
+
 
             # if statement, compares date from user to date of post. If the same, appends row to df
             if post_date == date:
                 print("Grabbed post " + str(post_number))
                 print(post.title)
+                print('----------------')
                 # Grabs post title, encodes and decodes to avoid errors with reddit flavor, images, etc
                 title = post.title.encode(encoding='UTF-8', errors='ignore')
                 titleTwo = title.decode('UTF-8')
@@ -77,6 +78,7 @@ def post_and_timestamps(reddit, subreddit_list):
             else:
                 # print statement for monitoring/testing/debugging
                 print("skipped")
+                print('----------------')
                 post_number -= 1
 
             # while loop used for more comments option in reddit. Reddit uses a comment tree design where
@@ -100,15 +102,22 @@ def post_and_timestamps(reddit, subreddit_list):
                 comment_date = datetime.utcfromtimestamp(comment.created_utc).strftime('%m/%d/%Y')
                 post_number += 1
                 # if statement for comments matching above if statement for posts
+                print("Comment")
+                print(date)
+                print(comment_date)
+
                 if comment_date == date:
 
                     print("Grabbed comment : " + str(post_number))
+                    print(comment.body)
+                    print("---------------------------------------------")
                     date_comment = comment.created_utc
-                    df.append({'Timestamp': date_comment, 'Subreddit': subreddit, 'Post/Comment': comment.body},
+                    df = df.append({'Timestamp': comment_date, 'Subreddit': subreddit, 'Post/Comment': comment.body},
                               ignore_index=True)
                 else:
                     post_number -= 1
                     print("skipped")
+                    print("---------------------------------------------")
         # Saves df for each subreddit, to its own csv file.
-        df.to_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s_%s.csv' % (subreddit, date_csv), index=False)
-        # df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\%s_%s.csv' % (subreddit, date_csv), index=False)
+        # df.to_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s_%s.csv' % (subreddit, date_csv), index=False)
+        df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\%s_%s.csv' % (subreddit, date_csv), index=False)
