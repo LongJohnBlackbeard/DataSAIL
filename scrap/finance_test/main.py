@@ -13,20 +13,21 @@ arr = tickers['Tickers'].to_numpy()
 print(arr)
 
 counter = 0
-try:
-    for tick in arr:
-        counter += 1
-        daily_data, meta_data = ts.get_daily(symbol=tick, outputsize='full')
-        daily_data.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\Stock Data\%s.csv' % tick)
-        arr = np.delete(arr, np.where(arr == tick))
-        tickers_remaining = pd.DataFrame({'Tickers': arr})
-        tickers_remaining.to_csv(r'D:\Git\lewisuDataSAIL\scrap\finance_test\tickertable.csv')
-        time.sleep(12)
-        if counter == 450:
-            break
-except:
-    e = sys.exc_info()[0]
-    print('ERROR: ', e)
+# try:
+for tick in arr:
+    counter += 1
+    print(tick)
+    daily_data, meta_data = ts.get_daily(symbol=tick, outputsize='full')
+    daily_data.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\Stock Data\%s.csv' % tick)
+    arr = np.delete(arr, np.where(arr == tick))
+    tickers_remaining = pd.DataFrame({'Tickers': arr})
+    tickers_remaining.to_csv(r'D:\Git\lewisuDataSAIL\scrap\finance_test\tickertable.csv')
+    time.sleep(12)
+    if counter == 450:
+        break
+# except:
+#     e = sys.exc_info()[0]
+#     print('ERROR: ', e)
 
 
 
