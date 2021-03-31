@@ -18,6 +18,7 @@ for filename in os.listdir(directory):
 
         for i in range(0, len(dates)):
             print(len(dates[i]))
+            print(i)
             if len(dates[i]) == 10:
                 print(dates[i])
                 date_time_obj = datetime.strptime(dates[i], "%m/%d/%Y")
