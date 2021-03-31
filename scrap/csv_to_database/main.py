@@ -13,6 +13,6 @@ for filename in os.listdir(directory):
         # for i in range(0, len(data.columns)):
         #     print(i)
 
-        myCursor.execute()
+        # myCursor.execute()
     else:
         continue
