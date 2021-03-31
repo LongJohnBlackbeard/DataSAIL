@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import mysql.connector
+from datetime import datetime
 
 cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
 myCursor = cnx.cursor()
@@ -15,8 +16,9 @@ for filename in os.listdir(directory):
         subreddit = data['Subreddit'].tolist()
         content = data['Post/Comment'].tolist()
 
-        for i in range(0,len(dates)):
-            print(i)
+        for i in range(0, len(dates)):
+            date_time_obj = datetime.strptime(dates[i], "%d/%m/%Y")
+            print()
 
 
         # myCursor.execute()
