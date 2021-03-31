@@ -10,9 +10,14 @@ for filename in os.listdir(directory):
     if filename.endswith(".csv"):
         print(filename)
         data = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % filename)
-        for column in data:
-            date = data[column].values
-        print(date)
+
+        dates = data['Timestamp'].tolist()
+        subreddit = data['Subreddit'].tolist()
+        content = data['Post/Comment'].tolist()
+
+        for i in range(0,len(dates)):
+            print(i)
+
 
         # myCursor.execute()
     else:
