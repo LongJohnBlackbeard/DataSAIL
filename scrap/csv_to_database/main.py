@@ -8,10 +8,10 @@ myCursor = cnx.cursor()
 directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
 for filename in os.listdir(directory):
     if filename.endswith(".csv"):
-        print(os.path.join(directory, filename))
-        data = pd.read_csv(filename)
-        for i in range(0, len(data.columns)):
-            print(i)
+        print(filename)
+        # data = pd.read_csv(filename)
+        # for i in range(0, len(data.columns)):
+        #     print(i)
 
         myCursor.execute()
     else:
