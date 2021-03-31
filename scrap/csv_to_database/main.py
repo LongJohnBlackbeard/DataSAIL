@@ -23,6 +23,7 @@ for filename in os.listdir(directory):
                 print(date_time_obj)
             else:
                 date_string = dates[i]
+                print(date_string)
                 date_slice = date_string[0:11]
                 date_time_obj = datetime.strptime(date_slice, "%m/%d/%Y")
                 print(date_time_obj)
