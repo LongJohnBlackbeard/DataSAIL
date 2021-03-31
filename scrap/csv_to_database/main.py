@@ -30,5 +30,16 @@ for filename in os.listdir(directory):
                 print(date_slice)
                 date_time_obj = datetime.strptime(date_slice, "%Y-%m-%d")
                 print(date_time_obj)
+            sql_line = "INSERT INTO dailyRedditData (date, source, content) VALUES (%s, %s, %s)"
+            values = (date_time_obj, subreddit[i], content[i])
+
+            try:
+                myCursor.execute(sql_line, values)
+                cnx.commit()
+            except:
+                cnx.rollback()
+
     else:
         continue
+
+cnx.close()
