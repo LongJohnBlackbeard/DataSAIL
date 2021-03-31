@@ -9,9 +9,8 @@ directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
 for filename in os.listdir(directory):
     if filename.endswith(".csv"):
         print(filename)
-        # data = pd.read_csv(filename)
-        # for i in range(0, len(data.columns)):
-        #     print(i)
+        data = pd.read_csv(filename)
+        print(data)
 
         # myCursor.execute()
     else:
