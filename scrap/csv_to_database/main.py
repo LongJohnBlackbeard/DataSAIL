@@ -9,7 +9,7 @@ directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
 for filename in os.listdir(directory):
     if filename.endswith(".csv"):
         print(filename)
-        data = pd.read_csv(filename)
+        data = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % filename)
         print(data)
 
         # myCursor.execute()
