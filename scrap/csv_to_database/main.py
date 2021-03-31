@@ -28,7 +28,7 @@ for filename in os.listdir(directory):
                 print(date_string)
                 date_slice = date_string[0:10]
                 print(date_slice)
-                date_time_obj = datetime.strptime(date_slice, "%m/%d/%Y")
+                date_time_obj = datetime.strptime(date_slice, "%Y-%m-%d")
                 print(date_time_obj)
     else:
         continue
