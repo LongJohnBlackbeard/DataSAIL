@@ -17,8 +17,9 @@ for filename in os.listdir(directory):
         content = data['Post/Comment'].tolist()
 
         for i in range(0, len(dates)):
-            date_time_obj = datetime.strptime(dates[i], "%m/%d/%Y")
-            print(date_time_obj)
+            print(len(dates[i]))
+            # date_time_obj = datetime.strptime(dates[i], "%m/%d/%Y")
+            # print(date_time_obj)
 
 
         # myCursor.execute()
