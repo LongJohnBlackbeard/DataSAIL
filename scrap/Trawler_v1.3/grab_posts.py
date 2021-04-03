@@ -14,8 +14,8 @@ if date_day in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
 date_year = int(input("Year to search? "))
 # One date format is to compare with datetime format, the other is so it can be used in csv file name
 # cannot use slashes in file name so one format has dashes
-date = ("%s/%d/%d" % (date_month, date_day, date_year))
-date_csv = ("%s-%d-%d" % (date_month, date_day, date_year))
+date = ("%s/%s/%d" % (date_month, date_day, date_year))
+date_csv = ("%s-%s-%d" % (date_month, date_day, date_year))
 
 
 # Method that asks users for subreddits
