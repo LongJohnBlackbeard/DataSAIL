@@ -31,13 +31,12 @@ def subreddits():
         else:
             reddit_input_lists.append(reddit_input)
 
-# saves users entries into a list and returns it.
+    # saves users entries into a list and returns it.
     return reddit_input_lists
 
 
 # Main method that grabs posts/comments and date
 def post_and_timestamps(reddit, subreddit_list):
-
     # for loop that loops for every subreddit in subreddit list entered by user.
     for subreddit in subreddit_list:
         # Praw function that grabs posts from subreddit, saves it to a variable
@@ -56,7 +55,6 @@ def post_and_timestamps(reddit, subreddit_list):
             post_date = datetime.utcfromtimestamp(post.created).strftime('%m/%d/%Y')
             print(post_date)
             print(date)
-
 
             # if statement, compares date from user to date of post. If the same, appends row to df
             if post_date == date:
@@ -115,7 +113,7 @@ def post_and_timestamps(reddit, subreddit_list):
                     print("---------------------------------------------")
                     date_comment = comment.created_utc
                     df = df.append({'Timestamp': comment_date, 'Subreddit': subreddit, 'Post/Comment': comment.body},
-                              ignore_index=True)
+                                   ignore_index=True)
                 else:
                     post_number -= 1
                     print("skipped")
