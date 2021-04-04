@@ -10,7 +10,7 @@ if date_month in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
     date_month = ("0" + str(date_month))
 date_day = int(input("Day to search? "))
 if date_day in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
-    date_day = ("0" + str(date_month))
+    date_day = ("0" + str(date_day))
 date_year = int(input("Year to search? "))
 # One date format is to compare with datetime format, the other is so it can be used in csv file name
 # cannot use slashes in file name so one format has dashes
