@@ -89,8 +89,8 @@ def post_and_timestamps(reddit, subreddit_list):
                 except:
                     cnx.rollback()
 
-                # df = df.append({'Timestamp': dateTest, 'Subreddit': subreddit, 'Post/Comment': body_title},
-                #                ignore_index=True)
+                df = df.append({'Timestamp': date_time_obj, 'Subreddit': subreddit, 'Post/Comment': body_title},
+                               ignore_index=True)
 
             else:
                 # print statement for monitoring/testing/debugging
@@ -140,12 +140,13 @@ def post_and_timestamps(reddit, subreddit_list):
                         cnx.commit()
                     except:
                         cnx.rollback()
-                    # df = df.append({'Timestamp': comment_date, 'Subreddit': subreddit, 'Post/Comment': comment.body},
-                    #                ignore_index=True)
+
+                    df = df.append({'Timestamp': date_time_obj, 'Subreddit': subreddit, 'Post/Comment': comment.body},
+                                   ignore_index=True)
                 else:
                     post_number -= 1
                     print("skipped")
                     print("---------------------------------------------")
         # Saves df for each subreddit, to its own csv file.
-        # df.to_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s_%s.csv' % (subreddit, date_csv), index=False)
+        df.to_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s_%s.csv' % (subreddit, date_csv), index=False)
         # df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\%s_%s.csv' % (subreddit, date_csv), index=False)
