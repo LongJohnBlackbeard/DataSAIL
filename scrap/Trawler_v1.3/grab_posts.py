@@ -77,10 +77,11 @@ def post_and_timestamps(reddit, subreddit_list):
                 # concatenates post body and title to be viewed as one entity
                 body_title = titleTwo + " " + bodyTwo
                 # creates variable for timestamp of post creation
-                dateTest = datetime.strptime(post.created, "%Y-%m-%d")
+                dateTest = datetime.strftime(post.created)
+                date_time_obj = datetime.strptime(dateTest, "%Y-%m-%d")
 
                 sql_line = "INSERT INTO testing (date, source, content) VALUES (%s, %s, %s)"
-                values = (dateTest, subreddit, body_title)
+                values = (date_time_obj, subreddit, body_title)
 
                 try:
                     myCursor.execute(sql_line, values)
@@ -128,9 +129,11 @@ def post_and_timestamps(reddit, subreddit_list):
                     print(comment.body)
                     print("---------------------------------------------")
                     date_comment = comment.created_utc
+                    date_time_obj = datetime.strptime(date_comment, "%m/%d/%Y")
+
 
                     sql_line = "INSERT INTO testing (DATE, SOURCE, CONTENT) VALUES (%s, %s, %s)"
-                    values = (date_comment, subreddit, comment.body)
+                    values = (date_time_obj, subreddit, comment.body)
 
                     try:
                         myCursor.execute(sql_line, values)
