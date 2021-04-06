@@ -80,7 +80,7 @@ def post_and_timestamps(reddit, subreddit_list):
                 dateTest = datetime.utcfromtimestamp(post.created).strftime('%Y-%m-%d')
                 date_time_obj = datetime.strptime(dateTest, "%Y-%m-%d")
 
-                sql_line = "INSERT INTO testing (date, source, content) VALUES (%s, %s, %s)"
+                sql_line = "INSERT INTO dailyRedditData (date, source, content) VALUES (%s, %s, %s)"
                 values = (date_time_obj, subreddit, body_title)
 
                 try:
@@ -132,7 +132,7 @@ def post_and_timestamps(reddit, subreddit_list):
                     date_time_obj = datetime.strptime(date_comment, "%m/%d/%Y")
 
 
-                    sql_line = "INSERT INTO testing (DATE, SOURCE, CONTENT) VALUES (%s, %s, %s)"
+                    sql_line = "INSERT INTO dailyRedditData (DATE, SOURCE, CONTENT) VALUES (%s, %s, %s)"
                     values = (date_time_obj, subreddit, comment.body)
 
                     try:
