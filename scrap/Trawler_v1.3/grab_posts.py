@@ -3,6 +3,13 @@ import datetime
 from datetime import datetime
 import pandas as pd
 import time
+import mysql.connector
+import sensitive
+import os
+
+cnx = mysql.connector.connect(user=sensitive.db_user, password=sensitive.db_password, host='localhost',
+                              database='DataSAIL')
+myCursor = cnx.cursor()
 
 # Ask user to month date and year to search reddit
 date_month = int(input("Month to Search? "))
@@ -70,10 +77,19 @@ def post_and_timestamps(reddit, subreddit_list):
                 # concatenates post body and title to be viewed as one entity
                 body_title = titleTwo + " " + bodyTwo
                 # creates variable for timestamp of post creation
-                dateTest = datetime.fromtimestamp(post.created)
+                dateTest = datetime.strptime(post.created, "%Y-%m-%d")
 
-                df = df.append({'Timestamp': dateTest, 'Subreddit': subreddit, 'Post/Comment': body_title},
-                               ignore_index=True)
+                sql_line = "INSERT INTO testing (date, source, content) VALUES (%s, %s, %s)"
+                values = (dateTest, subreddit, body_title)
+
+                try:
+                    myCursor.execute(sql_line, values)
+                    cnx.commit()
+                except:
+                    cnx.rollback()
+
+                # df = df.append({'Timestamp': dateTest, 'Subreddit': subreddit, 'Post/Comment': body_title},
+                #                ignore_index=True)
 
             else:
                 # print statement for monitoring/testing/debugging
@@ -99,7 +115,7 @@ def post_and_timestamps(reddit, subreddit_list):
             # comments are saved to a list and iterated through
             for comment in post.comments.list():
                 # converting comment unix time stamp to utc timestamp and saved as a variable
-                comment_date = datetime.utcfromtimestamp(comment.created_utc).strftime('%m/%d/%Y')
+                comment_date = datetime.utcfromtimestamp(comment.created_utc).strftime('%Y-%m-%d')
                 post_number += 1
                 # if statement for comments matching above if statement for posts
                 print("Comment")
@@ -112,12 +128,21 @@ def post_and_timestamps(reddit, subreddit_list):
                     print(comment.body)
                     print("---------------------------------------------")
                     date_comment = comment.created_utc
-                    df = df.append({'Timestamp': comment_date, 'Subreddit': subreddit, 'Post/Comment': comment.body},
-                                   ignore_index=True)
+
+                    sql_line = "INSERT INTO testing (DATE, SOURCE, CONTENT) VALUES (%s, %s, %s)"
+                    values = (date_comment, subreddit, comment.body)
+
+                    try:
+                        myCursor.execute(sql_line, values)
+                        cnx.commit()
+                    except:
+                        cnx.rollback()
+                    # df = df.append({'Timestamp': comment_date, 'Subreddit': subreddit, 'Post/Comment': comment.body},
+                    #                ignore_index=True)
                 else:
                     post_number -= 1
                     print("skipped")
                     print("---------------------------------------------")
         # Saves df for each subreddit, to its own csv file.
-        df.to_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s_%s.csv' % (subreddit, date_csv), index=False)
+        # df.to_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s_%s.csv' % (subreddit, date_csv), index=False)
         # df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\%s_%s.csv' % (subreddit, date_csv), index=False)
