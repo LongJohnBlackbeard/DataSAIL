@@ -77,7 +77,7 @@ def post_and_timestamps(reddit, subreddit_list):
                 # concatenates post body and title to be viewed as one entity
                 body_title = titleTwo + " " + bodyTwo
                 # creates variable for timestamp of post creation
-                dateTest = datetime.strftime(post.created)
+                dateTest = datetime.utcfromtimestamp(comment.created_utc).strftime('%Y-%m-%d')
                 date_time_obj = datetime.strptime(dateTest, "%Y-%m-%d")
 
                 sql_line = "INSERT INTO testing (date, source, content) VALUES (%s, %s, %s)"
