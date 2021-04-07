@@ -116,14 +116,16 @@ def post_and_timestamps(reddit, subreddit_list):
             # comments are saved to a list and iterated through
             for comment in post.comments.list():
                 # converting comment unix time stamp to utc timestamp and saved as a variable
+
                 comment_date = datetime.utcfromtimestamp(comment.created_utc).strftime('%Y-%m-%d')
+                comment_date_check = datetime.utcfromtimestamp(comment.created_utc).strftime('%m/%d/%Y')
                 post_number += 1
                 # if statement for comments matching above if statement for posts
                 print("Comment")
                 print(date)
                 print(comment_date)
 
-                if comment_date == date:
+                if comment_date_check == date:
 
                     print("Grabbed comment : " + str(post_number))
                     print(comment.body)
