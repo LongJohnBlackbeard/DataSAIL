@@ -123,7 +123,7 @@ def post_and_timestamps(reddit, subreddit_list):
                 # if statement for comments matching above if statement for posts
                 print("Comment")
                 print(date)
-                print(comment_date)
+                print(comment_date_check)
 
                 if comment_date_check == date:
 
