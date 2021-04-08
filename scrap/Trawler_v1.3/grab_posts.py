@@ -131,7 +131,7 @@ def post_and_timestamps(reddit, subreddit_list):
                     print(comment.body)
                     print("---------------------------------------------")
                     date_comment = comment.created_utc
-                    date_time_obj = datetime.strptime(date_comment, "%m/%d/%Y")
+                    date_time_obj = datetime.fromtimestamp(date_comment)
 
 
                     sql_line = "INSERT INTO dailyRedditData (DATE, SOURCE, CONTENT) VALUES (%s, %s, %s)"
