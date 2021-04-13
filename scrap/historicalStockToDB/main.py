@@ -48,11 +48,13 @@ for ticker in arr:
 
     # print(dailyDataFinal)
     dailyDataFinal.to_csv('test.csv')
+    row_count = len(dailyDataFinal.index)
 
-    for i, row in dailyDataFinal.iterrows():
+    for i in range(0, row_count):
+        print(i)
         sql = "INSERT INTO `Trawler` (date, open, high, low, close, volume, stock) VALUES (%s %s %s %s %s %s %s)"
         values_list = [dailyDataFinal.iloc[i]['date'], dailyDataFinal.iloc[i]['1. open'],
-                       dailyDataFinal.iloc[i]['2. high'], dailyDataFinal.iloc[i]['3. high'],
+                       dailyDataFinal.iloc[i]['2. high'], dailyDataFinal.iloc[i]['3. low'],
                        dailyDataFinal.iloc[i]['4. close'], dailyDataFinal.iloc[i]['5. volume']]
         print(values_list)
 
