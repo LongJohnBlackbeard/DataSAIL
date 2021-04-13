@@ -59,12 +59,12 @@ for ticker in arr:
         print(values_list)
 
         if len(values_list) == 6:
-            values_list = values_list.append(ticker)
+            values_list.append(ticker)
             print("Add Ticker Row: ", values_list)
             cursor.execute(sql, values_list)
         else:
             addedValues = [0, 0, 0, 0, 0, ticker]
-            values_list = values_list.append(addedValues)
+            values_list.append(addedValues)
             print("Null row: ", values_list)
             cursor.execute(sql, values_list)
 
