@@ -51,6 +51,8 @@ for ticker in arr:
 
     for i, row in dailyDataFinal.iterrows():
         sql = "INSERT INTO `Trawler` (date, open, high, low, close, volume, stock) VALUES (%s %s %s %s %s %s %s)"
+        stringDate = row.date.datetime.strftime("%Y-%m-%d")
+        row['date'] = stringDate
         values_list = row.values
         if len(values_list) == 6:
             values_list = np.append(values_list, ticker)
