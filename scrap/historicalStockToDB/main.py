@@ -10,9 +10,9 @@ import time
 import datetime as dt
 import numpy as np
 import sys
-import pymysql
+import mysql.connector
 
-connection = pymysql.connect(user='dtujo', password='dtujo-mys', host='localhost', db='DataSAIL')
+connection = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', db='DataSAIL')
 cursor = connection.cursor()
 
 tickers = pd.read_csv('tickertable.csv')
