@@ -1,5 +1,7 @@
 import requests
-from alpha_vantage.timeseries import TimeSeries
+import alpha_vantage
+from alpha_vantage import timeseries
+
 import pandas as pd
 import time
 import datetime as dt
@@ -11,7 +13,7 @@ connection = pymysql.connect(user='dtujo', password='dtujo-mys', host='localhost
 cursor = connection.cursor()
 
 tickers = pd.read_csv('tickertable.csv')
-ts = TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
+ts = timeseries.TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
 
 arr = tickers['Tickers'].to_numpy()
 
