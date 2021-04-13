@@ -53,7 +53,7 @@ for ticker in arr:
 
     for i in range(0, row_count):
         sql = "INSERT INTO `Trawler` (date, open, high, low, close, volume, stock) VALUES (%s %s %s %s %s %s %s)"
-        values_list = [str(dailyDataFinal.loc[i]['date']), dailyDataFinal.loc[i]['1. open'],
+        values_list = [(dailyDataFinal.loc[i]['date']), dailyDataFinal.loc[i]['1. open'],
                        dailyDataFinal.loc[i]['2. high'], dailyDataFinal.loc[i]['3. low'],
                        dailyDataFinal.loc[i]['4. close'], dailyDataFinal.loc[i]['5. volume']]
         print(values_list)
@@ -61,7 +61,7 @@ for ticker in arr:
         if len(values_list) == 6:
             values_list.append(ticker)
             print("Add Ticker Row: ", values_list)
-            cursor.execute(sql, values_list)
+            cursor.execute(sql, tuple(values_list))
         else:
             addedValues = [0, 0, 0, 0, 0, ticker]
             values_list.append(addedValues)
