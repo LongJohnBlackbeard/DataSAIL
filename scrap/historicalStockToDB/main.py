@@ -51,8 +51,8 @@ for ticker in arr:
 
     for i, row in dailyDataFinal.iterrows():
         sql = "INSERT INTO `Trawler` (date, open, high, low, close, volume, stock) VALUES " \
-              "(" + "%s," * (len(row) - 1) + "%s, ticker)"
-        cursor.execute(sql, tuple(row))
+              "(" + "%s," * (len(row) - 1) + "%s, %s)"
+        cursor.execute(sql, tuple(row), ticker)
 
         connection.commit()
 
