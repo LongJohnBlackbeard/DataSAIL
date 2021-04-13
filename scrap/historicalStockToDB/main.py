@@ -53,6 +53,7 @@ for ticker in arr:
         sql = "INSERT INTO `Trawler` (date, open, high, low, close, volume, stock) VALUES (%s %s %s %s %s %s %s)"
         values_list = row.values
         values_list = np.append(values_list, ticker)
+        print(values_list)
         cursor.execute(sql, values_list)
 
         connection.commit()
