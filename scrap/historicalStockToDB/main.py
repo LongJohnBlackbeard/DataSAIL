@@ -66,7 +66,7 @@ for ticker in arr:
             addedValues = [0, 0, 0, 0, 0, ticker]
             values_list.append(addedValues)
             print("Null row: ", values_list)
-            cursor.execute(sql, values_list)
+            cursor.execute(sql, tuple(values_list))
 
         connection.commit()
 
