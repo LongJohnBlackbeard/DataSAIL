@@ -54,7 +54,7 @@ for ticker in arr:
         print(row.values)
         values_list = row.values.tolist()
         if len(values_list) == 6:
-            values_list = values_list.append(ticker)
+            values_list.append(ticker)
             print(values_list)
             cursor.execute(sql, values_list)
         else:
