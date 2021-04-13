@@ -50,9 +50,10 @@ for ticker in arr:
     dailyDataFinal.to_csv('test.csv')
 
     for i, row in dailyDataFinal.iterrows():
-        sql = "INSERT INTO `Trawler` (date, open, high, low, close, volume, stock) VALUES " \
-              "(" + "%s," * (len(row) - 1) + "%s, %s)"
-        cursor.execute(sql, tuple(row), ticker)
+        sql = "INSERT INTO `Trawler` (date, open, high, low, close, volume, stock) VALUES (%s %s %s %s %s %s %s)"
+        values_list = row.values
+        values_list = np.append(values_list, ticker)
+        cursor.execute(sql, values_list)
 
         connection.commit()
 
