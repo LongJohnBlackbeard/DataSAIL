@@ -54,4 +54,4 @@ for ticker in arr:
 
         connection.commit()
 
-    connection.close()
+connection.close()
