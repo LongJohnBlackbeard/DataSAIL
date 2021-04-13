@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-
+import time
 import requests
 import alpha_vantage
 from alpha_vantage.alpha_vantage import timeseries
@@ -20,8 +20,12 @@ ts = timeseries.TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
 # ts = TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
 
 arr = tickers['Tickers'].to_numpy()
+counter = 0
 
 for ticker in arr:
+
+    time.sleep(.6)
+
     daily_data, meta_data = ts.get_daily(symbol=ticker, outputsize='full')
 
     daily_data = daily_data.reset_index()
