@@ -51,7 +51,9 @@ for ticker in arr:
 
     for i, row in dailyDataFinal.iterrows():
         sql = "INSERT INTO `Trawler` (date, open, high, low, close, volume, stock) VALUES (%s %s %s %s %s %s %s)"
-        values_list = [row['date'], row['1. open'], row['2. high'], row['3. low'], row['4. close'], row['5. volume']]
+        values_list = [dailyDataFinal.iloc[i]['date'], dailyDataFinal.iloc[i]['1. open'],
+                       dailyDataFinal.iloc[i]['2. high'], dailyDataFinal.iloc[i]['3. high'],
+                       dailyDataFinal.iloc[i]['4. close'], dailyDataFinal.iloc[i]['5. volume']]
         print(values_list)
 
         if len(values_list) == 6:
