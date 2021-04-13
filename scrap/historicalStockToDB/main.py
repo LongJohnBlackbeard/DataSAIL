@@ -22,7 +22,7 @@ arr = tickers['Tickers'].to_numpy()
 daily_data, meta_data = ts.get_daily(symbol="A", outputsize='full')
 
 
-print(cols)
+
 
 for i, row in daily_data.iterrows():
     sql = "INSERT INTO `Trawler` (open, high, low, close, volume, stock) VALUES (" + "%s," * (len(row) - 1) + "%s, 'A')"
