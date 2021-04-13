@@ -49,11 +49,9 @@ for ticker in arr:
     # print(dailyDataFinal)
     dailyDataFinal.to_csv('test.csv')
 
-
-
     for i, row in dailyDataFinal.iterrows():
         sql = "INSERT INTO `Trawler` (date, open, high, low, close, volume, stock) VALUES (%s %s %s %s %s %s %s)"
-        row['date'] = row['date'].date()
+        row['date'] = str(row['date'])
         # stringDate = pd.to_datetime(row['date'])
         # print(stringDate)
         # row['date'] = stringDate
