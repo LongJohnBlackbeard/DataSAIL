@@ -12,8 +12,8 @@ import numpy as np
 import sys
 import mysql.connector
 
-connection = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', datebase='DataSAIL')
-cursor = connection.cursor()
+cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', datebase='DataSAIL')
+cursor = cnx.cursor()
 
 tickers = pd.read_csv('tickertable.csv')
 ts = timeseries.TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
@@ -68,6 +68,6 @@ for ticker in arr:
             print("Null row: ", values_list)
             cursor.execute(sql, tuple(values_list))
 
-        connection.commit()
+        cnx.commit()
 
-connection.close()
+cnx.close()
