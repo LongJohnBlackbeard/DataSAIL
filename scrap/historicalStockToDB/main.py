@@ -1,7 +1,7 @@
 import requests
 import alpha_vantage
 from alpha_vantage.alpha_vantage import timeseries
-from alpha_vantage.timeseries import TimeSeries
+# from alpha_vantage.timeseries import TimeSeries
 
 import pandas as pd
 import time
