@@ -49,7 +49,7 @@ for ticker in arr:
     # print(dailyDataFinal)
     dailyDataFinal.to_csv('test.csv')
 
-    dailyDataFinal['date'].astype("object")
+    dailyDataFinal['date'] = dailyDataFinal['date'].astype("object")
 
     for i, row in dailyDataFinal.iterrows():
         sql = "INSERT INTO `Trawler` (date, open, high, low, close, volume, stock) VALUES (%s %s %s %s %s %s %s)"
