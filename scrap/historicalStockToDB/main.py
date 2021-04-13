@@ -49,11 +49,13 @@ for ticker in arr:
     # print(dailyDataFinal)
     dailyDataFinal.to_csv('test.csv')
 
+    dailyDataFinal['date'].astype("object")
+
     for i, row in dailyDataFinal.iterrows():
         sql = "INSERT INTO `Trawler` (date, open, high, low, close, volume, stock) VALUES (%s %s %s %s %s %s %s)"
-        stringDate = pd.to_datetime(row['date'])
-        print(stringDate)
-        row['date'] = stringDate
+        # stringDate = pd.to_datetime(row['date'])
+        # print(stringDate)
+        # row['date'] = stringDate
         values_list = row.values
         if len(values_list) == 6:
             values_list = np.append(values_list, ticker)
