@@ -55,7 +55,7 @@ for ticker in arr:
         sql = "INSERT INTO Trawler (date, open, high, low, close, volume, stock) VALUES (%s %s %s %s %s %s %s)"
         values_list = [str(dailyDataFinal.loc[i]['date']), dailyDataFinal.loc[i]['1. open'],
                        dailyDataFinal.loc[i]['2. high'], dailyDataFinal.loc[i]['3. low'],
-                       dailyDataFinal.loc[i]['4. close'], dailyDataFinal.loc[i]['5. volume']]
+                       dailyDataFinal.loc[i]['4. close'], int(dailyDataFinal.loc[i]['5. volume'])]
         print(values_list)
 
         if len(values_list) == 6:
