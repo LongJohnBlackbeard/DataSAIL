@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 import requests
 import alpha_vantage
 from alpha_vantage.alpha_vantage import timeseries
@@ -21,10 +23,27 @@ arr = tickers['Tickers'].to_numpy()
 
 daily_data, meta_data = ts.get_daily(symbol="A", outputsize='full')
 
+daily_data = daily_data.reset_index()
+# print(daily_data)
 
+start_date = datetime(2021, 4, 12)
+# print(daily_data.date.iat[-1])
 
+dateRange = pd.date_range(start=daily_data.date.iat[-1], end=start_date, freq='D')[::-1]
+# print(dateRange)
 
-for i, row in daily_data.iterrows():
+dateRangeDF = pd.DataFrame(index=dateRange)
+dateRangeDF.reset_index(inplace=True)
+print(dateRangeDF)
+temp_list = ['date']
+dateRangeDF.columns = temp_list
+
+dailyDataFinal = daily_data.merge(dateRangeDF, how='outer', on='date')
+
+print(dailyDataFinal)
+dailyDataFinal.to_csv('test.csv')
+
+for i, row in dailyDataFinal.iterrows():
     sql = "INSERT INTO `Trawler` (open, high, low, close, volume, stock) VALUES (" + "%s," * (len(row) - 1) + "%s, 'A')"
     cursor.execute(sql, tuple(row))
 
