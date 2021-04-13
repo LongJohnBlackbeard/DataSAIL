@@ -51,15 +51,17 @@ for ticker in arr:
 
     for i, row in dailyDataFinal.iterrows():
         sql = "INSERT INTO `Trawler` (date, open, high, low, close, volume, stock) VALUES (%s %s %s %s %s %s %s)"
-        row['date'] = str(row['date'])
-        values_list = [row.date, row.open, row.high, row.low, row.close, row.volume]
+        values_list = [row['date'], row['1. open'], row['2. high'], row['3. low'], row['4. close'], row['5. volume']]
+        print(values_list)
+
         if len(values_list) == 6:
             values_list = values_list.append(ticker)
-            print(values_list)
+            print("Add Ticker Row: ", values_list)
             cursor.execute(sql, values_list)
         else:
             addedValues = [0, 0, 0, 0, 0, ticker]
             values_list = values_list.append(addedValues)
+            print("Null row: ", values_list)
             cursor.execute(sql, values_list)
 
         connection.commit()
