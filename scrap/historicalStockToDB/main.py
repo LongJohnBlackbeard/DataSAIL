@@ -51,14 +51,14 @@ for ticker in arr:
 
     for i, row in dailyDataFinal.iterrows():
         sql = "INSERT INTO `Trawler` (date, open, high, low, close, volume, stock) VALUES (%s %s %s %s %s %s %s)"
-        print(row.values)
-        values_list = row.values.tolist()
+        values_list = row.values
         if len(values_list) == 6:
-            values_list.append(ticker)
+            values_list = np.append(values_list, ticker)
             print(values_list)
             cursor.execute(sql, values_list)
         else:
-            values_list.extend([0, 0, 0, 0, 0, ticker])
+            addedValues = np.array([0, 0, 0, 0, 0, ticker])
+            values_list = np.append(values_list, addedValues)
             cursor.execute(sql, values_list)
 
         connection.commit()
