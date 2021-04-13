@@ -52,17 +52,14 @@ for ticker in arr:
     for i, row in dailyDataFinal.iterrows():
         sql = "INSERT INTO `Trawler` (date, open, high, low, close, volume, stock) VALUES (%s %s %s %s %s %s %s)"
         row['date'] = str(row['date'])
-        # stringDate = pd.to_datetime(row['date'])
-        # print(stringDate)
-        # row['date'] = stringDate
-        values_list = row.values
+        values_list = [row.date, row.open, row.high, row.low, row.close, row.volume]
         if len(values_list) == 6:
-            values_list = np.append(values_list, ticker)
+            values_list = values_list.append(ticker)
             print(values_list)
             cursor.execute(sql, values_list)
         else:
-            addedValues = np.array([0, 0, 0, 0, 0, ticker])
-            values_list = np.append(values_list, addedValues)
+            addedValues = [0, 0, 0, 0, 0, ticker]
+            values_list = values_list.append(addedValues)
             cursor.execute(sql, values_list)
 
         connection.commit()
