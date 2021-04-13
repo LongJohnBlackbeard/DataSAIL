@@ -50,7 +50,8 @@ for ticker in arr:
     dailyDataFinal.to_csv('test.csv')
 
     for i, row in dailyDataFinal.iterrows():
-        sql = "INSERT INTO `Trawler` (date, open, high, low, close, volume, stock) VALUES (" + "%s," * (len(row) - 1) + "%s, 'A')"
+        sql = "INSERT INTO `Trawler` (date, open, high, low, close, volume, stock) VALUES " \
+              "(" + "%s," * (len(row) - 1) + "%s, ticker)"
         cursor.execute(sql, tuple(row))
 
         connection.commit()
