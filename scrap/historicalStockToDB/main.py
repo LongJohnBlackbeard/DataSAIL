@@ -23,6 +23,7 @@ arr = tickers['Tickers'].to_numpy()
 counter = 0
 
 for ticker in arr:
+    print(ticker)
 
     time.sleep(.6)
 
@@ -39,13 +40,13 @@ for ticker in arr:
 
     dateRangeDF = pd.DataFrame(index=dateRange)
     dateRangeDF.reset_index(inplace=True)
-    print(dateRangeDF)
+    # print(dateRangeDF)
     temp_list = ['date']
     dateRangeDF.columns = temp_list
 
     dailyDataFinal = daily_data.merge(dateRangeDF, how='outer', on='date')
 
-    print(dailyDataFinal)
+    # print(dailyDataFinal)
     dailyDataFinal.to_csv('test.csv')
 
     for i, row in dailyDataFinal.iterrows():
