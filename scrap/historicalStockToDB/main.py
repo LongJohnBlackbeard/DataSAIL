@@ -19,7 +19,7 @@ tickers = pd.read_csv('FinalTickerTable.csv')
 ts = timeseries.TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
 # ts = TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
 
-arr = tickers['Tickers'].to_numpy()
+arr = tickers['Ticker'].to_numpy()
 counter = 0
 
 for ticker in arr:
