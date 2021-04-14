@@ -12,7 +12,7 @@ import numpy as np
 import sys
 import mysql.connector
 
-cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', datebase='DataSAIL')
+cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
 myCursor = cnx.cursor()
 
 tickers = pd.read_csv('tickertable.csv')
