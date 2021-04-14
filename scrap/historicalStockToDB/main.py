@@ -61,6 +61,7 @@ for ticker in arr:
         if len(values_list) == 6:
             values_list.append(ticker)
             print("Add Ticker Row: ", values_list)
+            print(tuple(values_list))
             myCursor.execute(sql, tuple(values_list))
         else:
             addedValues = [0, 0, 0, 0, 0, ticker]
