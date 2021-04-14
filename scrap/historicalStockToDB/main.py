@@ -13,7 +13,7 @@ import sys
 import mysql.connector
 
 cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', datebase='DataSAIL')
-cursor = cnx.cursor()
+myCursor = cnx.cursor()
 
 tickers = pd.read_csv('tickertable.csv')
 ts = timeseries.TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
@@ -61,12 +61,12 @@ for ticker in arr:
         if len(values_list) == 6:
             values_list.append(ticker)
             print("Add Ticker Row: ", values_list)
-            cursor.execute(sql, tuple(values_list))
+            myCursor.execute(sql, tuple(values_list))
         else:
             addedValues = [0, 0, 0, 0, 0, ticker]
             values_list.append(addedValues)
             print("Null row: ", values_list)
-            cursor.execute(sql, tuple(values_list))
+            myCursor.execute(sql, tuple(values_list))
 
         cnx.commit()
 
