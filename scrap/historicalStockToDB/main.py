@@ -25,7 +25,7 @@ fullArr = fullTickers['Ticker'].to_numpy()
 
 arr = []
 for ticker in fullArr:
-    if (ticker not in semiArr) and ("." not in ticker):
+    if (ticker not in semiArr) and ([".", "-"] not in ticker):
         arr.append(ticker)
 counter = 0
 
