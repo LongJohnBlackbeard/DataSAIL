@@ -2,8 +2,8 @@ import pandas as pd
 import requests
 from pandas import DataFrame
 
-df = pd.read_csv("tickers.csv")
-ticker_list = df['DDD'].to_list()
+df = pd.read_csv("newTickerList.csv")
+ticker_list = df['Symbol'].to_list()
 
 
 ticker_list_with_sign = []
@@ -33,7 +33,7 @@ f.write(ticker_list_with_sign)
 f.close()
 
 # df = pd.DataFrame({'Ticker': ticker_list, '$Ticker': ticker_list_with_sign, 'Company Name': ticker_name})
-# df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\tickertable.csv', index=False)
+df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\FinaltickerTable.csv', index=False)
 
 
 

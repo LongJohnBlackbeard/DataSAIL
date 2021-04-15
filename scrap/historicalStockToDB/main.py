@@ -16,10 +16,17 @@ cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhos
 myCursor = cnx.cursor()
 
 tickers = pd.read_csv('FinalTickerTable.csv')
+fullTickers = pd.read_csv('newTickerList.csv')
 ts = timeseries.TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
 # ts = TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
 
-arr = tickers['Ticker'].to_numpy()
+semiArr = tickers['Ticker'].to_numpy()
+fullArr = fullTickers['Ticker'].to_numpy()
+
+arr = []
+for ticker in fullArr:
+    if ticker not in semiArr:
+        arr.append(ticker)
 counter = 0
 
 for ticker in arr:
