@@ -1065,3 +1065,9 @@ Traceback (most recent call last):
   File "/mnt/optane/dtujo/Trawler/scrap/historicalStockToDB/alpha_vantage/alpha_vantage/alphavantage.py", line 359, in _handle_api_call
     raise ValueError(json_response["Error Message"])
 ValueError: Invalid API call. Please retry or visit the documentation (https://www.alphavantage.co/documentation/) for TIME_SERIES_DAILY.
+AAC
+AAI-B
+Exception Occured: 
+<class 'ValueError'>
+('Invalid API call. Please retry or visit the documentation (https://www.alphavantage.co/documentation/) for TIME_SERIES_DAILY.',)
+Invalid API call. Please retry or visit the documentation (https://www.alphavantage.co/documentation/) for TIME_SERIES_DAILY.
