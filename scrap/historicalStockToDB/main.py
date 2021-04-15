@@ -17,16 +17,31 @@ myCursor = cnx.cursor()
 
 tickers = pd.read_csv('FinalTickerTable2.csv')
 fullTickers = pd.read_csv('newTickerList.csv')
+nasdaq = pd.read_csv('nasdaqlist.csv')
 ts = timeseries.TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
 # ts = TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
 
 semiArr = tickers['Ticker'].to_numpy()
 fullArr = fullTickers['Ticker'].to_numpy()
+nasdaqtick = nasdaq['Ticker'].to_numpy()
 
 arr = []
+
+for ticker in semiArr:
+    arr.append(ticker)
+
 for ticker in fullArr:
-    if (ticker not in semiArr) and ("." not in ticker) and ("-" not in ticker):
+    if ticker not in arr:
         arr.append(ticker)
+
+for ticker in nasdaqtick:
+    if ticker not in arr:
+        arr.append(ticker)
+
+
+for ticker in arr:
+    if ("." in ticker) or ("-" in ticker):
+        arr.remove(ticker)
 counter = 0
 
 try:
