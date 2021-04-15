@@ -15,7 +15,7 @@ import mysql.connector
 cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
 myCursor = cnx.cursor()
 
-tickers = pd.read_csv('FinalTickerTable.csv')
+tickers = pd.read_csv('FinalTickerTable2.csv')
 fullTickers = pd.read_csv('newTickerList.csv')
 ts = timeseries.TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
 # ts = TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
