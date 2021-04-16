@@ -21,18 +21,18 @@ nasdaq = pd.read_csv('nasdaqlist.csv')
 ts = timeseries.TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
 # ts = TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
 
-semiArr = tickers['Ticker'].to_numpy()
-fullArr = fullTickers['Ticker'].to_numpy()
+# semiArr = tickers['Ticker'].to_numpy()
+# fullArr = fullTickers['Ticker'].to_numpy()
 nasdaqtick = nasdaq['Ticker'].to_numpy()
 
 arr = []
 
-for ticker in semiArr:
-    arr.append(ticker)
-
-for ticker in fullArr:
-    if ticker not in arr:
-        arr.append(ticker)
+# for ticker in semiArr:
+#     arr.append(ticker)
+#
+# for ticker in fullArr:
+#     if ticker not in arr:
+#         arr.append(ticker)
 
 for ticker in nasdaqtick:
     if ticker not in arr:
