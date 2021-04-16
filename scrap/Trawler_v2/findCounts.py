@@ -55,7 +55,7 @@ def count_tickers(tagged_corpus, tickers):
             # if the ticker matches the token value, count it
             if ticker.lower() == pos_token[0].lower():
                 occurrences = occurrences + 1
-                result[ticker] = occurrences
+    result[ticker] = occurrences
     return result
 
 
