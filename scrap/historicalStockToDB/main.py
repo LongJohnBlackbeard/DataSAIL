@@ -17,7 +17,7 @@ myCursor = cnx.cursor()
 
 tickers = pd.read_csv('FinalTickerTable2.csv')
 fullTickers = pd.read_csv('newTickerList.csv')
-nasdaq = pd.read_csv('nasdaqlist.csv')
+nasdaq = pd.read_csv('nasdaqlistFinish.csv')
 ts = timeseries.TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
 # ts = TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
 

@@ -17,9 +17,7 @@ result = findCounts.filter_pos_tokens(result, findCounts.target_pos_tags)
 
 result = findCounts.count_tickers(result, findCounts.tickers)
 
-resultDF = pd.DataFrame(columns=['Ticker', 'occurrences'])
+resultDF = pd.DataFrame(result)
+print(result)
 
-for ticker in result:
-    resultDF = resultDF.append({'Ticker': ticker, 'occurrences': result[ticker]}, ignore_index=True)
-
-resultDF.to_csv(r'testing.csv')
+resultDF.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\testing.csv', index=False)
