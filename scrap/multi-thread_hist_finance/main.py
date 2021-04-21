@@ -30,6 +30,7 @@ for tick in arr:
 
 
 def data_grab_send(ticker):
+    print("Starting %s" % ticker)
     tic = time.perf_counter()
     # grabs data from alpha-vantage
     daily_data, meta_data = ts.get_daily(symbol=ticker, outputsize='full')
