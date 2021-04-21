@@ -5,6 +5,7 @@ import requests
 from alpha_vantage.alpha_vantage import timeseries
 import pandas as pd
 import mysql.connector
+import multiprocessing as mp
 
 # mysql connection
 cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
@@ -77,14 +78,23 @@ def data_grab_send(ticker):
     return done
 
 
-with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
-    futures = []
-    for stock in arr:
-        futures.append((executor.submit(data_grab_send(stock))))
-    for future in concurrent.futures.as_completed(futures):
-        try:
-            print(future.result())
-        except Exception as exc:
-            print(exc)
+# multi-threading
+# with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+#     futures = []
+#     for stock in arr:
+#         futures.append((executor.submit(data_grab_send(stock))))
+#     for future in concurrent.futures.as_completed(futures):
+#         try:
+#             print(future.result())
+#         except Exception as exc:
+#             print(exc)
 
+# multi-processing
+pool = mp.Pool(10)
 
+for stock in arr:
+    pool.apply_async(data_grab_send(stock))
+pool.close()
+pool.join()
+
+cnx.close()
