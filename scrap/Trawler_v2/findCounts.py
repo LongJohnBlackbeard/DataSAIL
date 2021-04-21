@@ -8,7 +8,7 @@ nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 
 # constants for tickertable.csv
-TICKER_FILENAME = "newTickerList.csv"
+TICKER_FILENAME = "nasdaqlist.csv"
 COMPANY_NAME_HEADER = "Company Name"
 TICKER_NAME_HEADER = "Ticker"
 
@@ -55,7 +55,7 @@ def count_tickers(tagged_corpus, tickers):
             # if the ticker matches the token value, count it
             if ticker.lower() == pos_token[0].lower():
                 occurrences = occurrences + 1
-    result[ticker] = occurrences
+                result[ticker] = occurrences
     return result
 
 
