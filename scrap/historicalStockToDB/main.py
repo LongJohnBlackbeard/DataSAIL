@@ -73,7 +73,7 @@ try:
         row_count = len(dailyDataFinal.index)
 
         for i in range(0, row_count):
-            sql = "INSERT INTO testingTrawler (date, open, high, low, close, volume, stock) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            sql = "INSERT INTO Trawler (date, open, high, low, close, volume, stock) VALUES (%s, %s, %s, %s, %s, %s, %s)"
             if pd.isnull(dailyDataFinal.loc[i]['5. volume']):
                 values_list = [str(dailyDataFinal.loc[i]['date']), 0, 0, 0, 0, 0]
             else:
