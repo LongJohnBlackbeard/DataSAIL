@@ -45,6 +45,7 @@ counter = 0
 
 try:
     for ticker in arr:
+        tic = time.perf_counter()
         print(ticker)
 
         daily_data, meta_data = ts.get_daily(symbol=ticker, outputsize='full')
@@ -93,6 +94,8 @@ try:
                 myCursor.execute(sql, tuple(values_list))
 
             cnx.commit()
+        toc = time.perf_counter()
+        print("%s finished in %0.4f seconds" % (ticker, (toc - tic)))
 except Exception as inst:
     print("Exception Occured: ")
     print(type(inst))
