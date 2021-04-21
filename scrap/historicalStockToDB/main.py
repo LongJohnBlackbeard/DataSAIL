@@ -15,7 +15,7 @@ import mysql.connector
 cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
 myCursor = cnx.cursor()
 
-nasdaq = pd.read_csv('nasdaqlist.csv')
+nasdaq = pd.read_csv('nasdaqlistFinish.csv')
 ts = timeseries.TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
 # ts = TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
 

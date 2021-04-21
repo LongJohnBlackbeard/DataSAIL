@@ -4,6 +4,7 @@ import findCounts
 import grabPosts
 import redditInstance
 import pandas as pd
+import mysql.connector
 
 auth = redditInstance.initiate_instance()
 
@@ -25,4 +26,17 @@ resultDF = pd.DataFrame(list(result.items()), columns= ['Ticker', 'Count'])
 
 print(result)
 
-resultDF.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\testing.csv', index=False)
+# resultDF.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\testing.csv', index=False)
+
+cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
+myCursor = cnx.cursor()
+
+row_count = len(result.index)
+
+for i in range(0, row_count):
+    sql = "Update Trawler SET count = %s WHERE date = %s AND stock = %s"
+    val = (int(result.loc[i]['Count']), dataDF[1]['Timestamp'], str(result.loc[i]['Ticker']))
+    myCursor.execute(sql, val)
+    cnx.commit()
+
+cnx.close()
