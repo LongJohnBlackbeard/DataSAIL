@@ -1,4 +1,5 @@
 import concurrent.futures
+import multiprocessing
 from datetime import datetime
 import time
 import requests
@@ -91,11 +92,14 @@ def data_grab_send(ticker):
 #             print(exc)
 
 # multi-processing
-pool = mp.Pool(10)
+pool = mp.Pool(25)
 
+
+if __name__ == "__main__":
+    print("There are %d CPU's on this machine" % multiprocessing.cpu_count())
 for stock in arr:
     pool.apply_async(data_grab_send(stock))
-pool.close()
-pool.join()
+    pool.close()
+    pool.join()
 
 cnx.close()
