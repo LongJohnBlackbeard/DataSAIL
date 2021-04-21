@@ -100,7 +100,7 @@ if __name__ == "__main__":
 for stock in arr:
     pool.apply_async(data_grab_send(stock))
 
-    pool.close()
-    pool.join()
+pool.close()
+pool.join()
 
 cnx.close()
