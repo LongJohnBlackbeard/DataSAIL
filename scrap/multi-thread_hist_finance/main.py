@@ -83,7 +83,7 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
     for future in concurrent.futures.as_completed(futures):
         try:
             print(future.result())
-        except requests.RequestException:
-            print()
+        except Exception as exc:
+            print(exc)
 
 
