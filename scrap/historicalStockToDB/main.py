@@ -15,7 +15,6 @@ import mysql.connector
 cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
 myCursor = cnx.cursor()
 
-
 nasdaq = pd.read_csv('nasdaqlist.csv')
 ts = timeseries.TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
 # ts = TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
@@ -36,7 +35,6 @@ arr = []
 for ticker in nasdaqtick:
     if ticker not in arr:
         arr.append(ticker)
-
 
 for ticker in arr:
     if ("." in ticker) or ("-" in ticker):
@@ -96,7 +94,7 @@ try:
             cnx.commit()
         toc = time.perf_counter()
         print("%s finished in %0.4f seconds" % (ticker, (toc - tic)))
-except Exception as inst:
+except ValueError as inst:
     print("Exception Occured: ")
     print(type(inst))
     print(inst.args)
