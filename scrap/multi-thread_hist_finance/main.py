@@ -73,6 +73,7 @@ def data_grab_send(ticker):
         cnx.commit()
     toc = time.perf_counter()
     done = ("%s finished in %0.4f seconds" % (ticker, (toc - tic)))
+    print(done)
     return done
 
 
