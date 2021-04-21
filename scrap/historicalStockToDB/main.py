@@ -44,7 +44,7 @@ counter = 0
 try:
     for ticker in arr:
         tic = time.perf_counter()
-        print(ticker)
+        print(ticker, flush=True)
 
         daily_data, meta_data = ts.get_daily(symbol=ticker, outputsize='full')
 
@@ -93,7 +93,7 @@ try:
 
             cnx.commit()
         toc = time.perf_counter()
-        print("%s finished in %0.4f seconds" % (ticker, (toc - tic)))
+        print("%s finished in %0.4f seconds" % (ticker, (toc - tic)), flush=True)
 except ValueError as inst:
     print("Exception Occured: ")
     print(type(inst))
