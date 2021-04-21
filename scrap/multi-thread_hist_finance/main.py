@@ -29,6 +29,7 @@ for tick in arr:
 
 
 def data_grab_send(ticker):
+    tic = time.perf_counter()
     # grabs data from alpha-vantage
     daily_data, meta_data = ts.get_daily(symbol=ticker, outputsize='full')
     # reset index of the pd
@@ -70,6 +71,9 @@ def data_grab_send(ticker):
             myCursor.execute(sql, tuple(values_list))
 
         cnx.commit()
+    toc = time.perf_counter()
+    done = ("%s finished in %0.4f seconds" % (ticker, (toc - tic)))
+    return done
 
 
 with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
@@ -77,6 +81,9 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
     for stock in arr:
         futures.append((executor.submit(data_grab_send(stock))))
     for future in concurrent.futures.as_completed(futures):
-        print(stock, " complete")
+        try:
+            print(future.result())
+        except requests.RequestException:
+            print()
 
 
