@@ -99,7 +99,8 @@ if __name__ == "__main__":
     print("There are %d CPU's on this machine" % multiprocessing.cpu_count())
 for stock in arr:
     pool.apply_async(data_grab_send(stock))
-pool.close()
-pool.join()
+
+    pool.close()
+    pool.join()
 
 cnx.close()
