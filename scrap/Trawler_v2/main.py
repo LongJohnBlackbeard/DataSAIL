@@ -23,20 +23,20 @@ result = findCounts.count_tickers(result, findCounts.tickers)
 print(type(result))
 
 print(result)
-resultDF = pd.DataFrame(list(result.items()), columns= ['Ticker', 'Count'])
+resultDF = pd.DataFrame(list(result.items()), columns=['Ticker', 'Count'])
 
-print(result)
+print(resultDF)
 
 # resultDF.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\testing.csv', index=False)
 
 cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
 myCursor = cnx.cursor()
 
-row_count = len(result)
+row_count = len(resultDF.index)
 
 for i in range(0, row_count):
     sql = "Update testingTrawler SET count = %s WHERE date = %s AND stock = %s"
-    val = (int(result.loc[i]['Count']), dataDF[1]['Timestamp'], str(result.loc[i]['Ticker']))
+    val = (int(resultDF.loc[i]['Count']), dataDF[1]['Timestamp'], str(resultDF.loc[i]['Ticker']))
     myCursor.execute(sql, val)
     cnx.commit()
 
