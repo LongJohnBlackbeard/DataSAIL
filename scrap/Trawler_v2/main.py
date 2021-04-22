@@ -17,18 +17,18 @@ directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
 print("CONNECTING TO DB", flush=True)
 cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
 myCursor = cnx.cursor()
-print("COMPLETED", flush=True)
+# print("COMPLETED", flush=True)
 
 for filename in os.listdir(directory):
     if filename.endswith(".csv"):
 
         print("READING CSV FILE: %s" % filename, flush=True)
         dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % filename)
-        print("COMPLETED", flush=True)
+        # print("COMPLETED", flush=True)
 
         print("CONCATENATING POSTS AND COMMENTS", flush=True)
         data = ''.join(dataDF['Post/Comment'])
-        print("COMPLETED", flush=True)
+        # print("COMPLETED", flush=True)
 
         print("RUNNING FIND COUNTS", flush=True)
         result = findCounts.process_bodies(data)
@@ -37,18 +37,18 @@ for filename in os.listdir(directory):
 
         result = findCounts.count_tickers(result, findCounts.tickers)
 
-        print("COMPLETED", flush=True)
+        # print("COMPLETED", flush=True)
 
         print("TRANSFERRING TICKER COUNTS TO DATAFRAME", flush=True)
         resultDF = pd.DataFrame(list(result.items()), columns=['Ticker', 'Count'])
-        print("COMPLETED", flush=True)
+        # print("COMPLETED", flush=True)
 
         # resultDF.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\testing.csv', index=False)
 
         print("CONNECTING TO DB", flush=True)
         cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
         myCursor = cnx.cursor()
-        print("COMPLETED", flush=True)
+        # print("COMPLETED", flush=True)
 
         row_count = len(resultDF.index)
 
@@ -63,18 +63,18 @@ for filename in os.listdir(directory):
             date_slice = dateList[1]
             date_slice = date_slice[0:10]
             dateFix = datetime.strptime(date_slice, "%Y-%m-%d")
-        print("COMPLETED", flush=True)
+        # print("COMPLETED", flush=True)
 
         for i in range(0, row_count):
             sql1 = "SELECT mentions FROM testingTrawler WHERE date = %s AND stock = %s"
             val1 = (dateFix, tickerList[i])
             myCursor.execute(sql1, val1)
             dbMentionCount = myCursor.fetchone()
-            print(tickerList[i])
-            print(dbMentionCount)
+            # print(tickerList[i])
+            # print(dbMentionCount)
 
             try:
-                print("count(%d) + dbcount(%d)" % (countList[i], dbMentionCount[0]))
+                # print("count(%d) + dbcount(%d)" % (countList[i], dbMentionCount[0]))
                 newCount = countList[i] + dbMentionCount[0]
             except Exception:
                 continue
