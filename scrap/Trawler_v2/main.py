@@ -34,9 +34,12 @@ myCursor = cnx.cursor()
 
 row_count = len(resultDF.index)
 
+tickerList = resultDF['Ticker'].tolist()
+countList = resultDF['Count'].tolist()
+
 for i in range(0, row_count):
     sql = "Update testingTrawler SET count = %s WHERE date = %s AND stock = %s"
-    val = (int(resultDF.loc[i]['Count']), dataDF[1]['Timestamp'], str(resultDF.loc[i]['Ticker']))
+    val = (countList[i], dataDF[1]['Timestamp'], tickerList[i])
     myCursor.execute(sql, val)
     cnx.commit()
 
