@@ -54,6 +54,8 @@ for i in range(0, row_count):
     val1 = (dateFix, tickerList[i])
     myCursor.execute(sql1, val1)
     dbMentionCount = myCursor.fetchall()
+    print(dbMentionCount)
+    print(type(dbMentionCount))
     newCount = countList[i] + dbMentionCount
     sql = "Update testingTrawler SET mentions = %s WHERE date = %s AND stock = %s"
     val = (newCount, dateFix, tickerList[i])
