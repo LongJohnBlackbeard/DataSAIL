@@ -50,8 +50,13 @@ dateFix = datetime.strptime(dateList[1], "%m/%d/%Y")
 print("COMPLETED")
 
 for i in range(0, row_count):
+    sql1 = "SELECT mentions FROM testingTrawler WHERE date = %s AND stock = %s"
+    val1 = (dateFix, tickerList[i])
+    myCursor.execute(sql1, val1)
+    dbMentionCount = myCursor.fetchall()
+    newCount = countList[i] + dbMentionCount
     sql = "Update testingTrawler SET mentions = %s WHERE date = %s AND stock = %s"
-    val = (countList[i], dateFix, tickerList[i])
+    val = (newCount, dateFix, tickerList[i])
     myCursor.execute(sql, val)
     cnx.commit()
     print("ROW UPDATED # %d" % i)
