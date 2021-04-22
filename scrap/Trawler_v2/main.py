@@ -56,7 +56,13 @@ for filename in os.listdir(directory):
         tickerList = resultDF['Ticker'].tolist()
         countList = resultDF['Count'].tolist()
         dateList = dataDF['Timestamp'].tolist()
-        dateFix = datetime.strptime(dateList[1], "%m/%d/%Y")
+
+        if len(dateList[1]) == 10:
+            dateFix = datetime.strptime(dateList[1], "%m/%d/%Y")
+        else:
+            date_slice = dateList[1]
+            date_slice = date_slice[0:10]
+            dateFix = datetime.strptime(date_slice, "%Y-%m-%d")
         print("COMPLETED")
 
         for i in range(0, row_count):
