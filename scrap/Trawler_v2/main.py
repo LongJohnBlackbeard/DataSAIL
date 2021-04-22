@@ -53,10 +53,10 @@ for i in range(0, row_count):
     sql1 = "SELECT mentions FROM testingTrawler WHERE date = %s AND stock = %s"
     val1 = (dateFix, tickerList[i])
     myCursor.execute(sql1, val1)
-    dbMentionCount = myCursor.fetchall()
+    dbMentionCount = myCursor.fetchone()
     print(dbMentionCount)
     print(type(dbMentionCount))
-    newCount = countList[i] + dbMentionCount
+    newCount = countList[i] + dbMentionCount[0]
     sql = "Update testingTrawler SET mentions = %s WHERE date = %s AND stock = %s"
     val = (newCount, dateFix, tickerList[i])
     myCursor.execute(sql, val)
