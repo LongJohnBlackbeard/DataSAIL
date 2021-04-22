@@ -9,7 +9,7 @@ import mysql.connector
 # auth = redditInstance.initiate_instance()
 #
 # dataDF = grabPosts.post_and_timestamps(auth, grabPosts.reddit_input_lists)
-dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/stocks_03-13-2021.csv')
+dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/Stocks_03-13-2021.csv')
 
 data = ''.join(dataDF['Post/Comment'])
 print(data)
