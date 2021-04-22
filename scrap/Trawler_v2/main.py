@@ -6,9 +6,10 @@ import redditInstance
 import pandas as pd
 import mysql.connector
 
-auth = redditInstance.initiate_instance()
-
-dataDF = grabPosts.post_and_timestamps(auth, grabPosts.reddit_input_lists)
+# auth = redditInstance.initiate_instance()
+#
+# dataDF = grabPosts.post_and_timestamps(auth, grabPosts.reddit_input_lists)
+dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/stocks_03-13-2021.csv')
 
 data = ''.join(dataDF['Post/Comment'])
 print(data)
@@ -34,7 +35,7 @@ myCursor = cnx.cursor()
 row_count = len(result.index)
 
 for i in range(0, row_count):
-    sql = "Update Trawler SET count = %s WHERE date = %s AND stock = %s"
+    sql = "Update testingTrawler SET count = %s WHERE date = %s AND stock = %s"
     val = (int(result.loc[i]['Count']), dataDF[1]['Timestamp'], str(result.loc[i]['Ticker']))
     myCursor.execute(sql, val)
     cnx.commit()
