@@ -57,10 +57,10 @@ for i in range(0, row_count):
     print(tickerList[i])
     print(dbMentionCount)
 
-    if type(dbMentionCount[0]) == int:
+    try:
         print("count(%d) + dbcount(%d)" % (countList[i], dbMentionCount[0]))
         newCount = countList[i] + dbMentionCount[0]
-    else:
+    except Exception:
         continue
     sql = "Update testingTrawler SET mentions = %s WHERE date = %s AND stock = %s"
     val = (newCount, dateFix, tickerList[i])
