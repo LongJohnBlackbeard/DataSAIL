@@ -55,8 +55,10 @@ for i in range(0, row_count):
     myCursor.execute(sql1, val1)
     dbMentionCount = myCursor.fetchone()
     print(dbMentionCount)
+    print(dbMentionCount[0])
     print(type(dbMentionCount[0]))
     if type(dbMentionCount[0]) == int:
+        print("count(%d) + dbcount(%d)" % (countList[i], dbMentionCount[0]))
         newCount = countList[i] + dbMentionCount[0]
     else:
         newCount = countList[i]
