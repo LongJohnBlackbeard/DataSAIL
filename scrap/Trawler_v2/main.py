@@ -82,7 +82,7 @@ for filename in os.listdir(directory):
             val = (newCount, dateFix, tickerList[i])
             myCursor.execute(sql, val)
             cnx.commit()
-            print("ROW UPDATED # %d" % i)
+            # print("ROW UPDATED # %d" % i)
 
         print("%s Completed*****" % filename, flush=True)
 
