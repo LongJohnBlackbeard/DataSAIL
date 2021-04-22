@@ -10,8 +10,10 @@ from datetime import datetime
 # auth = redditInstance.initiate_instance()
 #
 # dataDF = grabPosts.post_and_timestamps(auth, grabPosts.reddit_input_lists)
+fileName = input("Enter file name: ")
+
 print("READING CSV FILE")
-dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/Stocks_03-13-2021.csv')
+dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % fileName)
 print("COMPLETED")
 
 print("CONCATENATING POSTS AND COMMENTS")
