@@ -32,7 +32,7 @@ print(result)
 cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
 myCursor = cnx.cursor()
 
-row_count = len(result.index)
+row_count = len(result)
 
 for i in range(0, row_count):
     sql = "Update testingTrawler SET count = %s WHERE date = %s AND stock = %s"
