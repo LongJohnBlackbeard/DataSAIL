@@ -24,6 +24,8 @@ reddit_input_lists = ["wallstreetbets", "stocks"]
 
 # Main method that grabs posts/comments and date
 def post_and_timestamps(reddit, subreddit_list):
+    cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
+    myCursor = cnx.cursor()
     # Creates a new and empty dataframe
     df = pd.DataFrame(columns=['Timestamp', 'Subreddit', 'Post/Comment'])
 
@@ -60,6 +62,15 @@ def post_and_timestamps(reddit, subreddit_list):
                 # creates variable for timestamp of post creation
                 dateTest = datetime.utcfromtimestamp(post.created).strftime('%Y-%m-%d')
                 date_time_obj = datetime.strptime(dateTest, "%Y-%m-%d")
+
+                sql_line = "INSERT INTO dailyRedditData (date, source, content) VALUES (%s, %s, %s)"
+                values = (date_time_obj, subreddit, body_title)
+
+                try:
+                    myCursor.execute(sql_line, values)
+                    cnx.commit()
+                except:
+                    cnx.rollback()
 
                 df = df.append({'Timestamp': date_time_obj, 'Subreddit': subreddit, 'Post/Comment': body_title},
                                ignore_index=True)
@@ -104,6 +115,15 @@ def post_and_timestamps(reddit, subreddit_list):
                     # print("---------------------------------------------")
                     date_comment = comment.created_utc
                     date_time_obj = datetime.fromtimestamp(date_comment)
+
+                    sql_line = "INSERT INTO dailyRedditData (DATE, SOURCE, CONTENT) VALUES (%s, %s, %s)"
+                    values = (date_time_obj, subreddit, comment.body)
+
+                    try:
+                        myCursor.execute(sql_line, values)
+                        cnx.commit()
+                    except:
+                        cnx.rollback()
 
                     df = df.append({'Timestamp': date_time_obj, 'Subreddit': subreddit, 'Post/Comment': comment.body},
                                    ignore_index=True)

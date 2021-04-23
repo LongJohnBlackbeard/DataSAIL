@@ -48,7 +48,7 @@ def runCountFinder(dataDF):
 
     # print("TRANSFERRING TICKER COUNTS TO DATAFRAME", flush=True)
     resultDF = pd.DataFrame(list(result.items()), columns=['Ticker', 'Count'])
-    print(file, "\n", resultDF, )
+    print("todays file ", "\n", resultDF, )
     # print("COMPLETED", flush=True)
 
     # resultDF.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\testing.csv', index=False)
