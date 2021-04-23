@@ -12,9 +12,9 @@ import mysql.connector
 from datetime import datetime
 import joblib
 
-# auth = redditInstance.initiate_instance()
-#
-# dataDF = grabPosts.post_and_timestamps(auth, grabPosts.reddit_input_lists)
+auth = redditInstance.initiate_instance()
+
+postDF = grabPosts.post_and_timestamps(auth, grabPosts.reddit_input_lists)
 # fileName = input("Enter file name: ")
 directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
 
@@ -24,13 +24,13 @@ print("CONNECTING TO DB", flush=True)
 # print("COMPLETED", flush=True)
 
 
-def runCountFinder(file):
+def runCountFinder(dataDF):
     tic = time.perf_counter()
     cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
     myCursor = cnx.cursor()
 
-    print("READING CSV FILE: %s" % file, flush=True)
-    dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % file)
+    # print("READING CSV FILE: %s" % file, flush=True)
+    # dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % file)
     # print("COMPLETED", flush=True)
 
     # print("CONCATENATING POSTS AND COMMENTS", flush=True)
@@ -69,7 +69,7 @@ def runCountFinder(file):
     # print("COMPLETED", flush=True)
 
     for i in range(0, row_count):
-        sql1 = "SELECT mentions FROM testingTrawler WHERE date = %s AND stock = %s"
+        sql1 = "SELECT mentions FROM testingTrawler2 WHERE date = %s AND stock = %s"
         val1 = (dateFix, tickerList[i])
         myCursor.execute(sql1, val1)
         dbMentionCount = myCursor.fetchone()
@@ -81,7 +81,7 @@ def runCountFinder(file):
             newCount = countList[i] + dbMentionCount[0]
         except Exception:
             continue
-        sql = "Update testingTrawler SET mentions = %s WHERE date = %s AND stock = %s"
+        sql = "Update testingTrawler2 SET mentions = %s WHERE date = %s AND stock = %s"
         val = (newCount, dateFix, tickerList[i])
         myCursor.execute(sql, val)
         cnx.commit()
@@ -89,13 +89,18 @@ def runCountFinder(file):
 
     cnx.close()
     toc = time.perf_counter()
-    print("%s Completed***** in %0.4f seconds" % (file, (toc - tic)), flush=True)
+    print("%s Completed***** in %0.4f seconds" % ("Yesterdays data", (toc - tic)), flush=True)
 
 
-fileList = []
-for filename in os.listdir(directory):
-    if filename.endswith(".csv"):
-        fileList.append(filename)
+# CSV PORTION #################
+# fileList = []
+# for filename in os.listdir(directory):
+#     if filename.endswith(".csv"):
+#         fileList.append(filename)
 
-with Parallel(n_jobs=-1) as parallel:
-    print(parallel([delayed(runCountFinder)(i) for i in fileList]))
+# with Parallel(n_jobs=-1) as parallel:
+#     print(parallel([delayed(runCountFinder)(i) for i in fileList]))
+# #################################################################
+
+# daily portion #######################
+runCountFinder(postDF)
