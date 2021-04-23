@@ -92,7 +92,7 @@ for filename in os.listdir(directory):
     if filename.endswith(".csv"):
         fileList.append(filename)
 
-with Parallel(n_jobs=-1) as parallel:
+with Parallel(n_jobs=10) as parallel:
     print(parallel([delayed(runCountFinder)(i) for i in fileList]))
 
 cnx.close()
