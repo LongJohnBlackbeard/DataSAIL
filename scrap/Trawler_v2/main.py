@@ -1,5 +1,6 @@
 import csv
 import os
+import time
 
 from joblib import Parallel, delayed
 
@@ -20,11 +21,11 @@ directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
 print("CONNECTING TO DB", flush=True)
 
 
-
 # print("COMPLETED", flush=True)
 
 
 def runCountFinder(file):
+    tic = time.perf_counter()
     cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
     myCursor = cnx.cursor()
 
@@ -32,11 +33,11 @@ def runCountFinder(file):
     dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % file)
     # print("COMPLETED", flush=True)
 
-    print("CONCATENATING POSTS AND COMMENTS", flush=True)
+    # print("CONCATENATING POSTS AND COMMENTS", flush=True)
     data = ''.join(map(str, dataDF['Post/Comment']))
     # print("COMPLETED", flush=True)
 
-    print("RUNNING FIND COUNTS", flush=True)
+    # print("RUNNING FIND COUNTS", flush=True)
     result = findCounts.process_bodies(data)
 
     result = findCounts.filter_pos_tokens(result, findCounts.target_pos_tags)
@@ -45,16 +46,16 @@ def runCountFinder(file):
 
     # print("COMPLETED", flush=True)
 
-    print("TRANSFERRING TICKER COUNTS TO DATAFRAME", flush=True)
+    # print("TRANSFERRING TICKER COUNTS TO DATAFRAME", flush=True)
     resultDF = pd.DataFrame(list(result.items()), columns=['Ticker', 'Count'])
-    print(resultDF)
+    print(file, "\n", resultDF, )
     # print("COMPLETED", flush=True)
 
     # resultDF.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\testing.csv', index=False)
 
     row_count = len(resultDF.index)
 
-    print("SAVING VALUES TO LISTS", flush=True)
+    # print("SAVING VALUES TO LISTS", flush=True)
     tickerList = resultDF['Ticker'].tolist()
     countList = resultDF['Count'].tolist()
     dateList = dataDF['Timestamp'].tolist()
@@ -86,9 +87,9 @@ def runCountFinder(file):
         cnx.commit()
         # print("ROW UPDATED # %d" % i)
 
-    print("%s Completed*****" % file, flush=True)
-
     cnx.close()
+    toc = time.perf_counter()
+    print("%s Completed***** in %0.4f seconds" % (file, (toc - tic)), flush=True)
 
 
 fileList = []
@@ -98,5 +99,3 @@ for filename in os.listdir(directory):
 
 with Parallel(n_jobs=10) as parallel:
     print(parallel([delayed(runCountFinder)(i) for i in fileList]))
-
-
