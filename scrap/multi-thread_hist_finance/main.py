@@ -3,14 +3,20 @@ import multiprocessing
 from datetime import datetime
 import time
 import requests
-from alpha_vantage.alpha_vantage import timeseries
+# from alpha_vantage.alpha_vantage import timeseries
+from joblib import Parallel, delayed
+
+from alpha_vantage import timeseries
 import pandas as pd
 import mysql.connector
 import multiprocessing as mp
 
+import joblib
+import sys
+
 # mysql connection
-cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
-myCursor = cnx.cursor()
+# cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
+# myCursor = cnx.cursor()
 
 # import list of tickers
 nasdaq = pd.read_csv('nasdaqlist.csv')
@@ -21,18 +27,24 @@ nasdaqTick = nasdaq['Ticker'].to_numpy()
 
 arr = []
 # Screens tickers for invalid characters
+counter = 1
 for tick in nasdaqTick:
+    counter += 1
+    if counter == 100:
+        break
     if tick not in arr:
         arr.append(tick)
 
+
 for tick in arr:
+
     if ("." in tick) or ("-" in tick):
         arr.remove(tick)
 
 
 def data_grab_send(ticker):
     print("Starting %s" % ticker)
-    tic = time.perf_counter()
+    tic1 = time.perf_counter()
     # grabs data from alpha-vantage
     daily_data, meta_data = ts.get_daily(symbol=ticker, outputsize='full')
     # reset index of the pd
@@ -52,32 +64,31 @@ def data_grab_send(ticker):
     row_count = len(dailyDataFinal.index)
 
     # Loop through every date and grabs data and sends to database
-    for i in range(0, row_count):
-        sql = "INSERT INTO Trawler (date, open, high, low, close, volume, stock) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-        if pd.isnull(dailyDataFinal.loc[i]['5. volume']):
-            values_list = [str(dailyDataFinal.loc[i]['date']), 0, 0, 0, 0, 0]
-        else:
-            values_list = [str(dailyDataFinal.loc[i]['date']), dailyDataFinal.loc[i]['1. open'],
-                           dailyDataFinal.loc[i]['2. high'], dailyDataFinal.loc[i]['3. low'],
-                           dailyDataFinal.loc[i]['4. close'], int(dailyDataFinal.loc[i]['5. volume'])]
-        # print(values_list)
+    # for i in range(0, row_count):
+    # sql = "INSERT INTO Trawler (date, open, high, low, close, volume, stock) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+    # if pd.isnull(dailyDataFinal.loc[i]['5. volume']):
+    #     values_list = [str(dailyDataFinal.loc[i]['date']), 0, 0, 0, 0, 0]
+    # else:
+    #     values_list = [str(dailyDataFinal.loc[i]['date']), dailyDataFinal.loc[i]['1. open'],
+    #                    dailyDataFinal.loc[i]['2. high'], dailyDataFinal.loc[i]['3. low'],
+    #                    dailyDataFinal.loc[i]['4. close'], int(dailyDataFinal.loc[i]['5. volume'])]
+    # print(values_list)
 
-        if len(values_list) == 6:
-            values_list.append(ticker)
-            # print("Add Ticker Row: ", values_list)
-            # print(tuple(values_list))
-            myCursor.execute(sql, tuple(values_list))
-        else:
-            addedValues = [0, 0, 0, 0, 0, ticker]
-            values_list.append(addedValues)
-            # print("Null row: ", values_list)
-            myCursor.execute(sql, tuple(values_list))
+    # if len(values_list) == 6:
+    #     values_list.append(ticker)
+    #     # print("Add Ticker Row: ", values_list)
+    #     # print(tuple(values_list))
+    #     myCursor.execute(sql, tuple(values_list))
+    # else:
+    #     addedValues = [0, 0, 0, 0, 0, ticker]
+    #     values_list.append(addedValues)
+    #     # print("Null row: ", values_list)
+    #     myCursor.execute(sql, tuple(values_list))
 
-        cnx.commit()
-    toc = time.perf_counter()
-    done = ("%s finished in %0.4f seconds" % (ticker, (toc - tic)))
+    # cnx.commit()
+    toc1 = time.perf_counter()
+    done = ("%s finished in %0.4f seconds" % (ticker, (toc1 - tic1)))
     print(done)
-    return done
 
 
 # multi-threading
@@ -92,15 +103,33 @@ def data_grab_send(ticker):
 #             print(exc)
 
 # multi-processing
-pool = mp.Pool(25)
+# pool = mp.Pool(25)
+#
+#
+# if __name__ == "__main__":
+#     print("There are %d CPU's on this machine" % multiprocessing.cpu_count())
+# for stock in arr:
+#     pool.apply_async(data_grab_send(stock))
+#
+# pool.close()
+# pool.join()
 
+# joblib
 
-if __name__ == "__main__":
-    print("There are %d CPU's on this machine" % multiprocessing.cpu_count())
-for stock in arr:
-    pool.apply_async(data_grab_send(stock))
+tic = time.perf_counter()
 
-pool.close()
-pool.join()
+with Parallel(n_jobs=-1) as parallel:
+    print(parallel([delayed(data_grab_send)(i) for i in arr]))
 
-cnx.close()
+toc = time.perf_counter()
+print("finished in %0.4f seconds" % (toc - tic))
+
+# regular
+
+# for i in arr:
+#     data_grab_send(i)
+#
+# toc = time.perf_counter()
+# print("finished in %0.4f seconds" % (toc - tic))
+
+# cnx.close()
