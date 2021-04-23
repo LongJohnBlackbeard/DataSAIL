@@ -18,14 +18,16 @@ import joblib
 directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
 
 print("CONNECTING TO DB", flush=True)
-cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
-myCursor = cnx.cursor()
+
 
 
 # print("COMPLETED", flush=True)
 
 
 def runCountFinder(file):
+    cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
+    myCursor = cnx.cursor()
+
     print("READING CSV FILE: %s" % file, flush=True)
     dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % file)
     # print("COMPLETED", flush=True)
@@ -86,6 +88,8 @@ def runCountFinder(file):
 
     print("%s Completed*****" % file, flush=True)
 
+    cnx.close()
+
 
 fileList = []
 for filename in os.listdir(directory):
@@ -95,4 +99,4 @@ for filename in os.listdir(directory):
 with Parallel(n_jobs=10) as parallel:
     print(parallel([delayed(runCountFinder)(i) for i in fileList]))
 
-cnx.close()
+
