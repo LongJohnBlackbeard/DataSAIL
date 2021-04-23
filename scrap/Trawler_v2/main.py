@@ -20,7 +20,7 @@ myCursor = cnx.cursor()
 # print("COMPLETED", flush=True)
 
 for filename in os.listdir(directory):
-    if filename == ("wallstreetbets_03-22-2021.csv"):
+    if filename.endswith(".csv"):
 
         print("READING CSV FILE: %s" % filename, flush=True)
         dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % filename)
@@ -46,8 +46,6 @@ for filename in os.listdir(directory):
 
         # resultDF.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\testing.csv', index=False)
 
-
-
         row_count = len(resultDF.index)
 
         print("SAVING VALUES TO LISTS", flush=True)
@@ -63,25 +61,25 @@ for filename in os.listdir(directory):
             dateFix = datetime.strptime(date_slice, "%Y-%m-%d")
         # print("COMPLETED", flush=True)
 
-        # for i in range(0, row_count):
-        #     sql1 = "SELECT mentions FROM testingTrawler WHERE date = %s AND stock = %s"
-        #     val1 = (dateFix, tickerList[i])
-        #     myCursor.execute(sql1, val1)
-        #     dbMentionCount = myCursor.fetchone()
-        #     # print(tickerList[i])
-        #     # print(dbMentionCount)
-        #
-        #     try:
-        #         # print("count(%d) + dbcount(%d)" % (countList[i], dbMentionCount[0]))
-        #         newCount = countList[i] + dbMentionCount[0]
-        #     except Exception:
-        #         continue
-        #     sql = "Update testingTrawler SET mentions = %s WHERE date = %s AND stock = %s"
-        #     val = (newCount, dateFix, tickerList[i])
-        #     myCursor.execute(sql, val)
-        #     cnx.commit()
-        #     # print("ROW UPDATED # %d" % i)
-        #
-        # print("%s Completed*****" % filename, flush=True)
+        for i in range(0, row_count):
+            sql1 = "SELECT mentions FROM testingTrawler WHERE date = %s AND stock = %s"
+            val1 = (dateFix, tickerList[i])
+            myCursor.execute(sql1, val1)
+            dbMentionCount = myCursor.fetchone()
+            # print(tickerList[i])
+            # print(dbMentionCount)
+
+            try:
+                # print("count(%d) + dbcount(%d)" % (countList[i], dbMentionCount[0]))
+                newCount = countList[i] + dbMentionCount[0]
+            except Exception:
+                continue
+            sql = "Update testingTrawler SET mentions = %s WHERE date = %s AND stock = %s"
+            val = (newCount, dateFix, tickerList[i])
+            myCursor.execute(sql, val)
+            cnx.commit()
+            # print("ROW UPDATED # %d" % i)
+
+        print("%s Completed*****" % filename, flush=True)
 
 cnx.close()
