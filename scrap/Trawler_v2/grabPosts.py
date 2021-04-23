@@ -63,14 +63,14 @@ def post_and_timestamps(reddit, subreddit_list):
                 dateTest = datetime.utcfromtimestamp(post.created).strftime('%Y-%m-%d')
                 date_time_obj = datetime.strptime(dateTest, "%Y-%m-%d")
 
-                sql_line = "INSERT INTO dailyRedditData (date, source, content) VALUES (%s, %s, %s)"
-                values = (date_time_obj, subreddit, body_title)
-
-                try:
-                    myCursor.execute(sql_line, values)
-                    cnx.commit()
-                except:
-                    cnx.rollback()
+                # sql_line = "INSERT INTO dailyRedditData (date, source, content) VALUES (%s, %s, %s)"
+                # values = (date_time_obj, subreddit, body_title)
+                #
+                # try:
+                #     myCursor.execute(sql_line, values)
+                #     cnx.commit()
+                # except:
+                #     cnx.rollback()
 
                 df = df.append({'Timestamp': date_time_obj, 'Subreddit': subreddit, 'Post/Comment': body_title},
                                ignore_index=True)
@@ -116,14 +116,14 @@ def post_and_timestamps(reddit, subreddit_list):
                     date_comment = comment.created_utc
                     date_time_obj = datetime.fromtimestamp(date_comment)
 
-                    sql_line = "INSERT INTO dailyRedditData (DATE, SOURCE, CONTENT) VALUES (%s, %s, %s)"
-                    values = (date_time_obj, subreddit, comment.body)
-
-                    try:
-                        myCursor.execute(sql_line, values)
-                        cnx.commit()
-                    except:
-                        cnx.rollback()
+                    # sql_line = "INSERT INTO dailyRedditData (DATE, SOURCE, CONTENT) VALUES (%s, %s, %s)"
+                    # values = (date_time_obj, subreddit, comment.body)
+                    #
+                    # try:
+                    #     myCursor.execute(sql_line, values)
+                    #     cnx.commit()
+                    # except:
+                    #     cnx.rollback()
 
                     df = df.append({'Timestamp': date_time_obj, 'Subreddit': subreddit, 'Post/Comment': comment.body},
                                    ignore_index=True)
