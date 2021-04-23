@@ -27,9 +27,8 @@ for filename in os.listdir(directory):
         # print("COMPLETED", flush=True)
 
         print("CONCATENATING POSTS AND COMMENTS", flush=True)
-        data = ''.join(str(dataDF['Post/Comment']))
+        data = ''.join(map(str, dataDF['Post/Comment']))
         # print("COMPLETED", flush=True)
-
 
         print("RUNNING FIND COUNTS", flush=True)
         result = findCounts.process_bodies(data)
