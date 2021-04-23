@@ -29,7 +29,7 @@ for filename in os.listdir(directory):
         print("CONCATENATING POSTS AND COMMENTS", flush=True)
         data = ''.join(str(dataDF['Post/Comment']))
         # print("COMPLETED", flush=True)
-        print(data)
+
 
         print("RUNNING FIND COUNTS", flush=True)
         result = findCounts.process_bodies(data)
@@ -42,6 +42,7 @@ for filename in os.listdir(directory):
 
         print("TRANSFERRING TICKER COUNTS TO DATAFRAME", flush=True)
         resultDF = pd.DataFrame(list(result.items()), columns=['Ticker', 'Count'])
+        print(resultDF)
         # print("COMPLETED", flush=True)
 
         # resultDF.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\testing.csv', index=False)
