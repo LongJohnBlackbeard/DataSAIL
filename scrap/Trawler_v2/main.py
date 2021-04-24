@@ -61,7 +61,7 @@ def runCountFinder(dataDF):
     dateList = dataDF['Timestamp'].tolist()
     print(dateList[1])
 
-    if len(dateList[1]) == 10:
+    if len(str(dateList[1])) == 10:
         dateFix = datetime.strptime(dateList[1], "%m/%d/%Y")
     else:
         date_slice = dateList[1]
