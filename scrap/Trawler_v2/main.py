@@ -59,6 +59,7 @@ def runCountFinder(dataDF):
     tickerList = resultDF['Ticker'].tolist()
     countList = resultDF['Count'].tolist()
     dateList = dataDF['Timestamp'].tolist()
+    print(dateList[1])
 
     if len(dateList[1]) == 10:
         dateFix = datetime.strptime(dateList[1], "%m/%d/%Y")
