@@ -8,9 +8,12 @@ cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhos
 
 myCursor = cnx.cursor()
 
-recentDate = myCursor.execute("SELECT date FROM testingTrawler ORDER BY date DESC LIMIT  1")
+myCursor.execute("SELECT date FROM testingTrawler ORDER BY date DESC LIMIT  1")
+records = myCursor.fetchall()
+print(type(records))
+print(records)
 
-print(recentDate)
+myCursor.close()
 
 
 
