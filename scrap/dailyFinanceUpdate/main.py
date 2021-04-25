@@ -70,6 +70,7 @@ def dataGrabSend(ticker):
                 values_list.append(addedValues)
                 # print("Null row: ", values_list)
                 myCursor1.execute(sql, tuple(values_list))
+            print(row['date'], " executed")
 
             cnx1.commit()
             cnx1.close()
