@@ -36,7 +36,7 @@ dateRange = pd.date_range(start=startDate, end=endDate, freq="D")[::-1]
 dateRangeDF = pd.DataFrame(index=dateRange)
 dateRangeDF.reset_index(inplace=True)
 print(dateRangeDF)
-dateRangeList = dateRangeDF.index.to_list()
+dateRangeList = dateRangeDF['index'].to_list()
 print(dateRangeList)
 
 
