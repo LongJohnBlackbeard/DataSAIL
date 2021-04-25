@@ -40,7 +40,6 @@ dateRangeDF.columns = temp_list
 
 print(dateRangeDF)
 dateRangeList = dateRangeDF['date'].to_list()
-print(dateRangeList)
 
 
 def dataGrabSend(ticker):
@@ -53,7 +52,27 @@ def dataGrabSend(ticker):
     dailyDataFinal = daily_data.merge(dateRangeDF, how='outer', on='date')
 
     for index, row in dailyDataFinal.iterrows():
-        print(row)
+        if row['date'] in dateRangeList:
+            sql = "INSERT INTO testingTrawler1 (date, open, high, low, close, volume, stock) " \
+                  "VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            if pd.isnull(row['5. volume']):
+                values_list = [row['date'], 0, 0, 0, 0, 0]
+            else:
+                values_list = [row['date'], row['1. open'], row['2. high'], row['3. low'], row['4. close'],
+                               row['5. volume']]
+            if len(values_list) == 6:
+                values_list.append(ticker)
+                # print("Add Ticker Row: ", values_list)
+                # print(tuple(values_list))
+                myCursor1.execute(sql, tuple(values_list))
+            else:
+                addedValues = [0, 0, 0, 0, 0, ticker]
+                values_list.append(addedValues)
+                # print("Null row: ", values_list)
+                myCursor1.execute(sql, tuple(values_list))
+
+            cnx1.commit()
+            cnx1.close()
 
 
 dataGrabSend("GME")
