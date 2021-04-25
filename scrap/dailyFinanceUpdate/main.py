@@ -43,9 +43,6 @@ dateRangeList = dateRangeDF['date'].to_list()
 
 
 def dataGrabSend(ticker):
-    cnx1 = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
-    myCursor1 = cnx1.cursor()
-
     daily_data, meta_data = ts.get_daily(symbol=ticker, outputsize='compact')
     daily_data = daily_data.reset_index()
 
@@ -64,16 +61,17 @@ def dataGrabSend(ticker):
                 values_list.append(ticker)
                 # print("Add Ticker Row: ", values_list)
                 # print(tuple(values_list))
-                myCursor1.execute(sql, tuple(values_list))
+                myCursor.execute(sql, tuple(values_list))
             else:
                 addedValues = [0, 0, 0, 0, 0, ticker]
                 values_list.append(addedValues)
                 # print("Null row: ", values_list)
-                myCursor1.execute(sql, tuple(values_list))
+                myCursor.execute(sql, tuple(values_list))
             print(row['date'], " executed")
 
-            cnx1.commit()
-            cnx1.close()
+            cnx.commit()
 
 
 dataGrabSend("GME")
+
+cnx.close()
