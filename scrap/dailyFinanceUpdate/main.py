@@ -31,6 +31,7 @@ dateObject = dateTuple[0]
 
 startDate = dateObject + datetime.timedelta(days=1)
 endDate = datetime.datetime.today()
+endDate = endDate - datetime.timedelta(days=1)
 dateRange = pd.date_range(start=startDate, end=endDate, freq="D")[::-1]
 
 dateRangeDF = pd.DataFrame(index=dateRange)
