@@ -27,14 +27,11 @@ dateTuple = records[0]
 dateObject = dateTuple[0]
 dateString = datetime.strftime(dateObject, "%Y-%m-%d")
 
-
-
 myCursor.close()
 
 startDate = dateObject
 endDate = datetime.today()
-dateRange = pd.date_range(start=startDate, end=endDate, freq="D")
-
+dateRange = pd.date_range(start=startDate, end=endDate, freq="D")[::-1]
 
 dateRangeDF = pd.DataFrame(index=dateRange)
 dateRangeDF.reset_index(inplace=True)
