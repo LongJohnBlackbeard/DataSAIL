@@ -39,7 +39,7 @@ temp_list = ['date']
 dateRangeDF.columns = temp_list
 
 print(dateRangeDF)
-dateRangeList = dateRangeDF['index'].to_list()
+dateRangeList = dateRangeDF['date'].to_list()
 print(dateRangeList)
 
 
