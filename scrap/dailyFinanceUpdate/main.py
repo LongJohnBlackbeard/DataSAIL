@@ -35,6 +35,9 @@ dateRange = pd.date_range(start=startDate, end=endDate, freq="D")[::-1]
 
 dateRangeDF = pd.DataFrame(index=dateRange)
 dateRangeDF.reset_index(inplace=True)
+temp_list = ['date']
+dateRangeDF.columns = temp_list
+
 print(dateRangeDF)
 dateRangeList = dateRangeDF['index'].to_list()
 print(dateRangeList)
@@ -45,3 +48,12 @@ def dataGrabSend(ticker):
     myCursor1 = cnx1.cursor()
 
     daily_data, meta_data = ts.get_daily(symbol=ticker, outputsize='compact')
+    daily_data = daily_data.reset_index()
+
+    dailyDataFinal = daily_data.merge(dateRangeDF, how='outer', on='date')
+
+    for index, row in dailyDataFinal.iterrows():
+        print(row)
+
+
+dataGrabSend("GME")
