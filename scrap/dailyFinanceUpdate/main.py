@@ -53,7 +53,7 @@ def dataGrabSend(ticker):
 
     for index, row in dailyDataFinal.iterrows():
         if row['date'] in dateRangeList:
-            sql = "INSERT INTO testingTrawler1 (date, open, high, low, close, volume, stock) " \
+            sql = "INSERT INTO testingTrawler (date, open, high, low, close, volume, stock) " \
                   "VALUES (%s, %s, %s, %s, %s, %s, %s)"
             if pd.isnull(row['5. volume']):
                 values_list = [row['date'], 0, 0, 0, 0, 0]
