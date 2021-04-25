@@ -21,10 +21,10 @@ for tick in arr:
 cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
 myCursor = cnx.cursor()
 
-myCursor.execute("SELECT date FROM testingTrawler ORDER BY date DESC LIMIT  100")
+myCursor.execute("SELECT date FROM testingTrawler ORDER BY date DESC LIMIT  1")
 records = myCursor.fetchall()
 dateTuple = records[0]
-dateObject = dateTuple[-1]
+dateObject = dateTuple[0]
 
 startDate = dateObject
 endDate = datetime.today()
