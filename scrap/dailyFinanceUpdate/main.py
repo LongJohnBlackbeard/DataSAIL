@@ -35,7 +35,10 @@ myCursor.close()
 startDate = dateObject
 endDate = datetime.today()
 dateRange = pd.date_range(start=endDate, end=startDate, freq="D")
-print(dateRange)
+
+dateRangeDF = pd.DataFrame(index=dateRange)
+dateRangeDF.reset_index(inplace=True)
+print(dateRangeDF)
 
 
 def dataGrabSend(ticker):
