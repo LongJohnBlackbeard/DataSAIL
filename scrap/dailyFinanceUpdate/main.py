@@ -1,9 +1,12 @@
 import time
 from time import sleep
+
+
 from joblib import Parallel, delayed
 import pandas as pd
 import mysql.connector
 from datetime import datetime
+import datetime
 from alpha_vantage.alpha_vantage import timeseries
 
 ts = timeseries.TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
@@ -26,8 +29,8 @@ records = myCursor.fetchall()
 dateTuple = records[0]
 dateObject = dateTuple[0]
 
-startDate = dateObject
-endDate = datetime.today()
+startDate = dateObject + datetime.timedelta(days=1)
+endDate = datetime.datetime.today()
 dateRange = pd.date_range(start=startDate, end=endDate, freq="D")[::-1]
 
 dateRangeDF = pd.DataFrame(index=dateRange)
