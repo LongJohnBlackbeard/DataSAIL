@@ -9,8 +9,11 @@ import grabPosts
 import redditInstance
 import pandas as pd
 import mysql.connector
+import grabFinance
 from datetime import datetime
 import joblib
+
+grabFinance.grabFinance()
 
 auth = redditInstance.initiate_instance()
 

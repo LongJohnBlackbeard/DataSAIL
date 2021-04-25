@@ -131,6 +131,6 @@ def post_and_timestamps(reddit, subreddit_list):
                     post_number -= 1
                     # print("skipped")
                     # print("---------------------------------------------")
-        # df.to_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s_%s.csv' % (subreddit, date_csv), index=False)
+        df.to_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s_%s.csv' % (subreddit, date_csv), index=False)
         # df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\%s_%s.csv' % (subreddit, date_csv), index=False)
     return df
