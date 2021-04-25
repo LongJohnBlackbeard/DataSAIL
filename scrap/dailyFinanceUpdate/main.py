@@ -33,7 +33,7 @@ myCursor.close()
 
 startDate = dateObject
 endDate = datetime.today()
-dateRange = pd.date_range(start=startDate., end=endDate, freq="D")
+dateRange = pd.date_range(start=startDate, end=endDate, freq="D")
 
 
 dateRangeDF = pd.DataFrame(index=dateRange)
