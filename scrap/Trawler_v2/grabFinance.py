@@ -10,44 +10,47 @@ import datetime
 from alpha_vantage.alpha_vantage import timeseries
 
 def grabFinance():
-    try:
-        ts = timeseries.TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
-        nasdaq = pd.read_csv('nasdaqlist.csv')
-        nasdaqTick = nasdaq['Ticker'].to_numpy()
-        arr = []
-        for tick in nasdaqTick:
-            if tick not in arr:
-                arr.append(tick)
+    ts = timeseries.TimeSeries(key='DEO17X8J2DIV6483', output_format='pandas')
+    nasdaq = pd.read_csv('nasdaqlist.csv')
+    nasdaqTick = nasdaq['Ticker'].to_numpy()
+    arr = []
+    for tick in nasdaqTick:
+        if tick not in arr:
+            arr.append(tick)
 
-        for tick in arr:
-            if ("." in tick) or ("-" in tick):
-                arr.remove(tick)
+    for tick in arr:
+        if ("." in tick) or ("-" in tick):
+            arr.remove(tick)
 
-        cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
-        myCursor = cnx.cursor()
+    cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
+    myCursor = cnx.cursor()
 
-        myCursor.execute("SELECT date FROM testingTrawler ORDER BY date DESC LIMIT  1")
-        records = myCursor.fetchall()
-        dateTuple = records[0]
-        dateObject = dateTuple[0]
+    myCursor.execute("SELECT date FROM testingTrawler ORDER BY date DESC LIMIT  1")
+    records = myCursor.fetchall()
+    dateTuple = records[0]
+    dateObject = dateTuple[0]
 
-        startDate = dateObject + datetime.timedelta(days=1)
-        endDate = datetime.datetime.today()
-        endDate = endDate - datetime.timedelta(days=1)
-        dateRange = pd.date_range(start=startDate, end=endDate, freq="D")[::-1]
+    startDate = dateObject + datetime.timedelta(days=1)
+    endDate = datetime.datetime.today()
+    endDate = endDate - datetime.timedelta(days=1)
+    dateRange = pd.date_range(start=startDate, end=endDate, freq="D")[::-1]
 
-        dateRangeDF = pd.DataFrame(index=dateRange)
-        dateRangeDF.reset_index(inplace=True)
-        temp_list = ['date']
-        dateRangeDF.columns = temp_list
+    dateRangeDF = pd.DataFrame(index=dateRange)
+    dateRangeDF.reset_index(inplace=True)
+    temp_list = ['date']
+    dateRangeDF.columns = temp_list
 
-        print(dateRangeDF)
-        dateRangeList = dateRangeDF['date'].to_list()
-        print(dateRangeList)
-        cnx.close()
+    print(dateRangeDF)
+    dateRangeList = dateRangeDF['date'].to_list()
+    print(dateRangeList)
+    cnx.close()
 
-        def dataGrabSend(ticker):
-            sleep(30)
+    not_completed = []
+
+    def dataGrabSend(ticker):
+        try:
+            sleep(20)
+            print("Starting ", ticker)
             cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
             myCursor = cnx.cursor()
 
@@ -57,6 +60,7 @@ def grabFinance():
             dailyDataFinal = daily_data.merge(dateRangeDF, how='outer', on='date')
 
             for index, row in dailyDataFinal.iterrows():
+
                 if row['date'] in dateRangeList:
                     sql = "INSERT INTO testingTrawler (date, open, high, low, close, volume, stock) " \
                           "VALUES (%s, %s, %s, %s, %s, %s, %s)"
@@ -79,14 +83,25 @@ def grabFinance():
                     cnx.commit()
             print(ticker, " executed")
             cnx.close()
+        except Exception as e:
+            print(ticker, " raised: ", e)
+            not_completed.append(ticker)
 
-        tic = time.perf_counter()
+    tic = time.perf_counter()
 
-        with Parallel(n_jobs=50) as parallel:
-            print(parallel([delayed(dataGrabSend)(i) for i in arr]), flush=True)
+    with Parallel(n_jobs=32) as parallel:
+        print(parallel([delayed(dataGrabSend)(i) for i in arr]), flush=True)
 
-        toc = time.perf_counter()
-        print("Total time: %0.4f" % (toc - tic))
-    except Exception as e:
-        print("Error: ", e)
+    print(not_completed)
+
+    not_completed = []
+
+    with Parallel(n_jobs=32) as parallel:
+        print(parallel([delayed(dataGrabSend)(i) for i in not_completed]), flush=True)
+
+    print(not_completed)
+
+    toc = time.perf_counter()
+
+    print("Total time: %0.4f" % (toc - tic))
 

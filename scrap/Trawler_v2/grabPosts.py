@@ -24,8 +24,8 @@ reddit_input_lists = ["wallstreetbets", "stocks"]
 
 # Main method that grabs posts/comments and date
 def post_and_timestamps(reddit, subreddit_list):
-    cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
-    myCursor = cnx.cursor()
+    # cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
+    # myCursor = cnx.cursor()
     # Creates a new and empty dataframe
     df = pd.DataFrame(columns=['Timestamp', 'Subreddit', 'Post/Comment'])
 
