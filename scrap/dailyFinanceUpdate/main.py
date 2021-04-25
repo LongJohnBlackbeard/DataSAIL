@@ -12,6 +12,7 @@ myCursor = cnx.cursor()
 myCursor.execute("SELECT date FROM testingTrawler ORDER BY date DESC LIMIT  1")
 records = myCursor.fetchall()
 dateTuple = records[0]
+print(dateTuple)
 
 # dateString = datetime.strftime(records[0], "%Y-%m-%d")
 # print(type(dateString))
