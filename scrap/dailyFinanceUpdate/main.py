@@ -21,13 +21,10 @@ for tick in arr:
 cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
 myCursor = cnx.cursor()
 
-myCursor.execute("SELECT date FROM testingTrawler ORDER BY date DESC LIMIT  1")
+myCursor.execute("SELECT date FROM testingTrawler ORDER BY date DESC LIMIT  100")
 records = myCursor.fetchall()
 dateTuple = records[0]
 dateObject = dateTuple[0]
-dateString = datetime.strftime(dateObject, "%Y-%m-%d")
-
-
 
 startDate = dateObject
 endDate = datetime.today()
@@ -40,6 +37,7 @@ dateRangeDF.columns = temp_list
 
 print(dateRangeDF)
 dateRangeList = dateRangeDF['date'].to_list()
+print(dateRangeList)
 
 
 def dataGrabSend(ticker):
