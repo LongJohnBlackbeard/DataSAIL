@@ -46,6 +46,7 @@ cnx.close()
 
 
 def dataGrabSend(ticker):
+    sleep(30)
     cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
     myCursor = cnx.cursor()
 
@@ -73,9 +74,10 @@ def dataGrabSend(ticker):
                 values_list.append(addedValues)
                 # print("Null row: ", values_list)
                 myCursor.execute(sql, tuple(values_list))
-            print(row['date'], " executed")
+
 
             cnx.commit()
+    print(ticker, " executed")
     cnx.close()
 
 
