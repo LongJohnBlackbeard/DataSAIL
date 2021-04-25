@@ -61,12 +61,14 @@ def runCountFinder(dataDF):
     dateList = dataDF['Timestamp'].tolist()
     print(dateList[1])
 
-    if len(str(dateList[1])) == 10:
-        dateFix = datetime.strptime(dateList[1], "%m/%d/%Y")
-    else:
-        date_slice = dateList[1]
-        date_slice = date_slice[0:10]
-        dateFix = datetime.strptime(date_slice, "%Y-%m-%d")
+    dateFix = dateList[1]
+
+    # if len(str(dateList[1])) == 10:
+    #     dateFix = datetime.strptime(dateList[1], "%m/%d/%Y")
+    # else:
+    #     date_slice = dateList[1]
+    #     date_slice = date_slice[0:10]
+    #     dateFix = datetime.strptime(date_slice, "%Y-%m-%d")
     # print("COMPLETED", flush=True)
 
     for i in range(0, row_count):
