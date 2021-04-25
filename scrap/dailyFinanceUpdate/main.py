@@ -13,6 +13,8 @@ myCursor.execute("SELECT date FROM testingTrawler ORDER BY date DESC LIMIT  1")
 records = myCursor.fetchall()
 dateTuple = records[0]
 print(dateTuple)
+dateItem = dateTuple[0]
+print(dateItem)
 
 # dateString = datetime.strftime(records[0], "%Y-%m-%d")
 # print(type(dateString))
