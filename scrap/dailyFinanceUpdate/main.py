@@ -47,6 +47,7 @@ cnx.close()
 
 def dataGrabSend(ticker):
     sleep(30)
+    print("Starting ", ticker)
     cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
     myCursor = cnx.cursor()
 
@@ -56,6 +57,7 @@ def dataGrabSend(ticker):
     dailyDataFinal = daily_data.merge(dateRangeDF, how='outer', on='date')
 
     for index, row in dailyDataFinal.iterrows():
+
         if row['date'] in dateRangeList:
             sql = "INSERT INTO testingTrawler (date, open, high, low, close, volume, stock) " \
                   "VALUES (%s, %s, %s, %s, %s, %s, %s)"
