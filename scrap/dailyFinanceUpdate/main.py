@@ -1,7 +1,6 @@
 import time
 from time import sleep
 
-
 from joblib import Parallel, delayed
 import pandas as pd
 import mysql.connector
@@ -44,6 +43,8 @@ dateRangeList = dateRangeDF['date'].to_list()
 print(dateRangeList)
 cnx.close()
 
+not_completed = []
+
 
 def dataGrabSend(ticker):
     try:
@@ -78,12 +79,12 @@ def dataGrabSend(ticker):
                     # print("Null row: ", values_list)
                     myCursor.execute(sql, tuple(values_list))
 
-
                 cnx.commit()
         print(ticker, " executed")
         cnx.close()
     except Exception as e:
         print(ticker, " raised: ", e)
+        not_completed.append(ticker)
 
 
 tic = time.perf_counter()
@@ -92,6 +93,5 @@ with Parallel(n_jobs=32) as parallel:
     print(parallel([delayed(dataGrabSend)(i) for i in arr]), flush=True)
 
 toc = time.perf_counter()
+print(not_completed)
 print("Total time: %0.4f" % (toc - tic))
-
-
