@@ -27,7 +27,7 @@ dateTuple = records[0]
 dateObject = dateTuple[0]
 dateString = datetime.strftime(dateObject, "%Y-%m-%d")
 
-myCursor.close()
+
 
 startDate = dateObject
 endDate = datetime.today()
