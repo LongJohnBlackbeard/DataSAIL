@@ -46,46 +46,49 @@ cnx.close()
 
 
 def dataGrabSend(ticker):
-    sleep(30)
-    print("Starting ", ticker)
-    cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
-    myCursor = cnx.cursor()
+    try:
+        sleep(20)
+        print("Starting ", ticker)
+        cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
+        myCursor = cnx.cursor()
 
-    daily_data, meta_data = ts.get_daily(symbol=ticker, outputsize='compact')
-    daily_data = daily_data.reset_index()
+        daily_data, meta_data = ts.get_daily(symbol=ticker, outputsize='compact')
+        daily_data = daily_data.reset_index()
 
-    dailyDataFinal = daily_data.merge(dateRangeDF, how='outer', on='date')
+        dailyDataFinal = daily_data.merge(dateRangeDF, how='outer', on='date')
 
-    for index, row in dailyDataFinal.iterrows():
+        for index, row in dailyDataFinal.iterrows():
 
-        if row['date'] in dateRangeList:
-            sql = "INSERT INTO testingTrawler (date, open, high, low, close, volume, stock) " \
-                  "VALUES (%s, %s, %s, %s, %s, %s, %s)"
-            if pd.isnull(row['5. volume']):
-                values_list = [row['date'], 0, 0, 0, 0, 0]
-            else:
-                values_list = [row['date'], row['1. open'], row['2. high'], row['3. low'], row['4. close'],
-                               row['5. volume']]
-            if len(values_list) == 6:
-                values_list.append(ticker)
-                # print("Add Ticker Row: ", values_list)
-                # print(tuple(values_list))
-                myCursor.execute(sql, tuple(values_list))
-            else:
-                addedValues = [0, 0, 0, 0, 0, ticker]
-                values_list.append(addedValues)
-                # print("Null row: ", values_list)
-                myCursor.execute(sql, tuple(values_list))
+            if row['date'] in dateRangeList:
+                sql = "INSERT INTO testingTrawler (date, open, high, low, close, volume, stock) " \
+                      "VALUES (%s, %s, %s, %s, %s, %s, %s)"
+                if pd.isnull(row['5. volume']):
+                    values_list = [row['date'], 0, 0, 0, 0, 0]
+                else:
+                    values_list = [row['date'], row['1. open'], row['2. high'], row['3. low'], row['4. close'],
+                                   row['5. volume']]
+                if len(values_list) == 6:
+                    values_list.append(ticker)
+                    # print("Add Ticker Row: ", values_list)
+                    # print(tuple(values_list))
+                    myCursor.execute(sql, tuple(values_list))
+                else:
+                    addedValues = [0, 0, 0, 0, 0, ticker]
+                    values_list.append(addedValues)
+                    # print("Null row: ", values_list)
+                    myCursor.execute(sql, tuple(values_list))
 
 
-            cnx.commit()
-    print(ticker, " executed")
-    cnx.close()
+                cnx.commit()
+        print(ticker, " executed")
+        cnx.close()
+    except Exception as e:
+        print(ticker, " raised: ", e)
 
 
 tic = time.perf_counter()
 
-with Parallel(n_jobs=50) as parallel:
+with Parallel(n_jobs=32) as parallel:
     print(parallel([delayed(dataGrabSend)(i) for i in arr]), flush=True)
 
 toc = time.perf_counter()
