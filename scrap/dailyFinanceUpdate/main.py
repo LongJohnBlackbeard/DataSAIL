@@ -92,6 +92,16 @@ tic = time.perf_counter()
 with Parallel(n_jobs=32) as parallel:
     print(parallel([delayed(dataGrabSend)(i) for i in arr]), flush=True)
 
-toc = time.perf_counter()
 print(not_completed)
+
+not_completed = []
+
+with Parallel(n_jobs=32) as parallel:
+    print(parallel([delayed(dataGrabSend)(i) for i in not_completed]), flush=True)
+
+print(not_completed)
+
+
+toc = time.perf_counter()
+
 print("Total time: %0.4f" % (toc - tic))
