@@ -42,9 +42,13 @@ dateRangeDF.columns = temp_list
 print(dateRangeDF)
 dateRangeList = dateRangeDF['date'].to_list()
 print(dateRangeList)
+cnx.close()
 
 
 def dataGrabSend(ticker):
+    cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
+    myCursor = cnx.cursor()
+
     daily_data, meta_data = ts.get_daily(symbol=ticker, outputsize='compact')
     daily_data = daily_data.reset_index()
 
@@ -72,8 +76,15 @@ def dataGrabSend(ticker):
             print(row['date'], " executed")
 
             cnx.commit()
+    cnx.close()
 
 
-dataGrabSend("GME")
+tic = time.perf_counter()
 
-cnx.close()
+with Parallel(n_jobs=50) as parallel:
+    print(parallel([delayed(dataGrabSend)(i) for i in arr]), flush=True)
+
+toc = time.perf_counter()
+print("Total time: %0.4f" % (toc - tic))
+
+
