@@ -24,7 +24,7 @@ myCursor = cnx.cursor()
 myCursor.execute("SELECT date FROM testingTrawler ORDER BY date DESC LIMIT  100")
 records = myCursor.fetchall()
 dateTuple = records[0]
-dateObject = dateTuple[0]
+dateObject = dateTuple[-1]
 
 startDate = dateObject
 endDate = datetime.today()
