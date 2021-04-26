@@ -25,7 +25,7 @@ def grabFinance():
     cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
     myCursor = cnx.cursor()
 
-    myCursor.execute("SELECT date FROM testingTrawler ORDER BY date DESC LIMIT  1")
+    myCursor.execute("SELECT date FROM testingTrawler2 ORDER BY date DESC LIMIT  1")
     records = myCursor.fetchall()
     dateTuple = records[0]
     dateObject = dateTuple[0]
