@@ -40,7 +40,7 @@ def post_and_timestamps(reddit, subreddit_list):
         for post in new_posts:
             # Several print statements for monitor, test, debug purposes
             post_number += 1
-            print("Post" + str(post_number))
+            # print("Post" + str(post_number))
             # changes post date from unix into utc timestamp and saves it to a variable.
             post_date = datetime.utcfromtimestamp(post.created).strftime('%m/%d/%Y')
             # print(post_date)
@@ -132,5 +132,6 @@ def post_and_timestamps(reddit, subreddit_list):
                     # print("skipped")
                     # print("---------------------------------------------")
         df.to_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s_%s.csv' % (subreddit, date_csv), index=False)
+        print("Post/Comments Grabbed: ", post_number)
         # df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\%s_%s.csv' % (subreddit, date_csv), index=False)
     return df

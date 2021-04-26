@@ -50,7 +50,7 @@ def grabFinance():
     def dataGrabSend(ticker):
         try:
             sleep(20)
-            print("Starting ", ticker)
+            # print("Starting ", ticker)
             cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
             myCursor = cnx.cursor()
 
@@ -81,7 +81,7 @@ def grabFinance():
                         myCursor.execute(sql, tuple(values_list))
 
                     cnx.commit()
-            print(ticker, " executed")
+            # print(ticker, " executed")
             cnx.close()
         except Exception as e:
             print(ticker, " raised: ", e)
