@@ -81,7 +81,7 @@ def grabFinance():
                         myCursor.execute(sql, tuple(values_list))
 
                     cnx.commit()
-            # print(ticker, " executed")
+            print(ticker, " executed")
             cnx.close()
         except Exception as e:
             print(ticker, " raised: ", e)
