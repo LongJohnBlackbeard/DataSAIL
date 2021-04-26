@@ -13,6 +13,8 @@ import grabFinance
 from datetime import datetime
 import joblib
 
+begin = time.perf_counter()
+
 grabFinance.grabFinance()
 
 auth = redditInstance.initiate_instance()
@@ -110,3 +112,6 @@ def runCountFinder(dataDF):
 
 # daily portion #######################
 runCountFinder(postDF)
+end = time.perf_counter()
+
+print("Total time ran: %0.4f seconds" % (end - begin))
