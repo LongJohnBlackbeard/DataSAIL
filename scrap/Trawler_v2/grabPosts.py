@@ -31,6 +31,7 @@ def post_and_timestamps(reddit, subreddit_list):
 
     # for loop that loops for every subreddit in subreddit list entered by user.
     for subreddit in subreddit_list:
+        print("Grabbing from ", subreddit)
         # Praw function that grabs posts from subreddit, saves it to a variable
         new_posts = reddit.subreddit(subreddit).new(limit=None)
 
@@ -45,6 +46,8 @@ def post_and_timestamps(reddit, subreddit_list):
             post_date = datetime.utcfromtimestamp(post.created).strftime('%m/%d/%Y')
             # print(post_date)
             # print(date)
+            if post_number % 10 == 0:
+                print(post_number)
 
             # if statement, compares date from user to date of post. If the same, appends row to df
             if post_date == date:
@@ -116,6 +119,9 @@ def post_and_timestamps(reddit, subreddit_list):
                     date_comment = comment.created_utc
                     date_time_obj = datetime.fromtimestamp(date_comment)
 
+                    if post_number % 10 == 0:
+                        print(post_number)
+
                     # sql_line = "INSERT INTO dailyRedditData (DATE, SOURCE, CONTENT) VALUES (%s, %s, %s)"
                     # values = (date_time_obj, subreddit, comment.body)
                     #
@@ -132,6 +138,6 @@ def post_and_timestamps(reddit, subreddit_list):
                     # print("skipped")
                     # print("---------------------------------------------")
         df.to_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s_%s.csv' % (subreddit, date_csv), index=False)
-        print("Post/Comments Grabbed: ", post_number)
+        print("Post/Comments Grabbed: ", post_number, " from ", subreddit)
         # df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\%s_%s.csv' % (subreddit, date_csv), index=False)
     return df
