@@ -67,7 +67,7 @@ def data_grab_send(ticker):
 
         # Loop through every date and grabs data and sends to database
         for i in range(0, row_count):
-            sql = "INSERT INTO testingTrawler2 (date, open, high, low, close, volume, stock) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            sql = "INSERT INTO Trawler (date, open, high, low, close, volume, stock) VALUES (%s, %s, %s, %s, %s, %s, %s)"
             if pd.isnull(dailyDataFinal.loc[i]['5. volume']):
                 values_list = [str(dailyDataFinal.loc[i]['date']), 0, 0, 0, 0, 0]
             else:
