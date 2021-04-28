@@ -15,11 +15,11 @@ import joblib
 
 begin = time.perf_counter()
 
-grabFinance.grabFinance()
+# grabFinance.grabFinance()
 
 auth = redditInstance.initiate_instance()
 
-postDF = grabPosts.post_and_timestamps(auth, grabPosts.reddit_input_lists)
+# postDF = grabPosts.post_and_timestamps(auth, grabPosts.reddit_input_lists)
 # fileName = input("Enter file name: ")
 directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
 
@@ -101,17 +101,17 @@ def runCountFinder(dataDF):
 
 
 # CSV PORTION #################
-# fileList = []
-# for filename in os.listdir(directory):
-#     if filename.endswith(".csv"):
-#         fileList.append(filename)
+fileList = []
+for filename in os.listdir(directory):
+    if filename.endswith(".csv"):
+        fileList.append(filename)
 
-# with Parallel(n_jobs=-1) as parallel:
-#     print(parallel([delayed(runCountFinder)(i) for i in fileList]))
-# #################################################################
+with Parallel(n_jobs=-1) as parallel:
+    print(parallel([delayed(runCountFinder)(i) for i in fileList]))
+#################################################################
 
 # daily portion #######################
-runCountFinder(postDF)
+# runCountFinder(postDF)
 end = time.perf_counter()
 
 print("Total time ran: %0.4f seconds" % (end - begin))
