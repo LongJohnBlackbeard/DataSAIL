@@ -35,7 +35,7 @@ def runCountFinder(dataDF):
     myCursor = cnx.cursor()
 
     # print("READING CSV FILE: %s" % file, flush=True)
-    # dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % file)
+    dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % dataDF)
     # print("COMPLETED", flush=True)
 
     # print("CONCATENATING POSTS AND COMMENTS", flush=True)
