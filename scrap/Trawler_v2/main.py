@@ -107,7 +107,7 @@ for filename in os.listdir(directory):
         fileList.append(filename)
 
 with Parallel(n_jobs=-1) as parallel:
-    print(parallel([delayed(runCountFinder)(i) for i in fileList]))
+    print(parallel([delayed(runCountFinder)(i) for i in fileList]), flush=True)
 #################################################################
 
 # daily portion #######################
