@@ -21,7 +21,7 @@ begin = time.perf_counter()
 
 # postDF = grabPosts.post_and_timestamps(auth, grabPosts.reddit_input_lists)
 # fileName = input("Enter file name: ")
-directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
+
 
 print("CONNECTING TO DB", flush=True)
 
@@ -101,13 +101,14 @@ def runCountFinder(dataDF):
 
 
 # CSV PORTION #################
+directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
 fileList = []
 for filename in os.listdir(directory):
     if filename.endswith(".csv"):
         fileList.append(filename)
 
 with Parallel(n_jobs=-1) as parallel:
-    print(parallel([delayed(runCountFinder)(i) for i in fileList]), flush=True)
+    print(parallel([delayed(runCountFinder)(file) for file in fileList]), flush=True)
 #################################################################
 
 # daily portion #######################
