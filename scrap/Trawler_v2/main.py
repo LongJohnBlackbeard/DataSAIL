@@ -77,7 +77,7 @@ def runCountFinder(dataDF):
     # print("COMPLETED", flush=True)
 
     for i in range(0, row_count):
-        sql1 = "SELECT mentions FROM testingTrawler WHERE date = %s AND stock = %s"
+        sql1 = "SELECT mentions FROM Trawler WHERE date = %s AND stock = %s"
         val1 = (dateFix, tickerList[i])
         myCursor.execute(sql1, val1)
         dbMentionCount = myCursor.fetchone()
@@ -89,7 +89,7 @@ def runCountFinder(dataDF):
             newCount = countList[i] + dbMentionCount[0]
         except Exception:
             continue
-        sql = "Update testingTrawler SET mentions = %s WHERE date = %s AND stock = %s"
+        sql = "Update Trawler SET mentions = %s WHERE date = %s AND stock = %s"
         val = (newCount, dateFix, tickerList[i])
         myCursor.execute(sql, val)
         cnx.commit()
