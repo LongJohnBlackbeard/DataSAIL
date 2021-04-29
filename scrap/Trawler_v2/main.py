@@ -29,13 +29,13 @@ print("CONNECTING TO DB", flush=True)
 # print("COMPLETED", flush=True)
 
 
-def runCountFinder(dataDF):
+def runCountFinder(File):
     tic = time.perf_counter()
     cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
     myCursor = cnx.cursor()
 
-    print("READING CSV FILE: %s" % dataDF, flush=True)
-    dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % dataDF)
+    print("READING CSV FILE: %s" % File, flush=True)
+    dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File)
     # print("COMPLETED", flush=True)
 
     # print("CONCATENATING POSTS AND COMMENTS", flush=True)
@@ -53,7 +53,7 @@ def runCountFinder(dataDF):
 
     # print("TRANSFERRING TICKER COUNTS TO DATAFRAME", flush=True)
     resultDF = pd.DataFrame(list(result.items()), columns=['Ticker', 'Count'])
-    print("todays file ", "\n", resultDF, )
+    print(File, "\n", resultDF, )
     # print("COMPLETED", flush=True)
 
     # resultDF.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\testing.csv', index=False)
@@ -97,7 +97,7 @@ def runCountFinder(dataDF):
 
     cnx.close()
     toc = time.perf_counter()
-    print("%s Completed***** in %0.4f seconds" % ("Yesterdays data", (toc - tic)), flush=True)
+    print("%s Completed***** in %0.4f seconds" % (File, (toc - tic)), flush=True)
 
 
 # CSV PORTION #################
