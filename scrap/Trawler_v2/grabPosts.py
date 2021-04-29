@@ -27,10 +27,12 @@ def post_and_timestamps(reddit, subreddit_list):
     # cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
     # myCursor = cnx.cursor()
     # Creates a new and empty dataframe
-    df = pd.DataFrame(columns=['Timestamp', 'Subreddit', 'Post/Comment'])
+
+    df2 = pd.DataFrame(columns=['Timestamp', 'Subreddit', 'Post/Comment'])
 
     # for loop that loops for every subreddit in subreddit list entered by user.
     for subreddit in subreddit_list:
+        df = pd.DataFrame(columns=['Timestamp', 'Subreddit', 'Post/Comment'])
         print("Grabbing from ", subreddit)
         # Praw function that grabs posts from subreddit, saves it to a variable
         new_posts = reddit.subreddit(subreddit).new(limit=None)
@@ -76,6 +78,8 @@ def post_and_timestamps(reddit, subreddit_list):
                 #     cnx.rollback()
 
                 df = df.append({'Timestamp': date_time_obj, 'Subreddit': subreddit, 'Post/Comment': body_title},
+                               ignore_index=True)
+                df2 = df2.append({'Timestamp': date_time_obj, 'Subreddit': subreddit, 'Post/Comment': body_title},
                                ignore_index=True)
 
             else:
@@ -133,6 +137,8 @@ def post_and_timestamps(reddit, subreddit_list):
 
                     df = df.append({'Timestamp': date_time_obj, 'Subreddit': subreddit, 'Post/Comment': comment.body},
                                    ignore_index=True)
+                    df2 = df2.append({'Timestamp': date_time_obj, 'Subreddit': subreddit, 'Post/Comment': comment.body},
+                                   ignore_index=True)
                 else:
                     post_number -= 1
                     # print("skipped")
@@ -140,4 +146,4 @@ def post_and_timestamps(reddit, subreddit_list):
         df.to_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s_%s.csv' % (subreddit, date_csv), index=False)
         print("Post/Comments Grabbed: ", post_number, " from ", subreddit)
         # df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\%s_%s.csv' % (subreddit, date_csv), index=False)
-    return df
+    return df2
