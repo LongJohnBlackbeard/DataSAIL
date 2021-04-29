@@ -67,7 +67,11 @@ def runCountFinder(File):
         dateList = dataDF['Timestamp'].tolist()
         print(dateList[1])
 
-        dateFix = dateList[1]
+        dateFix = File.split("_", 1)[1]
+        dateFix = dateFix.split(".", 1)[0]
+        dateFix = dateFix + " 00:00:00"
+        dateFix = datetime.strptime(dateFix, "%m-%d-%Y %H:%M:%S:")
+
 
         # if len(str(dateList[1])) == 10:
         #     dateFix = datetime.strptime(dateList[1], "%m/%d/%Y")
