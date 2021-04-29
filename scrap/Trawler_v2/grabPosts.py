@@ -114,7 +114,7 @@ def post_and_timestamps(reddit, subreddit_list):
                 # print("Comment")
                 # print(date)
                 # print(comment_date_check)
-                if post_number % 100 == 0:
+                if post_number % 10 == 0:
                     print(post_number)
 
                 if comment_date_check == date:
