@@ -70,7 +70,7 @@ def runCountFinder(File):
         dateFix = File.split("_", 1)[1]
         dateFix = dateFix.split(".", 1)[0]
         dateFix = dateFix + " 00:00:00"
-        dateFix = datetime.strptime(dateFix, "%m-%d-%Y %H:%M:%S:")
+        dateFix = datetime.strptime(dateFix, "%m-%d-%Y %H:%M:%S")
 
 
         # if len(str(dateList[1])) == 10:
