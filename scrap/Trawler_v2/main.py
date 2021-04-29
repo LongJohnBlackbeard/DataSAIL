@@ -15,11 +15,11 @@ import joblib
 
 begin = time.perf_counter()
 
-# grabFinance.grabFinance()
+grabFinance.grabFinance()
 
-# auth = redditInstance.initiate_instance()
+auth = redditInstance.initiate_instance()
 
-# postDF = grabPosts.post_and_timestamps(auth, grabPosts.reddit_input_lists)
+postDF = grabPosts.post_and_timestamps(auth, grabPosts.reddit_input_lists)
 # fileName = input("Enter file name: ")
 
 
@@ -29,14 +29,14 @@ print("CONNECTING TO DB", flush=True)
 # print("COMPLETED", flush=True)
 
 
-def runCountFinder(File):
+def runCountFinder(dataDF):
     try:
         tic = time.perf_counter()
         cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
         myCursor = cnx.cursor()
 
-        print("READING CSV FILE: %s" % File, flush=True)
-        dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File)
+        # print("READING CSV FILE: %s" % File, flush=True)
+        # dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File)
         # print("COMPLETED", flush=True)
 
         # print("CONCATENATING POSTS AND COMMENTS", flush=True)
@@ -54,7 +54,7 @@ def runCountFinder(File):
 
         # print("TRANSFERRING TICKER COUNTS TO DATAFRAME", flush=True)
         resultDF = pd.DataFrame(list(result.items()), columns=['Ticker', 'Count'])
-        print(File, "\n", resultDF, )
+        print(dataDF, "\n", resultDF, )
         # print("COMPLETED", flush=True)
 
         # resultDF.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\testing.csv', index=False)
@@ -67,19 +67,21 @@ def runCountFinder(File):
         dateList = dataDF['Timestamp'].tolist()
         print(dateList[1])
 
-        dateFix = File.split("_", 1)[1]
-        dateFix = dateFix.split(".", 1)[0]
-        dateFix = dateFix + " 00:00:00"
-        dateFix = datetime.strptime(dateFix, "%m-%d-%Y %H:%M:%S")
+        dateFix = dateList[1]
+
+        # dateFix = File.split("_", 1)[1]
+        # dateFix = dateFix.split(".", 1)[0]
+        # dateFix = dateFix + " 00:00:00"
+        # dateFix = datetime.strptime(dateFix, "%m-%d-%Y %H:%M:%S")
 
 
-        # if len(str(dateList[1])) == 10:
-        #     dateFix = datetime.strptime(dateList[1], "%m/%d/%Y")
-        # else:
-        #     date_slice = dateList[1]
-        #     date_slice = date_slice[0:10]
-        #     dateFix = datetime.strptime(date_slice, "%Y-%m-%d")
-        # print("COMPLETED", flush=True)
+        if len(str(dateList[1])) == 10:
+            dateFix = datetime.strptime(dateList[1], "%m/%d/%Y")
+        else:
+            date_slice = dateList[1]
+            date_slice = date_slice[0:10]
+            dateFix = datetime.strptime(date_slice, "%Y-%m-%d")
+        print("COMPLETED", flush=True)
 
         for i in range(0, row_count):
             sql1 = "SELECT mentions FROM Trawler WHERE date = %s AND stock = %s"
@@ -102,25 +104,25 @@ def runCountFinder(File):
 
         cnx.close()
         toc = time.perf_counter()
-        print("%s Completed***** in %0.4f seconds" % (File, (toc - tic)), flush=True)
+        # print("%s Completed***** in %0.4f seconds" % (File, (toc - tic)), flush=True)
     except Exception as e:
-        print(File)
+        print(dataDF)
         print(e)
 
 
 # CSV PORTION #################
-directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
-fileList = []
-for filename in os.listdir(directory):
-    if filename.endswith(".csv"):
-        fileList.append(filename)
-
-with Parallel(n_jobs=-1) as parallel:
-    print(parallel([delayed(runCountFinder)(file) for file in fileList]), flush=True)
+# directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
+# fileList = []
+# for filename in os.listdir(directory):
+#     if filename.endswith(".csv"):
+#         fileList.append(filename)
+#
+# with Parallel(n_jobs=-1) as parallel:
+#     print(parallel([delayed(runCountFinder)(file) for file in fileList]), flush=True)
 #################################################################
 
 # daily portion #######################
-# runCountFinder(postDF)
+runCountFinder(postDF)
 end = time.perf_counter()
 
 print("Total time ran: %0.4f seconds" % (end - begin))
