@@ -105,7 +105,7 @@ def runCountFinder(File):
         print("%s Completed***** in %0.4f seconds" % (File, (toc - tic)), flush=True)
     except Exception as e:
         print(File)
-        print(Exception)
+        print(e)
 
 
 # CSV PORTION #################
