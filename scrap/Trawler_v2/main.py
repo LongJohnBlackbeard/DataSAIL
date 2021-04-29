@@ -67,7 +67,7 @@ def runCountFinder(dataDF):
         dateList = dataDF['Timestamp'].tolist()
         print(dateList[1])
 
-        dateFix = dateList[1]
+        # dateFix = dateList[1]
 
         # dateFix = File.split("_", 1)[1]
         # dateFix = dateFix.split(".", 1)[0]
