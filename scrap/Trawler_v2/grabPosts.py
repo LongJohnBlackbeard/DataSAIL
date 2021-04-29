@@ -48,7 +48,7 @@ def post_and_timestamps(reddit, subreddit_list):
             post_date = datetime.utcfromtimestamp(post.created).strftime('%m/%d/%Y')
             # print(post_date)
             # print(date)
-            if post_number % 100 == 0:
+            if post_number % 10 == 0:
                 print(post_number)
 
             # if statement, compares date from user to date of post. If the same, appends row to df
@@ -114,6 +114,8 @@ def post_and_timestamps(reddit, subreddit_list):
                 # print("Comment")
                 # print(date)
                 # print(comment_date_check)
+                if post_number % 100 == 0:
+                    print(post_number)
 
                 if comment_date_check == date:
 
@@ -123,8 +125,7 @@ def post_and_timestamps(reddit, subreddit_list):
                     date_comment = comment.created_utc
                     date_time_obj = datetime.fromtimestamp(date_comment)
 
-                    if post_number % 100 == 0:
-                        print(post_number)
+
 
                     # sql_line = "INSERT INTO dailyRedditData (DATE, SOURCE, CONTENT) VALUES (%s, %s, %s)"
                     # values = (date_time_obj, subreddit, comment.body)
