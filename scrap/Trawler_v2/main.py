@@ -67,7 +67,7 @@ def runCountFinder(dataDF):
         dateList = dataDF['Timestamp'].tolist()
         print(dateList[1])
 
-        # dateFix = dateList[1]
+        dateFix = dateList[1]
 
         # dateFix = File.split("_", 1)[1]
         # dateFix = dateFix.split(".", 1)[0]
@@ -75,13 +75,13 @@ def runCountFinder(dataDF):
         # dateFix = datetime.strptime(dateFix, "%m-%d-%Y %H:%M:%S")
 
 
-        if len(str(dateList[1])) == 10:
-            dateFix = datetime.strptime(dateList[1], "%m/%d/%Y")
-        else:
-            date_slice = dateList[1]
-            date_slice = date_slice[0:10]
-            dateFix = datetime.strptime(date_slice, "%Y-%m-%d")
-        print("COMPLETED", flush=True)
+        # if len(str(dateList[1])) == 10:
+        #     dateFix = datetime.strptime(dateList[1], "%m/%d/%Y")
+        # else:
+        #     date_slice = dateList[1]
+        #     date_slice = date_slice[0:10]
+        #     dateFix = datetime.strptime(date_slice, "%Y-%m-%d")
+        # print("COMPLETED", flush=True)
 
         for i in range(0, row_count):
             sql1 = "SELECT mentions FROM Trawler WHERE date = %s AND stock = %s"
