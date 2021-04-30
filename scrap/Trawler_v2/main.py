@@ -35,13 +35,13 @@ def runCountFinder(File):
         cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
         myCursor = cnx.cursor()
 
-        # print("READING CSV FILE: %s" % File, flush=True)
-        dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File)
-        # print("COMPLETED", flush=True)
 
-        # print("CONCATENATING POSTS AND COMMENTS", flush=True)
+        dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File)
+
+
+
         data = ''.join(map(str, File['Post/Comment']))
-        # print("COMPLETED", flush=True)
+
 
         # print("RUNNING FIND COUNTS", flush=True)
         result = findCounts.process_bodies(data)
@@ -71,10 +71,10 @@ def runCountFinder(File):
 
         print(dateFix)
 
-        dateFix = File.split("_", 1)[1]
-        dateFix = dateFix.split(".", 1)[0]
-        dateFix = dateFix + " 00:00:00"
-        dateFix = datetime.strptime(dateFix, "%m-%d-%Y %H:%M:%S")
+        # dateFix = File.split("_", 1)[1]
+        # dateFix = dateFix.split(".", 1)[0]
+        # dateFix = dateFix + " 00:00:00"
+        # dateFix = datetime.strptime(dateFix, "%m-%d-%Y %H:%M:%S")
 
 
         if len(str(dateList[1])) == 10:
