@@ -143,7 +143,7 @@ def post_and_timestamps(reddit):
                     df2 = df2.append({'Timestamp': date_time_obj, 'Subreddit': subreddit, 'Post/Comment': comment.body},
                                    ignore_index=True)
                 else:
-                    post_number -= 1
+                    pass
                     # print("skipped")
                     # print("---------------------------------------------")
         df.to_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s_%s.csv' % (subreddit, date_csv), index=False)
