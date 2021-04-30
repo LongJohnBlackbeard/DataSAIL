@@ -34,7 +34,7 @@ def post_and_timestamps(reddit):
     # for loop that loops for every subreddit in subreddit list entered by user.
     for subreddit in subreddit_list:
         df = pd.DataFrame(columns=['Timestamp', 'Subreddit', 'Post/Comment'])
-        print("Grabbing from ", subreddit)
+        print("Grabbing from ", subreddit, flush=True)
         # Praw function that grabs posts from subreddit, saves it to a variable
         new_posts = reddit.subreddit(subreddit).new(limit=None)
 
@@ -49,6 +49,8 @@ def post_and_timestamps(reddit):
             post_date = datetime.utcfromtimestamp(post.created).strftime('%m/%d/%Y')
             # print(post_date)
             # print(date)
+            if post % 100 == 0:
+                print(reddit, post_number)
 
 
             # if statement, compares date from user to date of post. If the same, appends row to df
@@ -86,7 +88,8 @@ def post_and_timestamps(reddit):
                 # print statement for monitoring/testing/debugging
                 # print("skipped")
                 # print('----------------')
-                post_number -= 1
+                pass
+
 
             # while loop used for more comments option in reddit. Reddit uses a comment tree design where
             # each comment is like a directory, each comment can have their own tree and so on and on.
@@ -144,6 +147,6 @@ def post_and_timestamps(reddit):
                     # print("skipped")
                     # print("---------------------------------------------")
         df.to_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s_%s.csv' % (subreddit, date_csv), index=False)
-        print("Post/Comments Grabbed: ", post_number, " from ", subreddit)
+        print("Post/Comments Grabbed: ", post_number, " from ", subreddit, flush=True)
         # df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\%s_%s.csv' % (subreddit, date_csv), index=False)
     return df2
