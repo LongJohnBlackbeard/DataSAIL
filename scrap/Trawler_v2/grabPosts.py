@@ -29,7 +29,8 @@ def post_and_timestamps(reddit):
     # Creates a new and empty dataframe
     subreddit_list = ["wallstreetbets", "stocks"]
 
-    df2 = pd.DataFrame(columns=['Timestamp', 'Subreddit', 'Post/Comment'])
+
+
 
     # for loop that loops for every subreddit in subreddit list entered by user.
     for subreddit in subreddit_list:
@@ -80,8 +81,7 @@ def post_and_timestamps(reddit):
 
                 df = df.append({'Timestamp': date_time_obj, 'Subreddit': subreddit, 'Post/Comment': body_title},
                                ignore_index=True)
-                df2 = df2.append({'Timestamp': date_time_obj, 'Subreddit': subreddit, 'Post/Comment': body_title},
-                               ignore_index=True)
+
 
             else:
                 # print statement for monitoring/testing/debugging
@@ -141,13 +141,13 @@ def post_and_timestamps(reddit):
 
                     df = df.append({'Timestamp': date_time_obj, 'Subreddit': subreddit, 'Post/Comment': comment.body},
                                    ignore_index=True)
-                    df2 = df2.append({'Timestamp': date_time_obj, 'Subreddit': subreddit, 'Post/Comment': comment.body},
-                                   ignore_index=True)
+
                 else:
                     pass
                     # print("skipped")
                     # print("---------------------------------------------")
+        fileList = ["%s_%s.csv" % (subreddit, date_csv)]
         df.to_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s_%s.csv' % (subreddit, date_csv), index=False)
         print("Post/Comments Grabbed: ", post_number, " from ", subreddit, flush=True)
         # df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\%s_%s.csv' % (subreddit, date_csv), index=False)
-    return df2
+    return fileList

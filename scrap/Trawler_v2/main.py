@@ -29,18 +29,18 @@ print("CONNECTING TO DB", flush=True)
 # print("COMPLETED", flush=True)
 
 
-def runCountFinder(dataDF):
+def runCountFinder(File):
     try:
         tic = time.perf_counter()
         cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
         myCursor = cnx.cursor()
 
         # print("READING CSV FILE: %s" % File, flush=True)
-        # dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File)
+        dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File)
         # print("COMPLETED", flush=True)
 
         # print("CONCATENATING POSTS AND COMMENTS", flush=True)
-        data = ''.join(map(str, dataDF['Post/Comment']))
+        data = ''.join(map(str, File['Post/Comment']))
         # print("COMPLETED", flush=True)
 
         # print("RUNNING FIND COUNTS", flush=True)
@@ -71,19 +71,19 @@ def runCountFinder(dataDF):
 
         print(dateFix)
 
-        # dateFix = File.split("_", 1)[1]
-        # dateFix = dateFix.split(".", 1)[0]
-        # dateFix = dateFix + " 00:00:00"
-        # dateFix = datetime.strptime(dateFix, "%m-%d-%Y %H:%M:%S")
+        dateFix = File.split("_", 1)[1]
+        dateFix = dateFix.split(".", 1)[0]
+        dateFix = dateFix + " 00:00:00"
+        dateFix = datetime.strptime(dateFix, "%m-%d-%Y %H:%M:%S")
 
 
-        # if len(str(dateList[1])) == 10:
-        #     dateFix = datetime.strptime(dateList[1], "%m/%d/%Y")
-        # else:
-        #     date_slice = dateList[1]
-        #     date_slice = date_slice[0:10]
-        #     dateFix = datetime.strptime(date_slice, "%Y-%m-%d")
-        # print("COMPLETED", flush=True)
+        if len(str(dateList[1])) == 10:
+            dateFix = datetime.strptime(dateList[1], "%m/%d/%Y")
+        else:
+            date_slice = dateList[1]
+            date_slice = date_slice[0:10]
+            dateFix = datetime.strptime(date_slice, "%Y-%m-%d")
+        print(" dateFix COMPLETED ", dateFix, flush=True)
 
         for i in range(0, row_count):
             sql1 = "SELECT mentions FROM Trawler WHERE date = %s AND stock = %s"
@@ -112,18 +112,18 @@ def runCountFinder(dataDF):
 
 
 # CSV PORTION #################
-# directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
-# fileList = []
+directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
+fileList = postDF
 # for filename in os.listdir(directory):
 #     if filename.endswith(".csv"):
 #         fileList.append(filename)
-#
-# with Parallel(n_jobs=-1) as parallel:
-#     print(parallel([delayed(runCountFinder)(file) for file in fileList]), flush=True)
+
+with Parallel(n_jobs=-1) as parallel:
+    print(parallel([delayed(runCountFinder)(file) for file in fileList]), flush=True)
 #################################################################
 
 # daily portion #######################
-runCountFinder(postDF)
+# runCountFinder(postDF)
 end = time.perf_counter()
 
 print("Total time ran: %0.4f seconds" % (end - begin))
