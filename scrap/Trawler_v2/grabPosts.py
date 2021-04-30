@@ -49,7 +49,7 @@ def post_and_timestamps(reddit):
             post_date = datetime.utcfromtimestamp(post.created).strftime('%m/%d/%Y')
             # print(post_date)
             # print(date)
-            if post % 100 == 0:
+            if post_number % 100 == 0:
                 print(reddit, post_number)
 
 
