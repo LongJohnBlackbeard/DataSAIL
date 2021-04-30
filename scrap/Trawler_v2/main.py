@@ -65,9 +65,11 @@ def runCountFinder(dataDF):
         tickerList = resultDF['Ticker'].tolist()
         countList = resultDF['Count'].tolist()
         dateList = dataDF['Timestamp'].tolist()
-        print(dateList[1])
+
 
         dateFix = dateList[1]
+
+        print(dateFix)
 
         # dateFix = File.split("_", 1)[1]
         # dateFix = dateFix.split(".", 1)[0]
@@ -92,7 +94,7 @@ def runCountFinder(dataDF):
             # print(dbMentionCount)
 
             try:
-                # print("count(%d) + dbcount(%d)" % (countList[i], dbMentionCount[0]))
+                print("count(%d) + dbcount(%d)" % (countList[i], dbMentionCount[0]))
                 newCount = countList[i] + dbMentionCount[0]
             except Exception:
                 continue
@@ -100,13 +102,12 @@ def runCountFinder(dataDF):
             val = (newCount, dateFix, tickerList[i])
             myCursor.execute(sql, val)
             cnx.commit()
-            # print("ROW UPDATED # %d" % i)
+            print("ROW UPDATED # %d" % i)
 
         cnx.close()
         toc = time.perf_counter()
         # print("%s Completed***** in %0.4f seconds" % (File, (toc - tic)), flush=True)
     except Exception as e:
-        print(dataDF)
         print(e)
 
 
