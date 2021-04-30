@@ -28,6 +28,7 @@ def post_and_timestamps(reddit):
     # myCursor = cnx.cursor()
     # Creates a new and empty dataframe
     subreddit_list = ["wallstreetbets", "stocks"]
+    fileList = []
 
 
 
@@ -146,7 +147,7 @@ def post_and_timestamps(reddit):
                     pass
                     # print("skipped")
                     # print("---------------------------------------------")
-        fileList = ["%s_%s.csv" % (subreddit, date_csv)]
+        fileList.append("%s_%s.csv" % (subreddit, date_csv))
         df.to_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s_%s.csv' % (subreddit, date_csv), index=False)
         print("Post/Comments Grabbed: ", post_number, " from ", subreddit, flush=True)
         # df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\%s_%s.csv' % (subreddit, date_csv), index=False)

@@ -97,6 +97,7 @@ def runCountFinder(File):
                 print("count(%d) + dbcount(%d)" % (countList[i], dbMentionCount[0]))
                 newCount = countList[i] + dbMentionCount[0]
             except Exception:
+                print("Failed to add counts")
                 continue
             sql = "Update Trawler SET mentions = %s WHERE date = %s AND stock = %s"
             val = (newCount, dateFix, tickerList[i])
