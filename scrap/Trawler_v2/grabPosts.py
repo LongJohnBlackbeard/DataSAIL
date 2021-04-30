@@ -19,14 +19,15 @@ date_year = int(input("Year to search? "))
 date = ("%s/%s/%d" % (date_month, date_day, date_year))
 date_csv = ("%s-%s-%d" % (date_month, date_day, date_year))
 
-reddit_input_lists = ["wallstreetbets", "stocks"]
+
 
 
 # Main method that grabs posts/comments and date
-def post_and_timestamps(reddit, subreddit_list):
+def post_and_timestamps(reddit):
     # cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
     # myCursor = cnx.cursor()
     # Creates a new and empty dataframe
+    subreddit_list = ["wallstreetbets", "stocks"]
 
     df2 = pd.DataFrame(columns=['Timestamp', 'Subreddit', 'Post/Comment'])
 
