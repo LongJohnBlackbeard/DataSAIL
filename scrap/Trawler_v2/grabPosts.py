@@ -49,8 +49,7 @@ def post_and_timestamps(reddit):
             post_date = datetime.utcfromtimestamp(post.created).strftime('%m/%d/%Y')
             # print(post_date)
             # print(date)
-            if post_number % 100 == 0:
-                print(reddit, post_number)
+
 
 
             # if statement, compares date from user to date of post. If the same, appends row to df
@@ -117,6 +116,8 @@ def post_and_timestamps(reddit):
                 # print("Comment")
                 # print(date)
                 # print(comment_date_check)
+                if post_number % 100 == 0:
+                    print(reddit, post_number)
 
 
                 if comment_date_check == date:
