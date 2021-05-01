@@ -35,15 +35,15 @@ def runCountFinder(File):
         cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
         myCursor = cnx.cursor()
 
-
+        print("Reading CSV")
         dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File)
 
 
-
+        print("Concatenating data")
         data = ''.join(map(str, File['Post/Comment']))
 
 
-        # print("RUNNING FIND COUNTS", flush=True)
+        print("RUNNING FIND COUNTS", flush=True)
         result = findCounts.process_bodies(data)
 
         result = findCounts.filter_pos_tokens(result, findCounts.target_pos_tags)
@@ -52,7 +52,7 @@ def runCountFinder(File):
 
         # print("COMPLETED", flush=True)
 
-        # print("TRANSFERRING TICKER COUNTS TO DATAFRAME", flush=True)
+        print("TRANSFERRING TICKER COUNTS TO DATAFRAME", flush=True)
         resultDF = pd.DataFrame(list(result.items()), columns=['Ticker', 'Count'])
 
         # print("COMPLETED", flush=True)
@@ -61,7 +61,7 @@ def runCountFinder(File):
 
         row_count = len(resultDF.index)
 
-        # print("SAVING VALUES TO LISTS", flush=True)
+        print("SAVING VALUES TO LISTS", flush=True)
         tickerList = resultDF['Ticker'].tolist()
         countList = resultDF['Count'].tolist()
         dateList = dataDF['Timestamp'].tolist()
