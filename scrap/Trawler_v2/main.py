@@ -40,7 +40,7 @@ def runCountFinder(File):
 
 
         print("Concatenating data")
-        data = ''.join(map(str, File['Post/Comment']))
+        data = ''.join(map(str, dataDF['Post/Comment']))
 
 
         print("RUNNING FIND COUNTS", flush=True)
