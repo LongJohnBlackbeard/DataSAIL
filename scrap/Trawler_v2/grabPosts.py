@@ -85,6 +85,7 @@ def post_and_timestamps(reddit):
 
 
             else:
+                post_number -= 1
                 # print statement for monitoring/testing/debugging
                 # print("skipped")
                 # print('----------------')
@@ -117,7 +118,7 @@ def post_and_timestamps(reddit):
                 # print("Comment")
                 # print(date)
                 # print(comment_date_check)
-                if post_number % 100 == 0:
+                if post_number % 1000 == 0:
                     print(reddit, post_number)
 
 
@@ -144,6 +145,7 @@ def post_and_timestamps(reddit):
                                    ignore_index=True)
 
                 else:
+                    post_number -= 1
                     pass
                     # print("skipped")
                     # print("---------------------------------------------")
