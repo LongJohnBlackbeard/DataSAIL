@@ -59,11 +59,13 @@ def runCountFinder(File):
 
         # resultDF.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\testing.csv', index=False)
 
-        row_count = len(resultDF.index)
+
 
         # print("SAVING VALUES TO LISTS ", File, flush=True)
         tickerList = resultDF['Ticker'].tolist()
         countList = resultDF['Count'].tolist()
+
+        row_count = len(tickerList)
         # dateList = dataDF['Timestamp'].tolist()
         #
         #
