@@ -112,15 +112,18 @@ def runCountFinder(File):
             except Exception as e:
                 print("Error: ", e, " Info: ", val, " count: ", countList[i], " dbcount: ", dbMentionCount[0])
 
-            cnx.close()
-            toc = time.perf_counter()
-            print("%s Completed***** in %0.4f seconds" % (File, (toc - tic)), flush=True)
+        cnx.close()
+        toc = time.perf_counter()
+        print("%s Completed***** in %0.4f seconds" % (File, (toc - tic)), flush=True)
 
 
     except Exception as e:
 
         print("ERROR: ", File, " :",e, " TICKER: ", val)
         print(e.args)
+        cnx.close
+
+
 
 
 
