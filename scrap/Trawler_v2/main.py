@@ -88,30 +88,35 @@ def runCountFinder(File):
         # print(" dateFix COMPLETED ", dateFix, flush=True)
 
         for i in range(0, row_count):
-            sql1 = "SELECT mentions FROM Trawler WHERE date = %s AND stock = %s"
-            val1 = (dateFix, tickerList[i])
-            myCursor.execute(sql1, val1)
-            dbMentionCount = myCursor.fetchone()
-            # print(tickerList[i])
-            # print(dbMentionCount)
+            try:
+                sql1 = "SELECT mentions FROM Trawler WHERE date = %s AND stock = %s"
+                val1 = (dateFix, tickerList[i])
+                myCursor.execute(sql1, val1)
+                dbMentionCount = myCursor.fetchone()
+                # print(tickerList[i])
+                # print(dbMentionCount)
 
-            newCount = countList[i] + dbMentionCount[0]
-            # print(newCount)
-            # try:
-            #     # print("count(%d) + dbcount(%d)" % (countList[i], dbMentionCount[0]))
-            #     newCount = countList[i] + dbMentionCount[0]
-            # except Exception:
-            #     print("Failed to add counts ", File)
-            #     continue
-            sql = "Update Trawler SET mentions = %s WHERE date = %s AND stock = %s"
-            val = (newCount, dateFix, tickerList[i])
-            myCursor.execute(sql, val)
-            cnx.commit()
-            # print("ROW UPDATED # %d" % i)
+                newCount = countList[i] + dbMentionCount[0]
+                # print(newCount)
+                # try:
+                #     # print("count(%d) + dbcount(%d)" % (countList[i], dbMentionCount[0]))
+                #     newCount = countList[i] + dbMentionCount[0]
+                # except Exception:
+                #     print("Failed to add counts ", File)
+                #     continue
+                sql = "Update Trawler SET mentions = %s WHERE date = %s AND stock = %s"
+                val = (newCount, dateFix, tickerList[i])
+                myCursor.execute(sql, val)
+                cnx.commit()
+                # print("ROW UPDATED # %d" % i)
+            except Exception as e:
+                print("Error: ", e, " Info: ", val, " count: ", countList[i], " dbcount: ", dbMentionCount[0])
 
-        cnx.close()
-        toc = time.perf_counter()
-        print("%s Completed***** in %0.4f seconds" % (File, (toc - tic)), flush=True)
+            cnx.close()
+            toc = time.perf_counter()
+            print("%s Completed***** in %0.4f seconds" % (File, (toc - tic)), flush=True)
+
+
     except Exception as e:
 
         print("ERROR: ", File, " :",e, " TICKER: ", val)
