@@ -91,6 +91,7 @@ def runCountFinder(File):
             try:
                 sql1 = "SELECT mentions FROM Trawler WHERE date = %s AND stock = %s"
                 val1 = (dateFix, tickerList[i])
+                print(val1)
                 myCursor.execute(sql1, val1)
                 dbMentionCount = myCursor.fetchone()
                 # print(tickerList[i])
