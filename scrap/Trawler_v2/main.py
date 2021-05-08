@@ -39,11 +39,11 @@ def runCountFinder(File):
         dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File)
 
 
-        print("Concatenating data ", File)
+        # print("Concatenating data ", File)
         data = ''.join(map(str, dataDF['Post/Comment']))
 
 
-        print("RUNNING FIND COUNTS ", File, flush=True)
+        # print("RUNNING FIND COUNTS ", File, flush=True)
         result = findCounts.process_bodies(data)
 
         result = findCounts.filter_pos_tokens(result, findCounts.target_pos_tags)
@@ -52,7 +52,7 @@ def runCountFinder(File):
 
         # print("COMPLETED", flush=True)
 
-        print("TRANSFERRING TICKER COUNTS TO DATAFRAME", File, flush=True)
+        # print("TRANSFERRING TICKER COUNTS TO DATAFRAME", File, flush=True)
         resultDF = pd.DataFrame(list(result.items()), columns=['Ticker', 'Count'])
 
         # print("COMPLETED", flush=True)
@@ -61,29 +61,29 @@ def runCountFinder(File):
 
         row_count = len(resultDF.index)
 
-        print("SAVING VALUES TO LISTS ", File, flush=True)
+        # print("SAVING VALUES TO LISTS ", File, flush=True)
         tickerList = resultDF['Ticker'].tolist()
         countList = resultDF['Count'].tolist()
-        dateList = dataDF['Timestamp'].tolist()
+        # dateList = dataDF['Timestamp'].tolist()
+        #
+        #
+        # dateFix = dateList[1]
+        #
+        # print(dateFix, " ", File)
+
+        dateFix = File.split("_", 1)[1]
+        dateFix = dateFix.split(".", 1)[0]
+        dateFix = dateFix + " 00:00:00"
+        dateFix = datetime.strptime(dateFix, "%m-%d-%Y %H:%M:%S")
 
 
-        dateFix = dateList[1]
-
-        print(dateFix, " ", File)
-
-        # dateFix = File.split("_", 1)[1]
-        # dateFix = dateFix.split(".", 1)[0]
-        # dateFix = dateFix + " 00:00:00"
-        # dateFix = datetime.strptime(dateFix, "%m-%d-%Y %H:%M:%S")
-
-
-        if len(str(dateList[1])) == 10:
-            dateFix = datetime.strptime(dateList[1], "%m/%d/%Y")
-        else:
-            date_slice = dateList[1]
-            date_slice = date_slice[0:10]
-            dateFix = datetime.strptime(date_slice, "%Y-%m-%d")
-        print(" dateFix COMPLETED ", dateFix, flush=True)
+        # if len(str(dateList[1])) == 10:
+        #     dateFix = datetime.strptime(dateList[1], "%m/%d/%Y")
+        # else:
+        #     date_slice = dateList[1]
+        #     date_slice = date_slice[0:10]
+        #     dateFix = datetime.strptime(date_slice, "%Y-%m-%d")
+        # print(" dateFix COMPLETED ", dateFix, flush=True)
 
         for i in range(0, row_count):
             sql1 = "SELECT mentions FROM Trawler WHERE date = %s AND stock = %s"
@@ -97,7 +97,7 @@ def runCountFinder(File):
                 # print("count(%d) + dbcount(%d)" % (countList[i], dbMentionCount[0]))
                 newCount = countList[i] + dbMentionCount[0]
             except Exception:
-                print("Failed to add counts")
+                print("Failed to add counts ", File)
                 continue
             sql = "Update Trawler SET mentions = %s WHERE date = %s AND stock = %s"
             val = (newCount, dateFix, tickerList[i])
@@ -109,8 +109,8 @@ def runCountFinder(File):
         toc = time.perf_counter()
         print("%s Completed***** in %0.4f seconds" % (File, (toc - tic)), flush=True)
     except Exception as e:
-        print(File)
-        print(e)
+        print()
+        print(File, " :",e)
 
 
 # CSV PORTION #################
