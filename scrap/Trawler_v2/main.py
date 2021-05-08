@@ -122,7 +122,7 @@ def runCountFinder(File):
     except Exception as e:
 
         print("ERROR: ", File, " :",e, " TICKER: ", val)
-        raise e
+        raise
 
 
 
