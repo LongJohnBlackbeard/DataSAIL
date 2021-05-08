@@ -113,7 +113,7 @@ def runCountFinder(File):
                 cnx.commit()
                 # print("ROW UPDATED # %d" % i)
             except Exception as e:
-                print("Error: ", e, " Info: ", val, " count: ", countList[i], " dbcount: ", dbMentionCount[0])
+                print("Error: ", e, " Info: ", val1, " count: ", countList[i], " dbcount: ", dbMentionCount[0])
 
         cnx.close()
         toc = time.perf_counter()
@@ -122,7 +122,7 @@ def runCountFinder(File):
 
     except Exception as e:
 
-        print("ERROR: ", File, " :",e, " TICKER: ", val)
+        print("ERROR: ", File, " :",e)
 
 
 
