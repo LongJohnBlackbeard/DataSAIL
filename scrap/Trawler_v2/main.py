@@ -35,7 +35,7 @@ def runCountFinder(File):
         cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
         myCursor = cnx.cursor()
 
-        print("Reading CSV ", File )
+        # print("Reading CSV ", File )
         dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File)
 
 
