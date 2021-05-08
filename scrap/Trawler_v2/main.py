@@ -36,7 +36,7 @@ def runCountFinder(File):
         myCursor = cnx.cursor()
 
         # print("Reading CSV ", File )
-        dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File)
+        dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File, names=["Timestamp", "Subreddit", "Post/Comment"])
 
 
         # print("Concatenating data ", File)
@@ -95,12 +95,13 @@ def runCountFinder(File):
             # print(tickerList[i])
             # print(dbMentionCount)
 
-            try:
-                # print("count(%d) + dbcount(%d)" % (countList[i], dbMentionCount[0]))
-                newCount = countList[i] + dbMentionCount[0]
-            except Exception:
-                print("Failed to add counts ", File)
-                continue
+            newCount = countList[i] + dbMentionCount[0]
+            # try:
+            #     # print("count(%d) + dbcount(%d)" % (countList[i], dbMentionCount[0]))
+            #     newCount = countList[i] + dbMentionCount[0]
+            # except Exception:
+            #     print("Failed to add counts ", File)
+            #     continue
             sql = "Update Trawler SET mentions = %s WHERE date = %s AND stock = %s"
             val = (newCount, dateFix, tickerList[i])
             myCursor.execute(sql, val)
