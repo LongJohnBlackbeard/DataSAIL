@@ -19,7 +19,7 @@ begin = time.perf_counter()
 
 auth = redditInstance.initiate_instance()
 
-postDF = grabPosts.post_and_timestamps(auth)
+# postDF = grabPosts.post_and_timestamps(auth)
 # fileName = input("Enter file name: ")
 
 
@@ -114,10 +114,10 @@ def runCountFinder(File):
 
 # CSV PORTION #################
 directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
-fileList = postDF
-# for filename in os.listdir(directory):
-#     if filename.endswith(".csv"):
-#         fileList.append(filename)
+fileList = []
+for filename in os.listdir(directory):
+    if filename.endswith(".csv"):
+        fileList.append(filename)
 
 with Parallel(n_jobs=-1) as parallel:
     print(parallel([delayed(runCountFinder)(file) for file in fileList]), flush=True)
