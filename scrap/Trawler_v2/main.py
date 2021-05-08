@@ -121,7 +121,7 @@ def runCountFinder(File):
 
         print("ERROR: ", File, " :",e, " TICKER: ", val)
         print(e.args)
-        cnx.close
+        cnx.close()
 
 
 
