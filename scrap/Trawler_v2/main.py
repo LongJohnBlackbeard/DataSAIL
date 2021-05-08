@@ -94,7 +94,9 @@ def runCountFinder(File):
                 myCursor.execute(sql1, val1)
                 dbMentionCount = myCursor.fetchone()
                 # print(tickerList[i])
+                print(type(dbMentionCount))
                 print(dbMentionCount)
+
 
                 newCount = countList[i] + dbMentionCount[0]
                 # print(newCount)
