@@ -111,8 +111,11 @@ def runCountFinder(File):
         toc = time.perf_counter()
         print("%s Completed***** in %0.4f seconds" % (File, (toc - tic)), flush=True)
     except Exception as e:
-        print()
-        print(File, " :",e)
+
+        print("ERROR: ", File, " :",e)
+        print(e.args)
+
+
 
 
 # CSV PORTION #################
