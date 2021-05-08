@@ -92,10 +92,11 @@ def runCountFinder(File):
             val1 = (dateFix, tickerList[i])
             myCursor.execute(sql1, val1)
             dbMentionCount = myCursor.fetchone()
-            # print(tickerList[i])
-            # print(dbMentionCount)
+            print(tickerList[i])
+            print(dbMentionCount)
 
             newCount = countList[i] + dbMentionCount[0]
+            print(newCount)
             # try:
             #     # print("count(%d) + dbcount(%d)" % (countList[i], dbMentionCount[0]))
             #     newCount = countList[i] + dbMentionCount[0]
