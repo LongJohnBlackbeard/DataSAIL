@@ -53,7 +53,8 @@ def data_grab_send(ticker):
         daily_data = daily_data.reset_index()
         # creates a date range to grab data and fill in missing dates
         start_date = datetime(2021, 5, 15)
-        dateRange = pd.date_range(start=daily_data.date.iat[-1], end=start_date, freq='D')[::-1]
+        end_date = datetime(2000, 1, 1)
+        dateRange = pd.date_range(start=end_date, end=start_date, freq='D')[::-1]
         # sends daterange to pd and resets index
         dateRangeDF = pd.DataFrame(index=dateRange)
         dateRangeDF.reset_index(inplace=True)
