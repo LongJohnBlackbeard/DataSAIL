@@ -1,5 +1,6 @@
-import datetime
+
 from datetime import datetime
+import datetime
 import pandas as pd
 import time
 import mysql.connector
@@ -7,17 +8,28 @@ import sensitive
 import os
 
 # Ask user to month date and year to search reddit
-date_month = int(input("Month to Search? "))
-if date_month in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
-    date_month = ("0" + str(date_month))
-date_day = int(input("Day to search? "))
-if date_day in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
-    date_day = ("0" + str(date_day))
-date_year = int(input("Year to search? "))
+# date_month = int(input("Month to Search? "))
+# if date_month in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
+#     date_month = ("0" + str(date_month))
+# date_day = int(input("Day to search? "))
+# if date_day in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
+#     date_day = ("0" + str(date_day))
+# date_year = int(input("Year to search? "))
+
+yestDate = datetime.datetime.today()
+yestDate = yestDate - datetime.timedelta(days=1)
+print(yestDate)
+
+date = yestDate.strftime("%m/%d/%Y")
+date_csv = yestDate.strftime("%m-%d-%Y")
+print(date)
+print(date_csv)
+
+
 # One date format is to compare with datetime format, the other is so it can be used in csv file name
 # cannot use slashes in file name so one format has dashes
-date = ("%s/%s/%d" % (date_month, date_day, date_year))
-date_csv = ("%s-%s-%d" % (date_month, date_day, date_year))
+# date = ("%s/%s/%d" % (date_month, date_day, date_year))
+# date_csv = ("%s-%s-%d" % (date_month, date_day, date_year))
 
 
 

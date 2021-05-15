@@ -15,7 +15,7 @@ import joblib
 
 begin = time.perf_counter()
 
-# grabFinance.grabFinance()
+grabFinance.grabFinance()
 
 auth = redditInstance.initiate_instance()
 
@@ -89,7 +89,7 @@ def runCountFinder(File):
 
         for i in range(0, row_count):
             try:
-                sql1 = "SELECT mentions FROM Trawler WHERE date = %s AND stock = %s"
+                sql1 = "SELECT mentions FROM testingTrawler WHERE date = %s AND stock = %s"
                 val1 = (dateFix, tickerList[i])
 
                 myCursor.execute(sql1, val1)
@@ -107,7 +107,7 @@ def runCountFinder(File):
                 # except Exception:
                 #     print("Failed to add counts ", File)
                 #     continue
-                sql = "Update Trawler SET mentions = %s WHERE date = %s AND stock = %s"
+                sql = "Update testingTrawler SET mentions = %s WHERE date = %s AND stock = %s"
                 val = (newCount, dateFix, tickerList[i])
                 myCursor.execute(sql, val)
                 cnx.commit()
@@ -134,7 +134,7 @@ def runCountFinder(File):
 
 # CSV PORTION #################
 directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
-fileList = []
+fileList = grabPosts.post_and_timestamps(auth)
 for filename in os.listdir(directory):
     if filename.endswith(".csv"):
         fileList.append(filename)
