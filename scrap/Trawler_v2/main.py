@@ -113,7 +113,7 @@ def runCountFinder(File):
                 cnx.commit()
                 # print("ROW UPDATED # %d" % i)
             except Exception as e:
-                print("Error: ", e, " Info: ", tickerList[i])
+                print("Error: ", e, " Info: ", dateFix, " ", tickerList[i])
                 pass
 
         cnx.close()
