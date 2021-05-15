@@ -114,7 +114,7 @@ def runCountFinder(File):
                 # print("ROW UPDATED # %d" % i)
             except Exception as e:
                 print("Error: ", e, " Info: ", dateFix, " ", tickerList[i])
-                pass
+                continue
 
         cnx.close()
         toc = time.perf_counter()
