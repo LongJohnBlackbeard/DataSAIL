@@ -15,7 +15,7 @@ import joblib
 
 begin = time.perf_counter()
 
-# grabFinance.grabFinance()
+grabFinance.grabFinance()
 
 auth = redditInstance.initiate_instance()
 
@@ -134,11 +134,11 @@ def runCountFinder(File):
 
 # CSV PORTION #################
 directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
-fileList = []
-# fileList = grabPosts.post_and_timestamps(auth)
-for filename in os.listdir(directory):
-    if filename.endswith(".csv"):
-        fileList.append(filename)
+# fileList = []
+fileList = grabPosts.post_and_timestamps(auth)
+# for filename in os.listdir(directory):
+#     if filename.endswith(".csv"):
+#         fileList.append(filename)
 
 with Parallel(n_jobs=-1) as parallel:
     print(parallel([delayed(runCountFinder)(file) for file in fileList]), flush=True)
