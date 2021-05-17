@@ -60,7 +60,7 @@ def post_and_timestamps(reddit):
             post_number += 1
             # print("Post" + str(post_number))
             # changes post date from unix into utc timestamp and saves it to a variable.
-            post_date = datetime.utcfromtimestamp(post.created).strftime('%m/%d/%Y')
+            post_date = datetime.datetime.utcfromtimestamp(post.created).strftime('%m/%d/%Y')
             # print(post_date)
             # print(date)
 
@@ -80,8 +80,8 @@ def post_and_timestamps(reddit):
                 # concatenates post body and title to be viewed as one entity
                 body_title = titleTwo + " " + bodyTwo
                 # creates variable for timestamp of post creation
-                dateTest = datetime.utcfromtimestamp(post.created).strftime('%Y-%m-%d')
-                date_time_obj = datetime.strptime(dateTest, "%Y-%m-%d")
+                dateTest = datetime.datetime.utcfromtimestamp(post.created).strftime('%Y-%m-%d')
+                date_time_obj = datetime.datetime.strptime(dateTest, "%Y-%m-%d")
 
                 # sql_line = "INSERT INTO dailyRedditData (date, source, content) VALUES (%s, %s, %s)"
                 # values = (date_time_obj, subreddit, body_title)
@@ -124,7 +124,7 @@ def post_and_timestamps(reddit):
                 # converting comment unix time stamp to utc timestamp and saved as a variable
 
                 comment_date = datetime.utcfromtimestamp(comment.created_utc).strftime('%Y-%m-%d')
-                comment_date_check = datetime.utcfromtimestamp(comment.created_utc).strftime('%m/%d/%Y')
+                comment_date_check = datetime.datetime.utcfromtimestamp(comment.created_utc).strftime('%m/%d/%Y')
                 post_number += 1
                 # if statement for comments matching above if statement for posts
                 # print("Comment")
@@ -140,7 +140,7 @@ def post_and_timestamps(reddit):
                     # print(comment.body)
                     # print("---------------------------------------------")
                     date_comment = comment.created_utc
-                    date_time_obj = datetime.fromtimestamp(date_comment)
+                    date_time_obj = datetime.datetime.fromtimestamp(date_comment)
 
 
 
