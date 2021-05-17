@@ -123,7 +123,7 @@ def post_and_timestamps(reddit):
             for comment in post.comments.list():
                 # converting comment unix time stamp to utc timestamp and saved as a variable
 
-                comment_date = datetime.utcfromtimestamp(comment.created_utc).strftime('%Y-%m-%d')
+                # comment_date = datetime.utcfromtimestamp(comment.created_utc).strftime('%Y-%m-%d')
                 comment_date_check = datetime.datetime.utcfromtimestamp(comment.created_utc).strftime('%m/%d/%Y')
                 post_number += 1
                 # if statement for comments matching above if statement for posts
