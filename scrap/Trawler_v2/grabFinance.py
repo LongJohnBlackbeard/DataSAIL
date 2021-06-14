@@ -25,12 +25,13 @@ def grabFinance():
     cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
     myCursor = cnx.cursor()
 
-    myCursor.execute("SELECT date FROM Trawler ORDER BY date DESC LIMIT  1")
-    records = myCursor.fetchall()
-    dateTuple = records[0]
-    dateObject = dateTuple[0]
+    # myCursor.execute("SELECT date FROM Trawler ORDER BY date DESC LIMIT  1")
+    # records = myCursor.fetchall()
+    # dateTuple = records[0]
+    # dateObject = dateTuple[0]
 
-    startDate = dateObject + datetime.timedelta(days=1)
+    # startDate = dateObject + datetime.timedelta(days=1)
+    startDate = datetime.datetime(2000, 1, 1)
     endDate = datetime.datetime.today()
     endDate = endDate - datetime.timedelta(days=1)
     dateRange = pd.date_range(start=startDate, end=endDate, freq="D")[::-1]
