@@ -89,17 +89,18 @@ def runCountFinder(File):
 
         for i in range(0, row_count):
             try:
-                sql1 = "SELECT mentions FROM Trawler WHERE date = %s AND stock = %s"
-                val1 = (dateFix, tickerList[i])
-
-                myCursor.execute(sql1, val1)
-                dbMentionCount = myCursor.fetchone()
+                # sql1 = "SELECT mentions FROM Trawler WHERE date = %s AND stock = %s"
+                # val1 = (dateFix, tickerList[i])
+                #
+                # myCursor.execute(sql1, val1)
+                # dbMentionCount = myCursor.fetchone()
                 # print(tickerList[i])
                 # print(type(dbMentionCount))
                 # print(dbMentionCount)
 
 
-                newCount = countList[i] + dbMentionCount[0]
+                # newCount = countList[i] + dbMentionCount[0]
+                newCount = countList[i]
                 # print(newCount)
                 # try:
                 #     # print("count(%d) + dbcount(%d)" % (countList[i], dbMentionCount[0]))
