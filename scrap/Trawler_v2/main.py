@@ -15,7 +15,7 @@ import joblib
 
 begin = time.perf_counter()
 
-grabFinance.grabFinance()
+# grabFinance.grabFinance()
 
 auth = redditInstance.initiate_instance()
 
