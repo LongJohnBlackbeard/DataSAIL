@@ -29,7 +29,7 @@ print("CONNECTING TO DB", flush=True)
 # print("COMPLETED", flush=True)
 
 
-def runCountFinder(File):
+def runCountFinder(File, fileName):
     try:
         tic = time.perf_counter()
         cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
@@ -73,7 +73,7 @@ def runCountFinder(File):
         #
         # print(dateFix, " ", File)
 
-        dateFix = File.split("_", 1)[1]
+        dateFix = fileName.split("_", 1)[1]
         dateFix = dateFix.split(".", 1)[0]
         dateFix = dateFix + " 00:00:00"
         dateFix = datetime.strptime(dateFix, "%m-%d-%Y %H:%M:%S")
@@ -146,8 +146,9 @@ def runCountFinder(File):
 # #################################################################
 
 # daily portion #######################
-postDF = grabPosts.post_and_timestamps(auth)
-runCountFinder(postDF)
+postDFList = grabPosts.post_and_timestamps(auth)
+postDF = postDFList[0]
+runCountFinder(postDF, postDFList[1])
 end = time.perf_counter()
 
 print("Total time ran: %0.4f seconds" % (end - begin))
