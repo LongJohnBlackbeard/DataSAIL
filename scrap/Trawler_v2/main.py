@@ -36,8 +36,8 @@ def runCountFinder(File):
         myCursor = cnx.cursor()
 
         # print("Reading CSV ", File )
-        dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File, names=["Timestamp", "Subreddit", "Post/Comment"])
-
+        # dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File, names=["Timestamp", "Subreddit", "Post/Comment"])
+        dataDF = File
 
         # print("Concatenating data ", File)
         data = ''.join(map(str, dataDF['Post/Comment']))
@@ -134,19 +134,20 @@ def runCountFinder(File):
 
 
 # CSV PORTION #################
-directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
+# directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
 # fileList = []
-fileList = grabPosts.post_and_timestamps(auth)
+
 # for filename in os.listdir(directory):
 #     if filename.endswith(".csv"):
 #         fileList.append(filename)
 
-with Parallel(n_jobs=-1) as parallel:
-    print(parallel([delayed(runCountFinder)(file) for file in fileList]), flush=True)
-#################################################################
+# with Parallel(n_jobs=-1) as parallel:
+#     print(parallel([delayed(runCountFinder)(file) for file in fileList]), flush=True)
+# #################################################################
 
 # daily portion #######################
-# runCountFinder(postDF)
+postDF = grabPosts.post_and_timestamps(auth)
+runCountFinder(postDF)
 end = time.perf_counter()
 
 print("Total time ran: %0.4f seconds" % (end - begin))
