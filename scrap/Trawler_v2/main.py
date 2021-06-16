@@ -12,6 +12,7 @@ import mysql.connector
 import grabFinance
 from datetime import datetime
 import joblib
+import datetime
 
 begin = time.perf_counter()
 
@@ -73,10 +74,12 @@ def runCountFinder(File, fileName):
         #
         # print(dateFix, " ", File)
 
-        dateFix = fileName.split("_", 1)[1]
-        dateFix = dateFix.split(".", 1)[0]
-        dateFix = dateFix + " 00:00:00"
-        dateFix = datetime.strptime(dateFix, "%m-%d-%Y %H:%M:%S")
+        # dateFix = fileName.split("_", 1)[1]
+        # dateFix = dateFix.split(".", 1)[0]
+        # dateFix = dateFix + " 00:00:00"
+        endDate = datetime.today()
+        dateFix = endDate - datetime.timedelta(days=1)
+        # dateFix = datetime.strptime(endDate, "%m-%d-%Y %H:%M:%S")
 
 
         # if len(str(dateList[1])) == 10:
