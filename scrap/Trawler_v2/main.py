@@ -16,7 +16,7 @@ import datetime
 
 begin = time.perf_counter()
 
-# grabFinance.grabFinance()
+grabFinance.grabFinance()
 
 auth = redditInstance.initiate_instance()
 
@@ -137,21 +137,21 @@ def runCountFinder(File, fileName):
 
 
 # CSV PORTION #################
-# directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
-# fileList = []
+directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
+fileList = []
 
-# for filename in os.listdir(directory):
-#     if filename.endswith(".csv"):
-#         fileList.append(filename)
+for filename in os.listdir(directory):
+    if filename.endswith(".csv"):
+        fileList.append(filename)
 
-# with Parallel(n_jobs=-1) as parallel:
-#     print(parallel([delayed(runCountFinder)(file) for file in fileList]), flush=True)
+with Parallel(n_jobs=-1) as parallel:
+    print(parallel([delayed(runCountFinder)(file) for file in fileList]), flush=True)
 # #################################################################
 
 # daily portion #######################
-postDFList = grabPosts.post_and_timestamps(auth)
-postDF = postDFList[0]
-runCountFinder(postDF, postDFList[1])
+# postDFList = grabPosts.post_and_timestamps(auth)
+# postDF = postDFList[0]
+# runCountFinder(postDF, postDFList[1])
 end = time.perf_counter()
 
 print("Total time ran: %0.4f seconds" % (end - begin))
