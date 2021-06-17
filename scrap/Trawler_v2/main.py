@@ -37,7 +37,7 @@ def runCountFinder(File):
         myCursor = cnx.cursor()
 
         # print("Reading CSV ", File )
-        dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File, names=["Timestamp", "Subreddit", "Post/Comment"])
+        dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File, names=["Timestamp", "Subreddit", "Post/Comment"], engine = 'python')
         # dataDF = File
 
         # print("Concatenating data ", File)
