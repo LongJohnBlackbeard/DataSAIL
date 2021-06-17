@@ -30,15 +30,15 @@ print("CONNECTING TO DB", flush=True)
 # print("COMPLETED", flush=True)
 
 
-def runCountFinder(File, fileName):
+def runCountFinder(File):
     try:
         tic = time.perf_counter()
         cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
         myCursor = cnx.cursor()
 
         # print("Reading CSV ", File )
-        # dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File, names=["Timestamp", "Subreddit", "Post/Comment"])
-        dataDF = File
+        dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File, names=["Timestamp", "Subreddit", "Post/Comment"])
+        # dataDF = File
 
         # print("Concatenating data ", File)
         data = ''.join(map(str, dataDF['Post/Comment']))
