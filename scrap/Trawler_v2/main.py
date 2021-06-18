@@ -77,7 +77,7 @@ def runCountFinder(File):
         dateFix = File.split("_", 1)[1]
         dateFix = dateFix.split(".", 1)[0]
         dateFix = dateFix + " 00:00:00"
-        endDate = datetime.strptime(dateFix,"%m-%d-%Y %H:%M:%S")
+        endDate = datetime.datetime.strptime(dateFix,"%m-%d-%Y %H:%M:%S")
         # endDate = datetime.datetime.today()
         # dateFix = endDate - datetime.timedelta(days=1)
         # dateFix = datetime.strptime(endDate, "%m-%d-%Y %H:%M:%S")
