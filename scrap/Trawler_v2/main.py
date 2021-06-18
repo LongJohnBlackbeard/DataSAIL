@@ -37,7 +37,8 @@ def runCountFinder(File):
         myCursor = cnx.cursor()
 
         # print("Reading CSV ", File )
-        dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File, names=["Timestamp", "Subreddit", "Post/Comment"])
+        dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File,
+                             names=["Timestamp", "Subreddit", "Post/Comment"], lineterminator='\n')
         # dataDF = File
 
         # print("Concatenating data ", File)
@@ -74,11 +75,14 @@ def runCountFinder(File):
         #
         # print(dateFix, " ", File)
 
+        # populate portion
         dateFix = File.split("_", 1)[1]
         dateFix = dateFix.split(".", 1)[0]
         dateFix = dateFix + " 00:00:00"
         endDate = datetime.datetime.strptime(dateFix,"%m-%d-%Y %H:%M:%S")
         dateFix = datetime.datetime.strptime(dateFix,"%m-%d-%Y %H:%M:%S")
+
+        # daily portion
         # endDate = datetime.datetime.today()
         # dateFix = endDate - datetime.timedelta(days=1)
         # dateFix = datetime.strptime(endDate, "%m-%d-%Y %H:%M:%S")
