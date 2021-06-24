@@ -85,7 +85,7 @@ def runCountFinder(File, fileName):
         # daily portion
         endDate = datetime.datetime.today()
         dateFix = endDate - datetime.timedelta(days=1)
-        dateFix = datetime.strptime(dateFix, "%m-%d-%Y %H:%M:%S")
+        # dateFix = datetime.strptime(dateFix, "%m-%d-%Y %H:%M:%S")
 
 
         # if len(str(dateList[1])) == 10:
