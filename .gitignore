@@ -132,3 +132,4 @@ dmypy.json
 *.iml
 
 sensitive.py
+wsbData.json
