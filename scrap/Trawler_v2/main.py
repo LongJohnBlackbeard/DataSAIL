@@ -16,13 +16,10 @@ import datetime
 
 begin = time.perf_counter()
 
+# Update Financial Data
 grabFinance.grabFinance()
 
 auth = redditInstance.initiate_instance()
-
-# postDF = grabPosts.post_and_timestamps(auth)
-# fileName = input("Enter file name: ")
-
 
 print("CONNECTING TO DB", flush=True)
 
@@ -36,44 +33,27 @@ def runCountFinder(File, fileName):
         cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
         myCursor = cnx.cursor()
 
-        # print("Reading CSV ", File )
+
+        # Daily Portion  ************
         # dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File,
         #                      names=["Timestamp", "Subreddit", "Post/Comment"], lineterminator='\n')
+
+        # Populate Portion **********
         dataDF = File
 
-        # print("Concatenating data ", File)
+        # Concatenates all posts/comments into one string.
         data = ''.join(map(str, dataDF['Post/Comment']))
 
-
-        # print("RUNNING FIND COUNTS ", File, flush=True)
+        # NLTK (Alex Script) Returns Counts for Tickers in Ticker List
         result = findCounts.process_bodies(data)
-
         result = findCounts.filter_pos_tokens(result, findCounts.target_pos_tags)
-
         result = findCounts.count_tickers(result, findCounts.tickers)
-
-        # print("COMPLETED", flush=True)
-
-        # print("TRANSFERRING TICKER COUNTS TO DATAFRAME", File, flush=True)
         resultDF = pd.DataFrame(list(result.items()), columns=['Ticker', 'Count'])
 
-        # print("COMPLETED", flush=True)
-
-        # resultDF.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\testing.csv', index=False)
-
-
-
-        # print("SAVING VALUES TO LISTS ", File, flush=True)
+        # Calculates count of Tickers that returned values
         tickerList = resultDF['Ticker'].tolist()
         countList = resultDF['Count'].tolist()
-
         row_count = len(tickerList)
-        # dateList = dataDF['Timestamp'].tolist()
-        #
-        #
-        # dateFix = dateList[1]
-        #
-        # print(dateFix, " ", File)
 
         # populate portion
         # dateFix = File.split("_", 1)[1]
@@ -87,36 +67,11 @@ def runCountFinder(File, fileName):
         dateFix = endDate - datetime.timedelta(days=1)
         # dateFix = datetime.strptime(dateFix, "%m-%d-%Y %H:%M:%S")
 
-
-        # if len(str(dateList[1])) == 10:
-        #     dateFix = datetime.strptime(dateList[1], "%m/%d/%Y")
-        # else:
-        #     date_slice = dateList[1]
-        #     date_slice = date_slice[0:10]
-        #     dateFix = datetime.strptime(date_slice, "%Y-%m-%d")
-        # print(" dateFix COMPLETED ", dateFix, flush=True)
-
+        # Iterates through count and updates mentions in database
         for i in range(0, row_count):
             try:
-                # sql1 = "SELECT mentions FROM Trawler WHERE date = %s AND stock = %s"
-                # val1 = (dateFix, tickerList[i])
-                #
-                # myCursor.execute(sql1, val1)
-                # dbMentionCount = myCursor.fetchone()
-                # print(tickerList[i])
-                # print(type(dbMentionCount))
-                # print(dbMentionCount)
-
-
-                # newCount = countList[i] + dbMentionCount[0]
                 newCount = countList[i]
-                # print(newCount)
-                # try:
-                #     # print("count(%d) + dbcount(%d)" % (countList[i], dbMentionCount[0]))
-                #     newCount = countList[i] + dbMentionCount[0]
-                # except Exception:
-                #     print("Failed to add counts ", File)
-                #     continue
+
                 sql = "Update Trawler SET mentions = %s WHERE date = %s AND stock = %s"
                 val = (newCount, dateFix, tickerList[i])
                 myCursor.execute(sql, val)
