@@ -27,19 +27,19 @@ print("CONNECTING TO DB", flush=True)
 # print("COMPLETED", flush=True)
 
 
-def runCountFinder(File, fileName):
+def runCountFinder(File):
     try:
         tic = time.perf_counter()
         cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
         myCursor = cnx.cursor()
 
 
-        # Daily Portion  ************
-        # dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File,
-        #                      names=["Timestamp", "Subreddit", "Post/Comment"], lineterminator='\n')
+        # Populate Portion  ************
+        dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File,
+                             names=["Timestamp", "Subreddit", "Post/Comment"], lineterminator='\n')
 
-        # Populate Portion **********
-        dataDF = File
+        # Daily Portion **********
+        # dataDF = File
 
         # Concatenates all posts/comments into one string.
         data = ''.join(map(str, dataDF['Post/Comment']))
@@ -56,15 +56,15 @@ def runCountFinder(File, fileName):
         row_count = len(tickerList)
 
         # populate portion
-        # dateFix = File.split("_", 1)[1]
-        # dateFix = dateFix.split(".", 1)[0]
-        # dateFix = dateFix + " 00:00:00"
-        # endDate = datetime.datetime.strptime(dateFix,"%m-%d-%Y %H:%M:%S")
-        # dateFix = datetime.datetime.strptime(dateFix,"%m-%d-%Y %H:%M:%S")
+        dateFix = File.split("_", 1)[1]
+        dateFix = dateFix.split(".", 1)[0]
+        dateFix = dateFix + " 00:00:00"
+        endDate = datetime.datetime.strptime(dateFix,"%m-%d-%Y %H:%M:%S")
+        dateFix = datetime.datetime.strptime(dateFix,"%m-%d-%Y %H:%M:%S")
 
         # daily portion
-        endDate = datetime.datetime.today()
-        dateFix = endDate - datetime.timedelta(days=1)
+        # endDate = datetime.datetime.today()
+        # dateFix = endDate - datetime.timedelta(days=1)
         # dateFix = datetime.strptime(dateFix, "%m-%d-%Y %H:%M:%S")
 
         # Iterates through count and updates mentions in database
@@ -83,12 +83,12 @@ def runCountFinder(File, fileName):
 
         cnx.close()
         toc = time.perf_counter()
-        print("%s Completed***** in %0.4f seconds" % (fileName, (toc - tic)), flush=True)
+        print("%s Completed***** in %0.4f seconds" % (File, (toc - tic)), flush=True)
 
 
     except Exception as e:
 
-        print("ERROR: ", fileName, " :",e)
+        print("ERROR: ", File, " :",e)
 
 
 
@@ -101,18 +101,18 @@ def runCountFinder(File, fileName):
 directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
 fileList = []
 
-# for filename in os.listdir(directory):
-#     if filename.endswith(".csv"):
-#         fileList.append(filename)
-#
-# with Parallel(n_jobs=-1) as parallel:
-#     print(parallel([delayed(runCountFinder)(file) for file in fileList]), flush=True)
+for filename in os.listdir(directory):
+    if filename.endswith(".csv"):
+        fileList.append(filename)
+
+with Parallel(n_jobs=-1) as parallel:
+    print(parallel([delayed(runCountFinder)(file) for file in fileList]), flush=True)
 # #################################################################
 
 # daily portion #######################
-postDFList = grabPosts.post_and_timestamps(auth)
-postDF = postDFList[0]
-runCountFinder(postDF, postDFList[1])
+# postDFList = grabPosts.post_and_timestamps(auth)
+# postDF = postDFList[0]
+# runCountFinder(postDF, postDFList[1])
 end = time.perf_counter()
 
 print("Total time ran: %0.4f seconds" % (end - begin))
