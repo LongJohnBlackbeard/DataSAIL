@@ -17,7 +17,7 @@ import datetime
 begin = time.perf_counter()
 
 # Update Financial Data
-# grabFinance.grabFinance()
+grabFinance.grabFinance()
 
 auth = redditInstance.initiate_instance()
 
@@ -27,7 +27,7 @@ print("CONNECTING TO DB", flush=True)
 # print("COMPLETED", flush=True)
 
 
-def runCountFinder(File):
+def runCountFinder(File, fileName):
     try:
         tic = time.perf_counter()
         cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
@@ -35,11 +35,11 @@ def runCountFinder(File):
 
 
         # Populate Portion  ************
-        dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File,
-                             names=["Timestamp", "Subreddit", "Post/Comment"], lineterminator='\n')
+        # dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File,
+        #                      names=["Timestamp", "Subreddit", "Post/Comment"], lineterminator='\n')
 
         # Daily Portion **********
-        # dataDF = File
+        dataDF = File
 
         # Concatenates all posts/comments into one string.
         data = ''.join(map(str, dataDF['Post/Comment']))
@@ -83,12 +83,12 @@ def runCountFinder(File):
 
         cnx.close()
         toc = time.perf_counter()
-        print("%s Completed***** in %0.4f seconds" % (File, (toc - tic)), flush=True)
+        print("%s Completed***** in %0.4f seconds" % (fileName, (toc - tic)), flush=True)
 
 
     except Exception as e:
 
-        print("ERROR: ", File, " :",e)
+        print("ERROR: ", fileName, " :",e)
 
 
 
@@ -101,18 +101,27 @@ def runCountFinder(File):
 directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
 fileList = []
 
-for filename in os.listdir(directory):
-    if filename.endswith(".csv"):
-        fileList.append(filename)
-
-with Parallel(n_jobs=-1) as parallel:
-    print(parallel([delayed(runCountFinder)(file) for file in fileList]), flush=True)
+# for filename in os.listdir(directory):
+#     if filename.endswith(".csv"):
+#         fileList.append(filename)
+#
+# with Parallel(n_jobs=-1) as parallel:
+#     print(parallel([delayed(runCountFinder)(file) for file in fileList]), flush=True)
 # #################################################################
 
 # daily portion #######################
-# postDFList = grabPosts.post_and_timestamps(auth)
-# postDF = postDFList[0]
-# runCountFinder(postDF, postDFList[1])
+postDFList = grabPosts.post_and_timestamps(auth)
+postDF = postDFList[0]
+runCountFinder(postDF, postDFList[1])
+
+cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
+myCursor = cnx.cursor()
+sql = "UPDATE Trawler SET mentions = %s WHERE date > '2021-03-12 00:00:00' AND mentions IS NULL"
+val = (0)
+myCursor.execute(sql, val)
+cnx.commit()
+cnx.close
+
 end = time.perf_counter()
 
 print("Total time ran: %0.4f seconds" % (end - begin))
