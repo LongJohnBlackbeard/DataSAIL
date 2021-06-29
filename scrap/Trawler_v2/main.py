@@ -25,12 +25,13 @@ print("CONNECTING TO DB", flush=True)
 
 
 # print("COMPLETED", flush=True)
-cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
-myCursor = cnx.cursor()
+
 
 def runCountFinder(File):
     try:
         tic = time.perf_counter()
+        cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
+        myCursor = cnx.cursor()
 
 
 
@@ -81,7 +82,7 @@ def runCountFinder(File):
                 print("Error: ", e, " Info: ", dateFix, " ", tickerList[i])
                 continue
 
-
+        cnx.close
         toc = time.perf_counter()
         print("%s Completed***** in %0.4f seconds" % (File, (toc - tic)), flush=True)
 
@@ -114,7 +115,8 @@ with Parallel(n_jobs=-1) as parallel:
 # postDF = postDFList[0]
 # runCountFinder(postDF, postDFList[1])
 
-
+cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
+myCursor = cnx.cursor()
 sql = "UPDATE Trawler SET mentions = 0 WHERE date > '2021-03-12 00:00:00' AND mentions IS NULL"
 myCursor.execute(sql)
 cnx.commit()
