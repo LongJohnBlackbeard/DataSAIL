@@ -167,6 +167,7 @@ def post_and_timestamps(reddit):
                     # print("---------------------------------------------")
         fileList.append("%s_%s.csv" % (subreddit, date_csv))
         df2.to_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s_%s.csv' % (subreddit, date_csv), index=False)
+        del df2
     print("Post/Comments Grabbed: ", post_number, " from ", subreddit, flush=True)
     # df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\%s_%s.csv' % (subreddit, date_csv), index=False)
     return df, fileList
