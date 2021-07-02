@@ -62,15 +62,15 @@ def runCountFinder(File):
         row_count = len(tickerList)
 
         # populate portion
-        # dateFix = File.split("_", 1)[1]
-        # dateFix = dateFix.split(".", 1)[0]
-        # dateFix = dateFix + " 00:00:00"
-        # endDate = datetime.datetime.strptime(dateFix,"%m-%d-%Y %H:%M:%S")
-        # dateFix = datetime.datetime.strptime(dateFix,"%m-%d-%Y %H:%M:%S")
+        dateFix = File.split("_", 1)[1]
+        dateFix = dateFix.split(".", 1)[0]
+        dateFix = dateFix + " 00:00:00"
+        endDate = datetime.datetime.strptime(dateFix,"%m-%d-%Y %H:%M:%S")
+        dateFix = datetime.datetime.strptime(dateFix,"%m-%d-%Y %H:%M:%S")
 
         # daily portion
-        endDate = datetime.datetime.today()
-        dateFix = endDate - datetime.timedelta(days=1)
+        # endDate = datetime.datetime.today()
+        # dateFix = endDate - datetime.timedelta(days=1)
 
 
         # Iterates through count and updates mentions in database
