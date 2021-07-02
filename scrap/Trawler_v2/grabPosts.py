@@ -43,11 +43,11 @@ def post_and_timestamps(reddit):
     fileList = []
 
     df = pd.DataFrame(columns=['Timestamp', 'Subreddit', 'Post/Comment'])
-    df_empty = df[0:0]
+
 
     # for loop that loops for every subreddit in subreddit list entered by user.
     for subreddit in subreddit_list:
-        df2 = df_empty
+        df2 = pd.DataFrame(columns=['Timestamp', 'Subreddit', 'Post/Comment'])
         print("Grabbing from ", subreddit, flush=True)
         # Praw function that grabs posts from subreddit, saves it to a variable
         new_posts = reddit.subreddit(subreddit).new(limit=None)
