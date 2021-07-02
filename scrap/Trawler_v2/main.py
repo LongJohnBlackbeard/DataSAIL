@@ -40,10 +40,14 @@ def runCountFinder(File, fileName):
         #                      names=["Timestamp", "Subreddit", "Post/Comment"], lineterminator='\n')
 
         # Daily Portion **********
-        dataDF = File
+        dataDF1 = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % fileName[0], names=["Timestamp", "Subreddit", "Post/Comment"], lineterminator='\n')
+        dataDF2 = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % fileName[1], names=["Timestamp", "Subreddit", "Post/Comment"], lineterminator='\n')
 
         # Concatenates all posts/comments into one string.
-        data = ''.join(map(str, dataDF['Post/Comment']))
+        data1 = ''.join(map(str, dataDF1['Post/Comment']))
+        data2 = ''.join(map(str, dataDF2['Post/Comment']))
+        data = data1 + data2
+
 
         # NLTK (Alex Script) Returns Counts for Tickers in Ticker List
         result = findCounts.process_bodies(data)
