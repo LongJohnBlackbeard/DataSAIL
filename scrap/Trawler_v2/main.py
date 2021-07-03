@@ -17,7 +17,7 @@ import datetime
 begin = time.perf_counter()
 
 # Update Financial Data
-# grabFinance.grabFinance()
+grabFinance.grabFinance()
 
 auth = redditInstance.initiate_instance()
 
