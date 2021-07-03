@@ -27,7 +27,7 @@ print("CONNECTING TO DB", flush=True)
 # print("COMPLETED", flush=True)
 
 
-def runCountFinder(File):
+def runCountFinder(File, fileName):
     try:
         tic = time.perf_counter()
         cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
@@ -36,18 +36,18 @@ def runCountFinder(File):
 
 
         # Populate Portion  ************
-        dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File,
-                             names=["Timestamp", "Subreddit", "Post/Comment"], lineterminator='\n')
-        data = ''.join(map(str, dataDF['Post/Comment']))
+        # dataDF = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % File,
+        #                      names=["Timestamp", "Subreddit", "Post/Comment"], lineterminator='\n')
+        # data = ''.join(map(str, dataDF['Post/Comment']))
 
         # # Daily Portion **********
-        # dataDF1 = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % fileName[0], names=["Timestamp", "Subreddit", "Post/Comment"], lineterminator='\n')
-        # dataDF2 = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % fileName[1], names=["Timestamp", "Subreddit", "Post/Comment"], lineterminator='\n')
-        #
-        # # Concatenates all posts/comments into one string.
-        # data1 = ''.join(map(str, dataDF1['Post/Comment']))
-        # data2 = ''.join(map(str, dataDF2['Post/Comment']))
-        # data = data1 + data2
+        dataDF1 = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % fileName[0], names=["Timestamp", "Subreddit", "Post/Comment"], lineterminator='\n')
+        dataDF2 = pd.read_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s' % fileName[1], names=["Timestamp", "Subreddit", "Post/Comment"], lineterminator='\n')
+
+        # Concatenates all posts/comments into one string.
+        data1 = ''.join(map(str, dataDF1['Post/Comment']))
+        data2 = ''.join(map(str, dataDF2['Post/Comment']))
+        data = data1 + data2
 
 
         # NLTK (Alex Script) Returns Counts for Tickers in Ticker List
@@ -62,15 +62,15 @@ def runCountFinder(File):
         row_count = len(tickerList)
 
         # populate portion
-        dateFix = File.split("_", 1)[1]
-        dateFix = dateFix.split(".", 1)[0]
-        dateFix = dateFix + " 00:00:00"
-        endDate = datetime.datetime.strptime(dateFix,"%m-%d-%Y %H:%M:%S")
-        dateFix = datetime.datetime.strptime(dateFix,"%m-%d-%Y %H:%M:%S")
+        # dateFix = File.split("_", 1)[1]
+        # dateFix = dateFix.split(".", 1)[0]
+        # dateFix = dateFix + " 00:00:00"
+        # endDate = datetime.datetime.strptime(dateFix,"%m-%d-%Y %H:%M:%S")
+        # dateFix = datetime.datetime.strptime(dateFix,"%m-%d-%Y %H:%M:%S")
 
         # daily portion
-        # endDate = datetime.datetime.today()
-        # dateFix = endDate - datetime.timedelta(days=1)
+        endDate = datetime.datetime.today()
+        dateFix = endDate - datetime.timedelta(days=1)
 
 
         # Iterates through count and updates mentions in database
@@ -89,12 +89,12 @@ def runCountFinder(File):
 
         cnx.close
         toc = time.perf_counter()
-        print("%s Completed***** in %0.4f seconds" % (File, (toc - tic)), flush=True)
+        print("%s Completed***** in %0.4f seconds" % (fileName, (toc - tic)), flush=True)
 
 
     except Exception as e:
 
-        print("ERROR: ", File, " :",e)
+        print("ERROR: ", fileName, " :",e)
 
 
 
@@ -107,18 +107,18 @@ def runCountFinder(File):
 directory = r'/home/dtujo/myoptane/Trawler/Dataframes'
 fileList = []
 
-for filename in os.listdir(directory):
-    if filename.endswith(".csv"):
-        fileList.append(filename)
-
-with Parallel(n_jobs=-1) as parallel:
-    print(parallel([delayed(runCountFinder)(file) for file in fileList]), flush=True)
+# for filename in os.listdir(directory):
+#     if filename.endswith(".csv"):
+#         fileList.append(filename)
+#
+# with Parallel(n_jobs=-1) as parallel:
+#     print(parallel([delayed(runCountFinder)(file) for file in fileList]), flush=True)
 # #################################################################
 
 # daily portion #######################
-# postDFList = grabPosts.post_and_timestamps(auth)
-# postDF = postDFList[0]
-# runCountFinder(postDF, postDFList[1])
+postDFList = grabPosts.post_and_timestamps(auth)
+postDF = postDFList[0]
+runCountFinder(postDF, postDFList[1])
 
 cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
 myCursor = cnx.cursor()
