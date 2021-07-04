@@ -120,12 +120,12 @@ postDFList = grabPosts.post_and_timestamps(auth)
 postDF = postDFList[0]
 runCountFinder(postDF, postDFList[1])
 
-cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
-myCursor = cnx.cursor()
-sql = "UPDATE Trawler SET mentions = 0 WHERE date > '2021-03-12 00:00:00' AND mentions IS NULL"
-myCursor.execute(sql)
-cnx.commit()
-cnx.close
+# cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
+# myCursor = cnx.cursor()
+# sql = "UPDATE Trawler SET mentions = 0 WHERE date > '2021-03-12 00:00:00' AND mentions IS NULL"
+# myCursor.execute(sql)
+# cnx.commit()
+# cnx.close
 
 end = time.perf_counter()
 
