@@ -39,16 +39,18 @@ def post_and_timestamps(reddit):
     # cnx = mysql.connector.connect(user='dtujo', password='dtujo-mys', host='localhost', database='DataSAIL')
     # myCursor = cnx.cursor()
     # Creates a new and empty dataframe
+
     subreddit_list = ["wallstreetbets", "stocks"]
     fileList = []
 
     df = pd.DataFrame(columns=['Timestamp', 'Subreddit', 'Post/Comment'])
+    df2 = pd.DataFrame(columns=['Timestamp', 'Subreddit', 'Post/Comment'])
+    df3 = pd.DataFrame(columns=['Timestamp', 'Subreddit', 'Post/Comment'])
 
 
     # for loop that loops for every subreddit in subreddit list entered by user.
     for subreddit in subreddit_list:
-        df2 = pd.DataFrame(columns=['Timestamp', 'Subreddit', 'Post/Comment'])
-        df3 = pd.DataFrame(columns=['Timestamp', 'Subreddit', 'Post/Comment'])
+
         print("Grabbing from ", subreddit, flush=True)
         # Praw function that grabs posts from subreddit, saves it to a variable
         new_posts = reddit.subreddit(subreddit).new(limit=None)
@@ -178,7 +180,7 @@ def post_and_timestamps(reddit):
                     # print("---------------------------------------------")
         fileList.append("%s_%s.csv" % (subreddit, date_csv))
 
-        del df2
+
     print("Post/Comments Grabbed: ", post_number, " from ", subreddit, flush=True)
     # df.to_csv(r'D:\Git\lewisuDataSAIL\Dataframes\%s_%s.csv' % (subreddit, date_csv), index=False)
     df2.to_csv(r'/home/dtujo/myoptane/Trawler/Dataframes/%s_%s.csv' % ("wallstreetbets", date_csv), index=False)
